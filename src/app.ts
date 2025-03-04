@@ -12,5 +12,5 @@ app.use(cors()) // разрешить любым фронтам делать з�
 //     res.status(200).json({ version: "1.0" })
 // })
 
-app.use('/hometask_01/api/', videosRouter);
+app.use('/hometask_01/api/', videosRouter); //aa
 // app.use('/hometask_01/api/testing/all-data', videosRouter)
