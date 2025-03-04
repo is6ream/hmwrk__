@@ -24,10 +24,53 @@ export const postsController = {
             shortDescription: req.body.shortDescription,
             content: req.body.content,
             blogId: req.body.blogId,
-            blogName: , //остановился тут, надо понять, откуда взять blogName
-
-
-
+            blogName: 'top',
         }
+
+        db.blogs.push(newPost)
+        console.log(newPost)
+        res.status(201).json(newPost)
+    }),
+
+    findPostController: ((req: Request, res: Response) => {
+        const postId: number = +req.params.id;
+        const findPost = db.posts.find(p => p.id === postId)
+        if(!findPost){
+            res
+            .status(404)
+            .json({message: "Пост не найден"})
+        }
+        res.json(findPost)
+    }),
+
+    updatePostController: ((req: Request, res: Response) => {
+        const postId = +req.params.id;
+        const findPost = db.posts.find(p => p.id === postId)
+
+        if(!findPost){
+            res
+            .status(404)
+            .json({message: 'Пост не найден'})
+        }
+
+        findPost.title = req.body.title || findPost.title
+        findPost.shortDescription = req.body.shortDescription || findPost.shortDescription
+        findPost.content = req.body.content || findPost.content
+        findPost.blogId = req.body.blogId || findPost.blogId      
+    }),
+
+    deletePostController: ((req: Request, res: Response) => {
+        const postId = +req.params.id;
+        const findPost = db.posts.find(p => p.id === postId)
+
+        if(!findPost){
+            res
+            .status(404)
+            .json({message: 'Пост не найден'})
+        }
+
+        db.posts.filter(p => p.id !== postId)
+        res.status(204).send()
+
     })
 }

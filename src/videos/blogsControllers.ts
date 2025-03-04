@@ -27,7 +27,7 @@ export const blogsControllers = {
             description: req.body.description,
             webSiteUrl: req.body.webSiteUrl
         }
-        db.posts.push(newBlog)
+        db.blogs.push(newBlog)
         console.log(newBlog)
         res.status(201).json(newBlog)
         //нужно поработать с валидацией данных
@@ -35,11 +35,11 @@ export const blogsControllers = {
 
     findBlogConstroller: ((req: Request, res: Response) => {
         const blogId: number = +req.params.id;
-        const findBlog = db.posts.find(p => p.id === blogId)
+        const findBlog = db.blogs.find(p => p.id === blogId)
 
         if (!findBlog) {
             res.status(404)
-                .json({ message: 'Пост не найден' })
+                .json({ message: 'Блог не найден' })
         }
         res.json(findBlog)
 
@@ -47,14 +47,14 @@ export const blogsControllers = {
 
     updateBlogController: ((req: Request, res: Response) => {
         const blogId: number = +req.params.id;
-        const findBlog = db.posts.find(b => b.id === blogId)
+        const findBlog = db.blogs.find(b => b.id === blogId)
         //здесь тоже нужна валидация и авторизация
         if (!findBlog) {
             res
                 .status(404)
-                .json({ message: 'Видео не найдено' })
+                .json({ message: 'Блог не найден' })
         }
-        findBlog.name = req.body.name || findBlog.post.name
+        findBlog.name = req.body.name || findBlog.name
         findBlog.description = req.body.description || findBlog.description
         findBlog.webSiteUrl = req.body.webSiteUrl || findBlog.webSiteUrl
     }),
@@ -65,7 +65,7 @@ export const blogsControllers = {
         if (!findBlog) {
             res
                 .status(404)
-                .json({ message: 'Пост не найден!' });
+                .json({ message: 'Блог не найден!' });
         }
         db.blogs = db.blogs.filter(p => p.id !== blogId)
         res.status(204).send()
