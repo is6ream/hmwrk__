@@ -1,5 +1,5 @@
+import { db } from './../../db/db';
 import { Request, Response } from "express";
-import { db } from "../db/db";
 
 export const postsControllers = {
     deleteAllDataController: ((req: Request, res: Response) => {
@@ -34,7 +34,7 @@ export const postsControllers = {
 
     findPostController: ((req: Request, res: Response) => {
         const postId: number = +req.params.id;
-        const findPost = db.posts.find(p => p.id === postId)
+        const findPost = db.posts.find(p => +p.id === postId)
         if(!findPost){
             res
             .status(404)
@@ -45,10 +45,10 @@ export const postsControllers = {
 
     updatePostController: ((req: Request, res: Response) => {
         const postId = +req.params.id;
-        const findPost = db.posts.find(p => p.id === postId)
+        const findPost = db.posts.find(p => +p.id === postId)
 
         if(!findPost){
-            res
+           return res
             .status(404)
             .json({message: 'Пост не найден'})
         }
@@ -57,11 +57,13 @@ export const postsControllers = {
         findPost.shortDescription = req.body.shortDescription || findPost.shortDescription
         findPost.content = req.body.content || findPost.content
         findPost.blogId = req.body.blogId || findPost.blogId      
+
+        return res.status(204).send()
     }),
 
     deletePostController: ((req: Request, res: Response) => {
         const postId = +req.params.id;
-        const findPost = db.posts.find(p => p.id === postId)
+        const findPost = db.posts.find(p => +p.id === postId)
 
         if(!findPost){
             res
@@ -69,8 +71,7 @@ export const postsControllers = {
             .json({message: 'Пост не найден'})
         }
 
-        db.posts.filter(p => p.id !== postId)
+        db.posts.filter(p => +p.id !== postId)
         res.status(204).send()
-
     })
 }

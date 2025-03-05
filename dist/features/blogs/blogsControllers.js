@@ -22,6 +22,7 @@ exports.blogsControllers = {
         //нужно поработать с валидацией данных
     }),
     findBlogConstroller: ((req, res) => {
+        const foundBlogs = blog;
         const blogId = +req.params.id;
         const findBlog = db_1.db.blogs.find(p => +p.id === blogId);
         if (!findBlog) {

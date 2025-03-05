@@ -1,2 +1,42 @@
+import { BlogInputModel, BlogViewModel } from './../../input-output-types/blogsAndPost-types';
 import { BlogType } from './../../db/db';
 import { db } from './../../db/db';
+
+
+export const blogsRepository = {
+   
+    create(blog: BlogInputModel) {
+        const newBlog: BlogType = {
+            id: new Date().toISOString() + Math.random(),
+            name: blog.name,
+            description: blog.description,
+            websiteUrl: blog.webSiteUrl
+        }
+        db.blogs = [...db.blogs, newBlog]
+        return newBlog.id
+    },
+
+    find(id: string){
+        return db.blogs.find(b => b.id === id)
+    },
+
+    getAll(){
+        return db.blogs
+    },
+
+    delete(id: string){
+        let filteredBlogs = db.blogs.filter(b => b.id !== id)
+        db.blogs = filteredBlogs
+        return filteredBlogs
+    },
+
+    update(id: string, updatedBlog: BlogInputModel){
+        const findBlog = db.blogs.find(b => b.id === id)
+
+        
+       
+
+
+    }
+
+}
