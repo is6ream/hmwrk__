@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { blogsControllers } from './blogsControllers';
-import { postsControllers } from "../posts/postsController";
+import { postsControllers } from "../../posts/postsController";
 
 
 export const blogsRouter = Router()

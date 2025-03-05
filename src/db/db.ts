@@ -1,24 +1,26 @@
+export type BlogType = {
+    id: string
+    name: string
+    description: string
+    websiteUrl: string
+}
+
+export type PostType = {
+    id: string
+    title: string
+    shortDescription: string
+    content: string
+    blogId: string
+    blogName: string
+}
 export type DBType = {
-    videos: any[],
-    posts: any[],
-    blogs: any[]
+    posts: PostType[],
+    blogs: BlogType[]
 }
 
 const date = new Date();
 
 export const db: DBType = {
-    videos: [{
-        id: 0,
-        title: 'Barca - Juve',
-        author: 'Champions league',
-        canBeDownloaded: true,
-        minAgeRestriction: null,
-        createdAt: date.toISOString(),
-        publicationDate: new Date(date.setDate(date.getDate() + 1)).toISOString(),
-        availableResolutions: [
-            "P144"
-        ],
-    }],
 
     blogs: [{
         id: '0',
@@ -26,7 +28,7 @@ export const db: DBType = {
         description: 'the best mosque in city',
         websiteUrl: 'https://ru.wikipedia.org/wiki/%D0%93%D1%83%D1%84%D1%80%D0%B0%D0%BD'
     }],
-    
+
     posts: [{
         id: "0",
         title: "utro",

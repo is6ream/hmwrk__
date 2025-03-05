@@ -1,6 +1,6 @@
-import { InputVideoType } from '../input-output-types/video-types';
+import { InputVideoType } from '../../input-output-types/video-types';
 import { OutputErrorsType } from './types'
-import { RESOLUTIONS, RESOLUTIONSstring } from '../input-output-types/video-types';
+import { RESOLUTIONS, RESOLUTIONSstring } from '../../input-output-types/video-types';
 
 export const inputValidation = (video: InputVideoType) => {
     const errors: OutputErrorsType = {

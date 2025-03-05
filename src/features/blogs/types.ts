@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { RESOLUTIONS } from '../input-output-types/video-types';
+import { RESOLUTIONS } from '../../input-output-types/video-types';
 export type ParamType = {
     id: string
 }

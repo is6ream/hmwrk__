@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
-import { blogsRouter } from './blogs/blogsRoutes'
-import { postsRouter } from './posts/postRoutes'
+import { blogsRouter } from './features/blogs/blogsRoutes'
+import { postsRouter } from './features/posts/postRoutes'
 
 export const app = express() // создать приложение
 app.use(express.json()) // создание свойств-объектов body и query во всех реквестах

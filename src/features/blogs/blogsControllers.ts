@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { db } from "../db/db";
-
+import { db } from "../../db/db";
+import { BlogType, PostType } from "../../db/db";
 
 export const blogsControllers = {
     deleteAllDataController: ((req: Request, res: Response) => {
@@ -31,7 +31,7 @@ export const blogsControllers = {
 
     findBlogConstroller: ((req: Request, res: Response) => {
         const blogId: number = +req.params.id;
-        const findBlog = db.blogs.find(p => p.id === blogId)
+        const findBlog = db.blogs.find(p => +p.id === blogId)
 
         if (!findBlog) {
             res.status(404)
@@ -43,28 +43,29 @@ export const blogsControllers = {
 
     updateBlogController: ((req: Request, res: Response) => {
         const blogId: number = +req.params.id;
-        const findBlog = db.blogs.find(b => b.id === blogId)
+        const findBlog: BlogType | undefined = db.blogs.find(b => +b.id === blogId)
         //здесь тоже нужна валидация и авторизация
         if (!findBlog) {
-            res
+            return res
                 .status(404)
                 .json({ message: 'Блог не найден' })
         }
         findBlog.name = req.body.name || findBlog.name
         findBlog.description = req.body.description || findBlog.description
-        findBlog.webSiteUrl = req.body.webSiteUrl || findBlog.webSiteUrl
+        findBlog.websiteUrl = req.body.webSiteUrl || findBlog.websiteUrl
+
+        return res.status(204).send()
     }),
 
     deleteBlogControler: ((req: Request, res: Response) => {
         const blogId: number = +req.params.id;
-        const findBlog = db.blogs.find(b => b.id === blogId)
+        const findBlog = db.blogs.find(b => +b.id === blogId)
         if (!findBlog) {
             res
                 .status(404)
                 .json({ message: 'Блог не найден!' });
         }
-        db.blogs = db.blogs.filter(p => p.id !== blogId)
+        db.blogs = db.blogs.filter(p => +p.id !== blogId)
         res.status(204).send()
     })
 }
-
