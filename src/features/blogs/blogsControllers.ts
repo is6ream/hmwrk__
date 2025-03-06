@@ -1,11 +1,6 @@
-import { postRepository } from './../posts/postsRepository';
-import { ParamType } from './types';
-import { title } from 'process';
 import { Request, Response } from "express";
 import { db } from "../../db/db";
-import { BlogType } from "../../db/db";
 import { blogsRepository } from './blogsRepository'
-
 
 
 export const blogsControllers = {
@@ -24,17 +19,17 @@ export const blogsControllers = {
     }),
 
     findBlogConstroller: ((req: Request, res: Response) => {
-        const findBlog = blogsRepository.find(req.params)
+        const findBlog  = blogsRepository.find(req.params.id)
         res.json(findBlog).status(200)
     }),
 
     updateBlogController: ((req: Request, res: Response) => {
-        const updatedBlog = blogsRepository.updateBlog(req.body)
+        const updatedBlog = blogsRepository.updateBlog(req.params.id, req.body)
         return res.status(204).send()
     }),
 
     deleteBlogControler: ((req: Request, res: Response) => {
-        const deletedBlog = blogsRepository.delete(req.params)
+        const deletedBlog = blogsRepository.delete(req.params.id)
         res.status(204).send()
     })
 }

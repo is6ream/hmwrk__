@@ -32,12 +32,12 @@ export const blogsRepository = {
         findBlog.description = updatedBlog.description
         findBlog.websiteUrl = updatedBlog.websiteUrl
 
-        return findBlog
+        return findBlog;
     },
     delete(id: string) {
         let filteredBlogs = db.blogs.filter(b => b.id !== id)
         db.blogs = filteredBlogs
-        return filteredBlogs
+        return filteredBlogs;
     }
 }
 
