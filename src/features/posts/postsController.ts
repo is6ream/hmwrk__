@@ -1,5 +1,6 @@
 import { db } from './../../db/db';
 import { Request, Response } from "express";
+import { postRepository } from './postsRepository';
 
 export const postsControllers = {
     deleteAllDataController: ((req: Request, res: Response) => {

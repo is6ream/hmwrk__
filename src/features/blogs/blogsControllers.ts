@@ -1,6 +1,12 @@
+import { postRepository } from './../posts/postsRepository';
+import { ParamType } from './types';
+import { title } from 'process';
 import { Request, Response } from "express";
 import { db } from "../../db/db";
-import { BlogType, PostType } from "../../db/db";
+import { BlogType } from "../../db/db";
+import { blogsRepository } from './blogsRepository'
+
+
 
 export const blogsControllers = {
     deleteAllDataController: ((req: Request, res: Response) => {
@@ -8,64 +14,27 @@ export const blogsControllers = {
         res.status(204).send()
     }),
     getBlogsController: ((req: Request, res: Response) => {
-        const blogs = db.blogs
-        res
-            .status(200)
-            .json(blogs)
+        const getAllBlogs = blogsRepository.getAll()
+        res.json(getAllBlogs).status(200)
     }),
     createBlogController: ((req: Request, res: Response) => {
-        const blogId: number = Date.now() + Math.random()
-        const newBlog = {
-            ...req.body,
-
-            id: blogId.toString(),
-            name: req.body.name,
-            description: req.body.description,
-            webSiteUrl: req.body.webSiteUrl
-        }
-        db.blogs.push(newBlog)
-        console.log(newBlog)
-        res.status(201).json(newBlog)
+        const createBlogs = blogsRepository.create(req.body)
+        res.status(201).json(createBlogs)
         //нужно поработать с валидацией данных
     }),
 
     findBlogConstroller: ((req: Request, res: Response) => {
-        const blogId: number = +req.params.id;
-        const findBlog = db.blogs.find(p => +p.id === blogId)
-
-        if (!findBlog) {
-            res.status(404)
-                .json({ message: 'Блог не найден' })
-        }
-        res.json(findBlog)
-
+        const findBlog = blogsRepository.find(req.params)
+        res.json(findBlog).status(200)
     }),
 
     updateBlogController: ((req: Request, res: Response) => {
-        const blogId: number = +req.params.id;
-        const findBlog: BlogType | undefined = db.blogs.find(b => +b.id === blogId)
-        //здесь тоже нужна валидация и авторизация
-        if (!findBlog) {
-            return res
-                .status(404)
-                .json({ message: 'Блог не найден' })
-        }
-        findBlog.name = req.body.name || findBlog.name
-        findBlog.description = req.body.description || findBlog.description
-        findBlog.websiteUrl = req.body.webSiteUrl || findBlog.websiteUrl
-
+        const updatedBlog = blogsRepository.updateBlog(req.body)
         return res.status(204).send()
     }),
 
     deleteBlogControler: ((req: Request, res: Response) => {
-        const blogId: number = +req.params.id;
-        const findBlog = db.blogs.find(b => +b.id === blogId)
-        if (!findBlog) {
-            res
-                .status(404)
-                .json({ message: 'Блог не найден!' });
-        }
-        db.blogs = db.blogs.filter(p => +p.id !== blogId)
+        const deletedBlog = blogsRepository.delete(req.params)
         res.status(204).send()
     })
 }

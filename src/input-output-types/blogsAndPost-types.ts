@@ -1,7 +1,7 @@
 export type BlogInputModel = {
     name: string
     description: string
-    webSiteUrl: string
+    websiteUrl: string
 }
 
 export type PostInputModel = {
@@ -9,6 +9,7 @@ export type PostInputModel = {
     shortDescription: string
     content: string
     blogId: string
+    blogName: string
 }
 
 export type BlogViewModel = {
