@@ -7,7 +7,8 @@ exports.SETTINGS = {
     // все хардкодные значения должны быть здесь, для удобства их изменения
     PORT: process.env.PORT || 6000,
     PATH: {
-        VIDEOS: '/hometask_01/api/videos',
+        BLOGS: '/hometask_02/api/blogs',
+        POSTS: '/hometask_02/api/posts'
     },
 };
 exports.STATUSES = {
