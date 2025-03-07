@@ -4,6 +4,12 @@ import { db } from '../../db/db';
 
 
 export const blogsRepository = {
+    deleteAll() {
+        db.blogs = []
+        db.posts = []
+        return db;
+    },
+
     getAll() {
         return db.blogs
     },

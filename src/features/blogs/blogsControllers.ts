@@ -5,13 +5,16 @@ import { blogsRepository } from './blogsRepository'
 
 export const blogsControllers = {
     deleteAllDataController: ((req: Request, res: Response) => {
-        db.blogs = [];
+        console.log(`Received request: ${req.method} ${req.url}`);
+        const deleteAll = blogsRepository.deleteAll()
         res.status(204).send()
     }),
+
     getBlogsController: ((req: Request, res: Response) => {
         const getAllBlogs = blogsRepository.getAll()
         res.json(getAllBlogs).status(200)
     }),
+
     createBlogController: ((req: Request, res: Response) => {
         const createBlogs = blogsRepository.create(req.body)
         res.status(201).json(createBlogs)
@@ -19,7 +22,7 @@ export const blogsControllers = {
     }),
 
     findBlogConstroller: ((req: Request, res: Response) => {
-        const findBlog  = blogsRepository.find(req.params.id)
+        const findBlog = blogsRepository.find(req.params.id)
         res.json(findBlog).status(200)
     }),
 

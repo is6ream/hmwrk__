@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.db = void 0;
-const date = new Date();
+exports.setDB = exports.db = void 0;
 exports.db = {
     blogs: [{
             id: '0',
@@ -18,3 +17,13 @@ exports.db = {
             blogName: "utroNamaz"
         }]
 };
+const setDB = (dataset) => {
+    if (!dataset) { //значит очищаем базу
+        exports.db.blogs = [];
+        exports.db.posts = [];
+        return;
+    }
+    exports.db.blogs = dataset.blogs || exports.db.blogs; //заменяем старые значения новыми
+    exports.db.posts = dataset.posts || exports.db.posts; //заменяем старые значения новыми
+};
+exports.setDB = setDB;

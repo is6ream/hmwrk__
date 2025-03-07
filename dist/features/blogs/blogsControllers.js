@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsControllers = void 0;
-const db_1 = require("../../db/db");
 const blogsRepository_1 = require("./blogsRepository");
 exports.blogsControllers = {
     deleteAllDataController: ((req, res) => {
-        db_1.db.blogs = [];
+        console.log(`Received request: ${req.method} ${req.url}`);
+        const deleteAll = blogsRepository_1.blogsRepository.deleteAll();
         res.status(204).send();
     }),
     getBlogsController: ((req, res) => {

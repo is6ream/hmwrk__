@@ -3,6 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
 const db_1 = require("../../db/db");
 exports.blogsRepository = {
+    deleteAll() {
+        db_1.db.blogs = [];
+        db_1.db.posts = [];
+        return db_1.db;
+    },
     getAll() {
         return db_1.db.blogs;
     },
