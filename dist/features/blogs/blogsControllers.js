@@ -2,58 +2,31 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsControllers = void 0;
 const db_1 = require("../../db/db");
+const blogsRepository_1 = require("./blogsRepository");
 exports.blogsControllers = {
     deleteAllDataController: ((req, res) => {
         db_1.db.blogs = [];
         res.status(204).send();
     }),
     getBlogsController: ((req, res) => {
-        const blogs = db_1.db.blogs;
-        res
-            .status(200)
-            .json(blogs);
+        const getAllBlogs = blogsRepository_1.blogsRepository.getAll();
+        res.json(getAllBlogs).status(200);
     }),
     createBlogController: ((req, res) => {
-        const blogId = Date.now() + Math.random();
-        const newBlog = Object.assign(Object.assign({}, req.body), { id: blogId.toString(), name: req.body.name, description: req.body.description, webSiteUrl: req.body.webSiteUrl });
-        db_1.db.blogs.push(newBlog);
-        console.log(newBlog);
-        res.status(201).json(newBlog);
+        const createBlogs = blogsRepository_1.blogsRepository.create(req.body);
+        res.status(201).json(createBlogs);
         //нужно поработать с валидацией данных
     }),
     findBlogConstroller: ((req, res) => {
-        const foundBlogs = blog;
-        const blogId = +req.params.id;
-        const findBlog = db_1.db.blogs.find(p => +p.id === blogId);
-        if (!findBlog) {
-            res.status(404)
-                .json({ message: 'Блог не найден' });
-        }
-        res.json(findBlog);
+        const findBlog = blogsRepository_1.blogsRepository.find(req.params.id);
+        res.json(findBlog).status(200);
     }),
     updateBlogController: ((req, res) => {
-        const blogId = +req.params.id;
-        const findBlog = db_1.db.blogs.find(b => +b.id === blogId);
-        //здесь тоже нужна валидация и авторизация
-        if (!findBlog) {
-            return res
-                .status(404)
-                .json({ message: 'Блог не найден' });
-        }
-        findBlog.name = req.body.name || findBlog.name;
-        findBlog.description = req.body.description || findBlog.description;
-        findBlog.websiteUrl = req.body.webSiteUrl || findBlog.websiteUrl;
+        const updatedBlog = blogsRepository_1.blogsRepository.updateBlog(req.params.id, req.body);
         return res.status(204).send();
     }),
     deleteBlogControler: ((req, res) => {
-        const blogId = +req.params.id;
-        const findBlog = db_1.db.blogs.find(b => +b.id === blogId);
-        if (!findBlog) {
-            res
-                .status(404)
-                .json({ message: 'Блог не найден!' });
-        }
-        db_1.db.blogs = db_1.db.blogs.filter(p => +p.id !== blogId);
+        const deletedBlog = blogsRepository_1.blogsRepository.delete(req.params.id);
         res.status(204).send();
     })
 };

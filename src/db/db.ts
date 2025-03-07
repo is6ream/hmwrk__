@@ -42,13 +42,13 @@ export const db: DBType = {
 
 //Partial - это встроенный тип, который создает новый тип на основе типа DBType, делая все его свойства необязательными.
 //Это значит, что любый свойства объекта DBType могут быть опущены.
-export const setDB = (dataset?: Partial<DBType>) => {
-    if (!dataset) { //значит очищаем базу
-        db.videos = []
-        return
-    }
-    db.videos = dataset.videos || db.videos //заменяем старые значения новыми
-}
+// export const setDB = (dataset?: Partial<DBType>) => {
+//     if (!dataset) { //значит очищаем базу
+//         db.videos = []
+//         return
+//     }
+//     db.videos = dataset.videos || db.videos //заменяем старые значения новыми
+// }
 
 //---Generic
 export type A = {

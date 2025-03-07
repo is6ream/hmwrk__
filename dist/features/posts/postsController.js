@@ -1,57 +1,31 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsControllers = void 0;
-const db_1 = require("../db/db");
+const db_1 = require("./../../db/db");
+const postsRepository_1 = require("./postsRepository");
 exports.postsControllers = {
     deleteAllDataController: ((req, res) => {
         db_1.db.blogs = [];
         res.status(204).send();
     }),
     getPostController: ((req, res) => {
-        const posts = db_1.db.posts;
-        res
-            .status(200)
-            .json(posts);
+        const getAllPosts = postsRepository_1.postRepository.getAll();
+        res.status(200).json(getAllPosts);
     }),
     createPostController: ((req, res) => {
-        const postId = Date.now() + Math.random();
-        const newPost = Object.assign(Object.assign({}, req.body), { id: postId.toString, title: req.body.title, shortDescription: req.body.shortDescription, content: req.body.content, blogId: req.body.blogId, blogName: 'top' });
-        db_1.db.blogs.push(newPost);
-        console.log(newPost);
-        res.status(201).json(newPost);
+        const createdPost = postsRepository_1.postRepository.createPost(req.body);
+        res.status(201).json(createdPost);
     }),
     findPostController: ((req, res) => {
-        const postId = +req.params.id;
-        const findPost = db_1.db.posts.find(p => p.id === postId);
-        if (!findPost) {
-            res
-                .status(404)
-                .json({ message: "Пост не найден" });
-        }
-        res.json(findPost);
+        const findedPost = postsRepository_1.postRepository.findPost(req.params.id);
+        res.json(findedPost);
     }),
     updatePostController: ((req, res) => {
-        const postId = +req.params.id;
-        const findPost = db_1.db.posts.find(p => p.id === postId);
-        if (!findPost) {
-            res
-                .status(404)
-                .json({ message: 'Пост не найден' });
-        }
-        findPost.title = req.body.title || findPost.title;
-        findPost.shortDescription = req.body.shortDescription || findPost.shortDescription;
-        findPost.content = req.body.content || findPost.content;
-        findPost.blogId = req.body.blogId || findPost.blogId;
+        const updatedPost = postsRepository_1.postRepository.updatePost(req.params.id, req.body);
+        res.status(204).send();
     }),
     deletePostController: ((req, res) => {
-        const postId = +req.params.id;
-        const findPost = db_1.db.posts.find(p => p.id === postId);
-        if (!findPost) {
-            res
-                .status(404)
-                .json({ message: 'Пост не найден' });
-        }
-        db_1.db.posts.filter(p => p.id !== postId);
+        const deletedPost = postsRepository_1.postRepository.delete(req.params.id);
         res.status(204).send();
     })
 };
