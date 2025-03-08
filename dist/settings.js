@@ -10,6 +10,7 @@ exports.SETTINGS = {
         BLOGS: '/hometask_02/api/blogs',
         POSTS: '/hometask_02/api/posts'
     },
+    ADMIN: process.env.ADMIN || 'admin:qwerty'
 };
 exports.STATUSES = {
     OK_200: 200,

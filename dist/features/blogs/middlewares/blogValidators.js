@@ -15,6 +15,13 @@ exports.websiteUrlValidator = (0, express_validator_1.body)('websiteUrl').isStri
     .trim().isURL().withMessage('not url')
     .isLength({ min: 1, max: 100 }).withMessage('more then 100 or 0');
 const findBlogValidator = (req, res, next) => {
+    const errors = (0, express_validator_1.validationResult)(req);
+    if (!errors.isEmpty()) {
+        res.status(400).json({ codeResult: 1, messages: errors.array() });
+    }
+    else {
+        next();
+    }
 };
 exports.findBlogValidator = findBlogValidator;
 exports.blogValidators = [
