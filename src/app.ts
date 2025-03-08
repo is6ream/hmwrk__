@@ -3,12 +3,15 @@ import cors from 'cors'
 import { blogsRouter } from './features/blogs/blogsRoutes'
 import { postsRouter } from './features/posts/postRoutes'
 import { db } from './db/db'
+import { version } from 'os'
 
 export const app = express() // создать приложение
 app.use(express.json()) // создание свойств-объектов body и query во всех реквестах
 app.use(cors()) // разрешить любым фронтам делать запросы на наш бэк
 
-
+app.get('/',(req, res) => {
+    res.status(200).json({version: 1.0})
+})
 
 app.use('/hometask_02/api/', blogsRouter, postsRouter); 
 //пока не разобрался с эндпоинт, который удалят все данные

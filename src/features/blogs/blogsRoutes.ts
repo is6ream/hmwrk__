@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { blogsControllers } from './blogsControllers';
+import { blogValidators, findBlogValidator } from "./middlewares/blogValidators";
+import { adminMiddleware } from "../../global-middlewares/admin-middleware";
 
 export const blogsRouter = Router()
 
-blogsRouter.get('/blogs', blogsControllers.getBlogsController)
+blogsRouter.get('/blogs', ...blogValidators, blogsControllers.getBlogsController)
 blogsRouter.post('/blogs', blogsControllers.createBlogController)
-blogsRouter.get('/blogs/:id', blogsControllers.findBlogConstroller)
+blogsRouter.get('/blogs/:id', findBlogValidator, blogsControllers.findBlogConstroller)
 blogsRouter.delete('/testing/all-data', blogsControllers.deleteAllDataController)
-blogsRouter.delete('/blogs/:id', blogsControllers.deleteBlogControler)
-blogsRouter.put('/blogs/:id', blogsControllers.deleteBlogControler)
+blogsRouter.delete('/blogs/:id', adminMiddleware, blogsControllers.deleteBlogControler)
+blogsRouter.put('/blogs/:id', findBlogValidator, ...blogValidators, blogsControllers.deleteBlogControler)
