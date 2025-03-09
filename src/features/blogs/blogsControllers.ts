@@ -19,7 +19,6 @@ export const blogsControllers = {
     createBlogController: ((req: Request, res: Response) => {
         const createBlogs = blogsRepository.create(req.body)
         res.status(201).json(createBlogs)
-        //нужно поработать с валидацией данных
     }),
 
     findBlogConstroller: ((req: Request, res: Response) => {
@@ -29,7 +28,7 @@ export const blogsControllers = {
 
     updateBlogController: ((req: Request, res: Response) => {
         const updatedBlog = blogsRepository.updateBlog(req.params.id, req.body)
-        return res.status(204).send()
+         res.status(204).send()
     }),
 
     deleteBlogControler: ((req: Request, res: Response) => {
