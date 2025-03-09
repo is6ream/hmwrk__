@@ -19,6 +19,9 @@ exports.blogsControllers = {
     }),
     findBlogConstroller: ((req, res) => {
         const findBlog = blogsRepository_1.blogsRepository.find(req.params.id);
+        if (!findBlog) {
+            res.status(404).json({ message: "Blog not found" });
+        }
         res.json(findBlog).status(200);
     }),
     updateBlogController: ((req, res) => {

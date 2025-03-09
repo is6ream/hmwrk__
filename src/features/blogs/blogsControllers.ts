@@ -23,12 +23,15 @@ export const blogsControllers = {
 
     findBlogConstroller: ((req: Request, res: Response) => {
         const findBlog = blogsRepository.find(req.params.id)
+        if (!findBlog) {
+            res.status(404).json({ message: "Blog not found" })
+        }
         res.json(findBlog).status(200)
     }),
 
     updateBlogController: ((req: Request, res: Response) => {
         const updatedBlog = blogsRepository.updateBlog(req.params.id, req.body)
-         res.status(204).send()
+        res.status(204).send()
     }),
 
     deleteBlogControler: ((req: Request, res: Response) => {

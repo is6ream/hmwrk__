@@ -1,6 +1,7 @@
 import { BlogInputModel, BlogViewModel } from '../../input-output-types/blogsAndPost-types';
 import { BlogType } from '../../db/db';
 import { db } from '../../db/db';
+import { error } from 'console';
 
 
 export const blogsRepository = {
