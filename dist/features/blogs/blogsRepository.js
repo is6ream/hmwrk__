@@ -9,6 +9,7 @@ exports.blogsRepository = {
         return db_1.db;
     },
     getAll() {
+        console.log("Тут работает");
         return db_1.db.blogs;
     },
     create(blog) {

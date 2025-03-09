@@ -15,3 +15,5 @@ app.get('/',(req, res) => {
 
 app.use('/hometask_02/api/', blogsRouter, postsRouter); 
 //пока не разобрался с эндпоинт, который удалят все данные
+
+//проблема связана с middleware валидации

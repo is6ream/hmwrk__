@@ -15,19 +15,33 @@ export const fromUTF8toBase64 = (code: string) => {
 }
 
 export const adminMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const auth = req.headers['authorization'] as string
+    const auth = req.headers['authorization'] as string;
     console.log(auth)
-    if (!auth) {
+    if(!auth){
         res
-            .status(401)
-            .json({error: "Unauthorized!"})
+        .status(401)
+        .json({})
         return
     }
     if(auth.slice(0,6) !== 'Basic '){
         res
         .status(401)
-        .json({error: "Unathorized!"})
+        .json({})
+        return
     }
 
+    const decodedAuth = fromBase64ToUTF8(auth.slice(6))
     const codedAuth = fromUTF8toBase64(SETTINGS.ADMIN)
+
+    if(auth.slice(6) !== codedAuth){
+
+        res
+        .status(401)
+        .json({})
+        return
+    }
+
+    next()
+       //остановился на разборе авторизации
 }
+

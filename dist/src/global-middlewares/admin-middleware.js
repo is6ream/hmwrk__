@@ -20,14 +20,23 @@ const adminMiddleware = (req, res, next) => {
     if (!auth) {
         res
             .status(401)
-            .json({ error: "Unauthorized!" });
+            .json({});
         return;
     }
     if (auth.slice(0, 6) !== 'Basic ') {
         res
             .status(401)
-            .json({ error: "Unathorized!" });
+            .json({});
+        return;
     }
+    const decodedAuth = (0, exports.fromBase64ToUTF8)(auth.slice(6));
     const codedAuth = (0, exports.fromUTF8toBase64)(settings_1.SETTINGS.ADMIN);
+    if (auth.slice(6) !== codedAuth) {
+        res
+            .status(401)
+            .json({});
+        return;
+    }
+    next();
 };
 exports.adminMiddleware = adminMiddleware;

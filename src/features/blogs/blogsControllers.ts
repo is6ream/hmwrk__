@@ -12,7 +12,8 @@ export const blogsControllers = {
 
     getBlogsController: ((req: Request, res: Response) => {
         const getAllBlogs = blogsRepository.getAll()
-        res.json(getAllBlogs).status(200)
+        res.status(200).json(getAllBlogs)
+        console.log('getBlogs')
     }),
 
     createBlogController: ((req: Request, res: Response) => {

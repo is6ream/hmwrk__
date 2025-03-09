@@ -10,7 +10,8 @@ exports.blogsControllers = {
     }),
     getBlogsController: ((req, res) => {
         const getAllBlogs = blogsRepository_1.blogsRepository.getAll();
-        res.json(getAllBlogs).status(200);
+        res.status(200).json(getAllBlogs);
+        console.log('getBlogs');
     }),
     createBlogController: ((req, res) => {
         const createBlogs = blogsRepository_1.blogsRepository.create(req.body);

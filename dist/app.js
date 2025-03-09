@@ -16,3 +16,4 @@ exports.app.get('/', (req, res) => {
 });
 exports.app.use('/hometask_02/api/', blogsRoutes_1.blogsRouter, postRoutes_1.postsRouter);
 //пока не разобрался с эндпоинт, который удалят все данные
+//проблема связана с middleware валидации
