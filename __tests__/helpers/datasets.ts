@@ -1,15 +1,16 @@
+import { fromUTF8toBase64 } from './../../src/global-middlewares/admin-middleware';
 import { DBType } from "../../src/db/db";
 import { BlogType } from "../../src/db/db";
 import { PostType } from "../../src/db/db";
 // import {fromUTF8ToBase64} from '../../src/global-middlewares/admin-middleware'
-import {SETTINGS} from '../../src/settings'
+import { SETTINGS } from '../../src/settings'
 
 //готовые данные для переиспользования в тестах
-// export const codedAuth = fromUTF8ToBase64(SETTINGS.ADMIN) что за админ?
+export const codedAuth = fromUTF8toBase64(SETTINGS.ADMIN)
 
 export const createString = (length: number) => {
     let s = ''
-    for(let x = 1; x <= length; x++){
+    for (let x = 1; x <= length; x++) {
         s += x % 10
     }
     return s
@@ -18,7 +19,7 @@ export const createString = (length: number) => {
 export const blog1: BlogType = {
     id: new Date().toISOString() + Math.random(),
     name: 'n1',
-    description:'d1',
+    description: 'd1',
     websiteUrl: 'http://example.com'
 } as const //dataset нельзя изменять
 
@@ -48,7 +49,7 @@ export const post7: PostType = {
 } as const
 
 export const dataset1: DBType = {
-    blogs:[blog1, blog7],
+    blogs: [blog1, blog7],
     posts: [post1, post7]
 } as const
 
