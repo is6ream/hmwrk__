@@ -4,10 +4,7 @@ import { db, setDB } from '../src/db/db'
 import { SETTINGS } from '../src/settings'
 import { BlogInputModel } from '../src/input-output-types/blogsAndPost-types'
 import { codedAuth, createString, dataset1 } from './helpers/datasets'
-import { createReadStream } from 'fs'
-import e from 'express'
-import exp from 'constants'
-import { setegid } from 'process';
+
 
 describe('/blogs', () => {
     beforeAll(async () => {
@@ -29,7 +26,7 @@ describe('/blogs', () => {
             .send(newBlog) //отправка данных
             .expect(201)
 
-        console.log(res.body)
+        // console.log(res.body)
 
         expect(res.body.name).toEqual(newBlog.name)
         expect(res.body.description).toEqual(newBlog.description)
@@ -52,7 +49,7 @@ describe('/blogs', () => {
             .post(SETTINGS.PATH.BLOGS)
             .send(newBlog)
             .expect(401)//ожидаем код ошибки, потому что не установил авторизацию
-        console.log(res.body)
+        // console.log(res.body)
         expect(db.blogs.length).toEqual(0)
     })
 
@@ -66,11 +63,11 @@ describe('/blogs', () => {
 
         const res = await req
             .post(SETTINGS.PATH.BLOGS)
-            .set({ 'Authoriazation': 'Basic ' + codedAuth })
+            .set({ 'Authorization': 'Basic ' + codedAuth })
             .send(newBlog)
             .expect(400)
 
-        console.log(res.body)
+        // console.log(res.body)
 
         expect(res.body.errorsMessages.length).toEqual(3)
         expect(res.body.errorsMessages[0].field).toEqual('name')
@@ -80,16 +77,16 @@ describe('/blogs', () => {
         expect(db.blogs.length).toEqual(0)
     })
 
-    it('should get empty array', async () => {
+    it('shouldn\t get empty array', async () => {
         setDB(dataset1)
 
         const res = await req
             .get(SETTINGS.PATH.BLOGS)
             .expect(200)
 
-        console.log(res.body)
+        // console.log(res.body)
 
-        expect(res.body.length).toEqual(1) //вот здесь может быть затык, передаем два блога
+        expect(res.body.length).toEqual(2) //вот здесь может быть затык, передаем два блога
         expect(res.body[0]).toEqual(dataset1.blogs[0])
     })
 
@@ -100,7 +97,7 @@ describe('/blogs', () => {
             .get(SETTINGS.PATH.BLOGS + '/1')
             .expect(404)
 
-        console.log(res.body)
+        // console.log(res.body)
     })
 
     it('should find', async () => {
@@ -132,7 +129,7 @@ describe('/blogs', () => {
             .set({ 'Authorization': 'Basic' + codedAuth }) //нет ' ' 
             .expect(401)
 
-        console.log(res.body)
+        // console.log(res.body)
     })
 
     it('should update', async () => {
@@ -149,7 +146,7 @@ describe('/blogs', () => {
             .send(blog)
             .expect(204)
 
-        console.log(res.body)
+        // console.log(res.body)
         expect(db.blogs[0]).toEqual({ ...db.blogs[0], ...blog })
 
     })
@@ -168,7 +165,7 @@ describe('/blogs', () => {
             .send(blog)
             .expect(404)
 
-        console.log(res.body)
+        // console.log(res.body)
 
     })
 
@@ -186,7 +183,7 @@ describe('/blogs', () => {
             .send(blog)
             .expect(400)
 
-        console.log(res.body)
+        // console.log(res.body)
 
         expect(db).toEqual(dataset1)
         expect(res.body.errorsMessages.lenght).toEqual(3)
@@ -209,7 +206,7 @@ describe('/blogs', () => {
             .send(blog)
             .expect(401)
 
-        console.log(res.body)
+        // console.log(res.body)
 
         expect(db).toEqual(dataset1)
     })
