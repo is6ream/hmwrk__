@@ -11,7 +11,6 @@ export type PostType = {
     shortDescription: string
     content: string
     blogId: string
-    blogName: string
 }
 export type DBType = {
     posts: PostType[],
@@ -33,10 +32,8 @@ export const db: DBType = {
         title: "utro",
         shortDescription: "the best day",
         content: "newVideo",
-        blogId: "0",
-        blogName: "utroNamaz",
-
-        
+        blogId: "0", //возможно будет косяк
+        // blogName: 'sss'        
     }]
 }
 

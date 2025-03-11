@@ -49,8 +49,12 @@ export const post7: PostType = {
 } as const
 
 export const dataset1: DBType = {
-    blogs: [blog1, blog7],
-    posts: [post1, post7]
+    blogs: [blog1],
+    posts: []
 } as const
 
-//можно добавить еще dataset..
+export const dataset2: DBType = {
+    blogs: [blog1, blog7],
+    posts: [post1]
+} as const
+

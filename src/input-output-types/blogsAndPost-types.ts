@@ -9,7 +9,6 @@ export type PostInputModel = {
     shortDescription: string
     content: string
     blogId: string
-    blogName: string
 }
 
 export type BlogViewModel = {

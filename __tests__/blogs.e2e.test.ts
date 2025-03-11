@@ -198,6 +198,7 @@ describe('/blogs', () => {
             name: createString(16),
             description: createString(501),
             websiteUrl: createString(101)
+
         }
 
         const res = await req

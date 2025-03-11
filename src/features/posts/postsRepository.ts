@@ -1,8 +1,8 @@
 import { PostInputModel } from "../../input-output-types/blogsAndPost-types";
-import { PostType } from "../../db/db";
 import { db } from "../../db/db";
-import { title } from "process";
-import { error } from "console";
+
+
+
 
 export const postRepository = {
     getAll() {
@@ -16,7 +16,6 @@ export const postRepository = {
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: post.blogId,
-            blogName: post.blogName
         }
 
          db.posts = [...db.posts, newPost]
