@@ -36,7 +36,7 @@ export const post1: PostType = {
     content: 'c1',
     shortDescription: 's1',
     blogId: blog1.id,
-    blogName: 'n1'
+    // blogName: 'n1'
 } as const
 
 export const post7: PostType = {
@@ -45,7 +45,7 @@ export const post7: PostType = {
     content: 'c7',
     shortDescription: 's7',
     blogId: blog7.id,
-    blogName: 'n7'
+    // blogName: 'n7'
 } as const
 
 export const dataset1: DBType = {
