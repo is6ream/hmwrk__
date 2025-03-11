@@ -3,8 +3,7 @@ import { SETTINGS } from '../src/settings'
 import { codedAuth, createString, dataset1, dataset2 } from './helpers/datasets'
 import { PostInputModel } from '../src/input-output-types/blogsAndPost-types'
 import { req } from './helpers/test-helpers'
-import { create } from 'domain'
-import exp from 'constants'
+import { error } from 'console'
 
 describe('/posts', () => {
     beforeAll(async () => {
@@ -34,7 +33,7 @@ describe('/posts', () => {
         expect(res.body.blogId).toEqual(newPost.blogId)
         expect(typeof res.body.id).toEqual('string')
 
-        expect(res.body).toEqual(db.posts[0])
+        expect(res.body).toEqual(db.posts[0]) //возможно новая сущность в БД будет не первой а второй
     })
 
     it('shouldn\'t create 401', async () => {
@@ -89,60 +88,139 @@ describe('/posts', () => {
         expect(res.body.length).toEqual(0)
     })
 
-    it('should get not empty array', async() => {
+    it('should get not empty array', async () => {
         setDB(dataset2)
 
         const res = await req
-        .get(SETTINGS.PATH.POSTS)
-        .expect(200)
+            .get(SETTINGS.PATH.POSTS)
+            .expect(200)
 
-        expect(res.body[0]).toEqual(dataset2.posts[0])
+        expect(res.body[0]).toEqual(dataset2.posts[0]) //возможно db.posts?
     })
 
-    it('shouldn\'t find', async() => {
+    it('shouldn\'t find', async () => {
         setDB(dataset1)
 
         const res = await req
-        .get(SETTINGS.PATH.POSTS + '/1') 
-        .expect(404)
+            .get(SETTINGS.PATH.POSTS + '/1')
+            .expect(404)
     })
 
-    it('should find', async() => {
+    it('should find', async () => {
         setDB(dataset2)
 
         const res = await req
-        .get(SETTINGS.PATH.POSTS + dataset2.posts[0].id)
-        .expect(200)
+            .get(SETTINGS.PATH.POSTS + dataset2.posts[0].id)
+            .expect(200)
 
         expect(res.body).toEqual(dataset2.posts[0])
     })
 
-    it('should del', async() => {
+    it('should del', async () => {
         setDB(dataset1)
 
         const res = await req
-        .delete(SETTINGS.PATH.POSTS + dataset1.posts[0].id)
-        .set({'Authorization': 'Basic ' + codedAuth})
-        .expect(204)
+            .delete(SETTINGS.PATH.POSTS + dataset1.posts[0].id)
+            .set({ 'Authorization': 'Basic ' + codedAuth })
+            .expect(204)
     })
 
-    it('shouldn\'t del', async() => {
+    it('shouldn\'t del', async () => {
         setDB(dataset1)
 
         const res = await req
-        .delete(SETTINGS.PATH.POSTS + '/1')
-        .set({'Authorization': 'Basic ' + codedAuth})
-        .expect(404)
+            .delete(SETTINGS.PATH.POSTS + '/1')
+            .set({ 'Authorization': 'Basic ' + codedAuth })
+            .expect(404)
     })
 
-    it('shouldn\'t del 401', async() => {
+    it('shouldn\'t del 401', async () => {
         setDB(dataset1)
 
         const res = await req
-        .delete(SETTINGS.PATH.POSTS + dataset1.posts[0].id)
-        .set({'Authorization': 'Basic' + codedAuth}) //no ' '
-        .expect(401)
+            .delete(SETTINGS.PATH.POSTS + dataset1.posts[0].id)
+            .set({ 'Authorization': 'Basic' + codedAuth }) //no ' '
+            .expect(401)
     })
 
+    it('should update', async () => {
+        setDB(dataset2)
 
+        const post: PostInputModel = {
+            title: 't1',
+            shortDescription: 's1',
+            content: 'c1',
+            blogId: dataset2.blogs[0].id
+        }
+
+        const res = await req
+            .put(SETTINGS.PATH.POSTS + '/' + dataset2.posts[0].id)
+            .set({ 'Authorization': 'Basic ' + codedAuth })
+            .send(post)
+            .expect(204)
+
+        expect(res.body).toEqual({ ...db.posts[0], ...post, blogId: dataset2.blogs[0].id })
+        //тут не понял как работает последняя строка
+
+    })
+
+    it('shouldn\t update 404', async () => {
+        setDB(dataset2)
+
+        const post: PostInputModel = {
+            title: 't1',
+            shortDescription: 's1',
+            content: 'c1',
+            blogId: '1'
+        }
+
+        const res = await req
+            .put(SETTINGS.PATH.POSTS + '/1') //объект в бд не найден по id
+            .set({ 'Authorization': 'Basic ' + codedAuth })
+            .send(post)
+            .expect(404)
+    })
+
+    it('shouldn\t update2', async () => {
+        setDB(dataset2)
+
+        const post: PostInputModel = {
+            title: createString(31),
+            shortDescription: createString(101),
+            content: createString(1001),
+            blogId: '1'
+        }
+
+        const res = await req
+            .put(SETTINGS.PATH.POSTS + '/' + dataset2.posts[0].id)
+            .set({ 'Authorization': 'Basic ' + codedAuth })
+            .send(post)
+            .expect(400)
+
+        expect(db).toEqual(dataset2)
+        expect(res.body.errorsMessages.length).toEqual(4)
+        expect(res.body.errorsMessages[0].field).toEqual('title')
+        expect(res.body.errorsMessages[1].field).toEqual('shortDescription')
+        expect(res.body.errorsMessages[2].field).toEqual('content')
+        expect(res.body.errorsMessages[3].field).toEqual('blogId')
+    })
+
+    it('shouldn\t update 401', async () => {
+        setDB(dataset2)
+
+        const post: PostInputModel = {
+            title: createString(31),
+            shortDescription: createString(101),
+            content: createString(1001),
+            blogId: '1'
+        }
+
+        const res = await req
+            .put(SETTINGS.PATH.POSTS + '/' + dataset2.posts[0].id)
+            .set({ 'Authorization': 'Basic ' + codedAuth + 'error' })
+            .send(post)
+            .expect(401)
+
+        expect(db).toEqual(dataset2)
+    })
 })
