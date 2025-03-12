@@ -13,7 +13,6 @@ exports.postRepository = {
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: post.blogId,
-            blogName: post.blogName
         };
         db_1.db.posts = [...db_1.db.posts, newPost];
         return newPost;

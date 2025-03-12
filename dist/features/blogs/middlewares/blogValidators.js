@@ -4,6 +4,7 @@ exports.blogValidators = exports.findBlogValidator = exports.websiteUrlValidator
 const express_validator_1 = require("express-validator");
 const inputCheckErrorsMiddleware_1 = require("../../../global-middlewares/inputCheckErrorsMiddleware");
 const admin_middleware_1 = require("../../../global-middlewares/admin-middleware");
+const blogsRepository_1 = require("../blogsRepository");
 // name: string // max 15
 // description: string // max 500
 // websiteUrl: string // max 100 ^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$
@@ -15,13 +16,14 @@ exports.websiteUrlValidator = (0, express_validator_1.body)('websiteUrl').isStri
     .trim().isURL().withMessage('not url')
     .isLength({ min: 1, max: 100 }).withMessage('more then 100 or 0');
 const findBlogValidator = (req, res, next) => {
-    const errors = (0, express_validator_1.validationResult)(req);
-    if (!errors.isEmpty()) {
-        res.status(400).json({ codeResult: 1, messages: errors.array() });
+    const blog = blogsRepository_1.blogsRepository.find(req.params.id);
+    if (!blog) {
+        res
+            .status(404)
+            .json({});
+        return;
     }
-    else {
-        next();
-    }
+    next();
 };
 exports.findBlogValidator = findBlogValidator;
 exports.blogValidators = [

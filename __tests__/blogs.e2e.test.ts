@@ -11,7 +11,7 @@ describe('/blogs', () => {
         setDB()
     })
 
-    it('should create new blog', async () => {
+    it('should create new blog', async () => { //1
         setDB()
 
         const newBlog: BlogInputModel = {
@@ -37,7 +37,7 @@ describe('/blogs', () => {
 
     })
 
-    it('should\'t create 401', async () => {
+    it('should\'t create 401', async () => { //2
         setDB()
         const newBlog: BlogInputModel = {
             name: 'n1',
@@ -53,7 +53,7 @@ describe('/blogs', () => {
         expect(db.blogs.length).toEqual(0)
     })
 
-    it('shouldn\'t create', async () => {
+    it('shouldn\'t create', async () => { //3
         setDB()
         const newBlog: BlogInputModel = {
             name: createString(16),
@@ -77,7 +77,7 @@ describe('/blogs', () => {
         expect(db.blogs.length).toEqual(0)
     })
 
-    it('shouldn\t get empty array', async () => {
+    it('shouldn\t get empty array', async () => { //4
         setDB(dataset1)
 
         const res = await req
@@ -86,11 +86,11 @@ describe('/blogs', () => {
 
         // console.log(res.body)
 
-        expect(res.body.length).toEqual(2) //вот здесь может быть затык, передаем два блога
+        expect(res.body.length).toEqual(1) //вот здесь может быть затык, передаем два блога
         expect(res.body[0]).toEqual(dataset1.blogs[0])
     })
 
-    it('shouldn\t find', async () => {
+    it('shouldn\t find', async () => { //5
         setDB(dataset1)
 
         const res = await req
@@ -100,28 +100,28 @@ describe('/blogs', () => {
         // console.log(res.body)
     })
 
-    it('should find', async () => {
+    it('should find', async () => { //6
         setDB(dataset1)
 
         const res = await req
-            .get(SETTINGS.PATH.BLOGS + dataset1.blogs[0].id)
+            .get(SETTINGS.PATH.BLOGS + '/' + dataset1.blogs[0].id)
             .expect(200)
 
         expect(res.body).toEqual(dataset1.blogs[0])
     })
 
-    it('should del', async () => {
+    it('should del', async () => { //7
         setDB(dataset1)
 
         const res = await req
-            .delete(SETTINGS.PATH.BLOGS + dataset1.blogs[0].id)
+            .delete(SETTINGS.PATH.BLOGS + '/' + dataset1.blogs[0].id)
             .set({ 'Authorization': 'Basic ' + codedAuth })
             .expect(204)
 
-        expect(db.blogs.length).toEqual(0) //возможно будет 1
+        expect(db.blogs.length).toEqual(0) 
     })
 
-    it('shouldn\t del', async () => {
+    it('shouldn\t del', async () => { //8
         setDB()
 
         const res = await req
@@ -132,7 +132,7 @@ describe('/blogs', () => {
         // console.log(res.body)
     })
 
-    it('should update', async () => {
+    it('should update', async () => { //9 
         setDB(dataset1)
         const blog: BlogInputModel = {
             name: 'n2',
@@ -151,7 +151,7 @@ describe('/blogs', () => {
 
     })
 
-    it('shouldn\t update 404', async () => {
+    it('shouldn\t update 404', async () => { //10
         setDB()
         const blog: BlogInputModel = {
             name: 'n1',
@@ -160,8 +160,8 @@ describe('/blogs', () => {
         }
 
         const res = await req
-            .put(SETTINGS.PATH.BLOGS + '/1')
-            .set({ 'Authorization': 'Baasic ' + codedAuth })
+            .put(SETTINGS.PATH.BLOGS + '/' + dataset1.blogs[0].id)
+            .set({ 'Authorization': 'Basic ' + codedAuth })
             .send(blog)
             .expect(404)
 
@@ -169,7 +169,7 @@ describe('/blogs', () => {
 
     })
 
-    it('shouldn\t update2', async () => {
+    it('shouldn\'t update2', async () => { //11
         setDB(dataset1)
         const blog: BlogInputModel = {
             name: createString(16),
@@ -179,7 +179,7 @@ describe('/blogs', () => {
 
         const res = await req
             .put(SETTINGS.PATH.BLOGS + '/' + dataset1.blogs[0].id)
-            .set({ 'Authoriazation': 'Basic ' + codedAuth })
+            .set({ 'Authorization': 'Basic ' + codedAuth })
             .send(blog)
             .expect(400)
 
@@ -192,7 +192,7 @@ describe('/blogs', () => {
         expect(res.body.errorsMessages[2].field).toEqual('websiteUrl')
     })
 
-    it('shouldn\t update 401', async () => {
+    it('shouldn\t update 401', async () => { //12
         setDB(dataset1)
         const blog: BlogInputModel = {
             name: createString(16),

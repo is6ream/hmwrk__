@@ -13,8 +13,8 @@ exports.db = {
             title: "utro",
             shortDescription: "the best day",
             content: "newVideo",
-            blogId: "0",
-            blogName: "utroNamaz",
+            blogId: "0", //возможно будет косяк
+            // blogName: 'sss'        
         }]
 };
 const setDB = (dataset) => {

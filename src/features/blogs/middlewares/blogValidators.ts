@@ -2,6 +2,7 @@ import { body, validationResult } from 'express-validator'
 import { inputCheckErrorsMiddleware } from '../../../global-middlewares/inputCheckErrorsMiddleware'
 import { NextFunction, Request, Response } from 'express'
 import { adminMiddleware } from '../../../global-middlewares/admin-middleware'
+import { blogsRepository } from '../blogsRepository'
 
 // name: string // max 15
 // description: string // max 500
@@ -17,13 +18,15 @@ export const websiteUrlValidator = body('websiteUrl').isString().withMessage('no
     .trim().isURL().withMessage('not url')
     .isLength({ min: 1, max: 100 }).withMessage('more then 100 or 0')
 
-export const findBlogValidator = (req: Request<{id: string}>, res: Response, next: NextFunction) => {
-    const errors = validationResult(req)
-    if(!errors.isEmpty()){
-        res.status(400).json({codeResult: 1, messages: errors.array()})
-    } else{
-        next()
+export const findBlogValidator = (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+    const blog = blogsRepository.find(req.params.id)
+    if (!blog) {
+        res
+            .status(404)
+            .json({})
+        return
     }
+    next()
 }
 
 export const blogValidators = [
