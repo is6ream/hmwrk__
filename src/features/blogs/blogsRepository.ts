@@ -12,7 +12,7 @@ export const blogsRepository = {
     },
 
     getAll() {
-        console.log("Тут работает")
+        // console.log("Тут работает")
         return db.blogs
     },
 

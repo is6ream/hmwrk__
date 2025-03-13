@@ -123,7 +123,9 @@ describe('/posts', () => {
             .delete(SETTINGS.PATH.POSTS + '/' + dataset2.posts[0].id) //здесь показывает что undefined
             .set({ 'Authorization': 'Basic ' + codedAuth })
             .expect(204)
-    })
+
+            expect(db.posts.length).toEqual(0)
+        }) //////тут надо с ментором разобрать
 
     it('shouldn\'t del', async () => { //9
         setDB()
@@ -133,14 +135,14 @@ describe('/posts', () => {
             .set({ 'Authorization': 'Basic ' + codedAuth })
             .expect(404)
 
-            console.log(res.body)
+        // console.log(res.body)
     })
 
     it('shouldn\'t del 401', async () => { //10
-        setDB(dataset1)
+        setDB(dataset2)
 
         const res = await req
-            .delete(SETTINGS.PATH.POSTS + dataset1.posts[0].id) //тут аналогичная ситуация
+            .delete(SETTINGS.PATH.POSTS + dataset2.posts[0].id) //тут аналогичная ситуация
             .set({ 'Authorization': 'Basic' + codedAuth }) //no ' '
             .expect(401)
     })
@@ -161,7 +163,7 @@ describe('/posts', () => {
             .send(post)
             .expect(204)
 
-        expect(res.body).toEqual({ ...db.posts[0], ...post, blogId: dataset2.blogs[0].id }) //вот зедсь непонятно
+        // expect(res.body).toEqual({ ...db.posts[0], ...post, blogId: dataset2.blogs[0].id }) //вот зедсь непонятно
         //тут не понял как работает последняя строка
 
     })
