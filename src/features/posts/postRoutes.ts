@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { postsControllers } from "../posts/postsController";
-import { findPostValidator, postValidators } from "./postValidators";
+import { findPostValidator, postValidators } from "./middlewares/postValidators";
 import { adminMiddleware } from "../../global-middlewares/admin-middleware";
 import { findBlogValidator } from "../blogs/middlewares/blogValidators";
 

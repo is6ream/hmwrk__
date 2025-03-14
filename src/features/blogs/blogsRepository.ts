@@ -47,6 +47,10 @@ export const blogsRepository = {
         let filteredBlogs = db.blogs.filter(b => b.id !== id)
         db.blogs = filteredBlogs
         return filteredBlogs;
+    },
+
+    clear(){
+        db.blogs = []
     }
 }
 

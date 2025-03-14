@@ -44,7 +44,9 @@ export const postRepository = {
         let filteredPosts = db.posts.filter(p => p.id !== id)
         db.posts = filteredPosts;
         return filteredPosts
+    },
+
+    clear(){
+        db.posts = []
     }
-
-
 }
