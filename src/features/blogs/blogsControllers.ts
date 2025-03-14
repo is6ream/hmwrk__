@@ -36,6 +36,9 @@ export const blogsControllers = {
 
     deleteBlogControler: ((req: Request, res: Response) => {
         const deletedBlog = blogsRepository.delete(req.params.id)
+        if(!deletedBlog){
+            res.status(404).json({message: "Blog not found"})
+        }
         res.status(204).send()
     })
 }

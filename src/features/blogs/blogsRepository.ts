@@ -45,11 +45,14 @@ export const blogsRepository = {
     },
     delete(id: string) {
         let filteredBlogs = db.blogs.filter(b => b.id !== id)
+        if (!filteredBlogs) {
+            return { error: "Not found" }
+        }
         db.blogs = filteredBlogs
         return filteredBlogs;
     },
 
-    clear(){
+    clear() {
         db.blogs = []
     }
 }
