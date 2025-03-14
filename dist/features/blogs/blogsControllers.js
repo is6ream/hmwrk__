@@ -30,6 +30,10 @@ exports.blogsControllers = {
     }),
     deleteBlogControler: ((req, res) => {
         const deletedBlog = blogsRepository_1.blogsRepository.delete(req.params.id);
+        if (!deletedBlog) {
+            res.status(404).json({ message: "Blog not found" });
+        }
         res.status(204).send();
     })
+    //Может быть затык с эндпоинтом delete
 };

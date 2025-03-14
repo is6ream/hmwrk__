@@ -14,7 +14,7 @@ exports.db = {
             shortDescription: "the best day",
             content: "newVideo",
             blogId: "0", //возможно будет косяк
-            // blogName: 'sss'        
+            blogName: 'sss'
         }]
 };
 const setDB = (dataset) => {

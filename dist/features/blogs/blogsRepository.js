@@ -9,7 +9,7 @@ exports.blogsRepository = {
         return db_1.db;
     },
     getAll() {
-        console.log("Тут работает");
+        // console.log("Тут работает")
         return db_1.db.blogs;
     },
     create(blog) {
@@ -37,7 +37,13 @@ exports.blogsRepository = {
     },
     delete(id) {
         let filteredBlogs = db_1.db.blogs.filter(b => b.id !== id);
+        if (!filteredBlogs) {
+            return { error: "Not found" };
+        }
         db_1.db.blogs = filteredBlogs;
         return filteredBlogs;
+    },
+    clear() {
+        db_1.db.blogs = [];
     }
 };

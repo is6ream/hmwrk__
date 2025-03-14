@@ -13,6 +13,7 @@ exports.postRepository = {
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: post.blogId,
+            blogName: post.blogName
         };
         db_1.db.posts = [...db_1.db.posts, newPost];
         return newPost;
@@ -35,5 +36,8 @@ exports.postRepository = {
         let filteredPosts = db_1.db.posts.filter(p => p.id !== id);
         db_1.db.posts = filteredPosts;
         return filteredPosts;
+    },
+    clear() {
+        db_1.db.posts = [];
     }
 };

@@ -41,4 +41,6 @@ export const blogsControllers = {
         }
         res.status(204).send()
     })
+
+    //Может быть затык с эндпоинтом delete
 }

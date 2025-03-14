@@ -16,6 +16,8 @@ export const postRepository = {
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: post.blogId,
+            blogName: post.blogName
+            
         }
 
          db.posts = [...db.posts, newPost]

@@ -1,11 +1,10 @@
 import { body, validationResult } from "express-validator"
-import { inputCheckErrorsMiddleware } from "../../global-middlewares/inputCheckErrorsMiddleware"
 import { NextFunction, Request, Response } from "express"
-import { adminMiddleware } from "../../global-middlewares/admin-middleware"
-import { blogsRepository } from "../blogs/blogsRepository"
-import { postRepository } from "./postsRepository"
-import { PostInputModel } from "../../input-output-types/blogsAndPost-types"
-
+import { inputCheckErrorsMiddleware } from "../../../global-middlewares/inputCheckErrorsMiddleware"
+import { adminMiddleware } from "../../../global-middlewares/admin-middleware"
+import { blogsRepository } from "../../blogs/blogsRepository"
+import { postRepository } from "../postsRepository"
+import { PostInputModel } from "../../../input-output-types/blogsAndPost-types"
 //// title: string // max 30
 // shortDescription: string // max 100
 // content: string // max 1000

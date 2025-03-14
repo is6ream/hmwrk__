@@ -11,5 +11,6 @@ postsRouter.get('/posts', postsControllers.getPostController)
 postsRouter.post('/posts', ...postValidators, postsControllers.createPostController)
 postsRouter.get('/posts/:id', findPostValidator, postsControllers.findPostController)
 postsRouter.delete('/testing/all-data', ...postValidators, postsControllers.deleteAllDataController) //на всякий случай подключил
-postsRouter.delete('/posts/:id', adminMiddleware, findBlogValidator ,postsControllers.deletePostController)
+postsRouter.delete('/posts/:id', adminMiddleware, findBlogValidator, postsControllers.deletePostController)
 postsRouter.put('/posts/:id', findPostValidator, ...postValidators, postsControllers.updatePostController)
+
