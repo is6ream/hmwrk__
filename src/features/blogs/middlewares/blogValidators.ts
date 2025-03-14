@@ -29,6 +29,9 @@ export const findBlogValidator = (req: Request<{ id: string }>, res: Response, n
     next()
 }
 
+
+
+
 export const blogValidators = [
     adminMiddleware,
     nameValidator,

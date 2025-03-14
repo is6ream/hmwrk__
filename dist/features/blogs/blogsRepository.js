@@ -17,7 +17,7 @@ exports.blogsRepository = {
             id: new Date().toISOString() + Math.random(),
             name: blog.name,
             description: blog.description,
-            websiteUrl: blog.websiteUrl
+            websiteUrl: blog.websiteUrl,
         };
         db_1.db.blogs = [...db_1.db.blogs, newBlog];
         return newBlog;

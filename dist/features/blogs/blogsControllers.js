@@ -19,21 +19,14 @@ exports.blogsControllers = {
     }),
     findBlogConstroller: ((req, res) => {
         const findBlog = blogsRepository_1.blogsRepository.find(req.params.id);
-        if (!findBlog) {
-            res.status(404).json({ message: "Blog not found" });
-        }
         res.json(findBlog).status(200);
     }),
     updateBlogController: ((req, res) => {
         const updatedBlog = blogsRepository_1.blogsRepository.updateBlog(req.params.id, req.body);
         res.status(204).send();
     }),
-    deleteBlogControler: ((req, res) => {
+    deleteBlogController: ((req, res) => {
         const deletedBlog = blogsRepository_1.blogsRepository.delete(req.params.id);
-        if (!deletedBlog) {
-            res.status(404).json({ message: "Blog not found" });
-        }
         res.status(204).send();
     })
-    //Может быть затык с эндпоинтом delete
 };

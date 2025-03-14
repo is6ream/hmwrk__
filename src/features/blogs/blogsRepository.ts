@@ -21,7 +21,7 @@ export const blogsRepository = {
             id: new Date().toISOString() + Math.random(),
             name: blog.name,
             description: blog.description,
-            websiteUrl: blog.websiteUrl
+            websiteUrl: blog.websiteUrl,
         }
         db.blogs = [...db.blogs, newBlog]
         return newBlog

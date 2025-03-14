@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postRepository = void 0;
 const db_1 = require("../../db/db");
+const blogsRepository_1 = require("../blogs/blogsRepository");
 exports.postRepository = {
     getAll() {
         return db_1.db.posts;
@@ -13,8 +14,9 @@ exports.postRepository = {
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: post.blogId,
-            blogName: post.blogName
+            blogName: blogsRepository_1.blogsRepository.find(post.blogId).name
         };
+        //осталось пройти один тест
         db_1.db.posts = [...db_1.db.posts, newPost];
         return newPost;
     },

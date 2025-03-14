@@ -9,6 +9,5 @@ exports.blogsRouter = (0, express_1.Router)();
 exports.blogsRouter.get('/blogs', blogsControllers_1.blogsControllers.getBlogsController);
 exports.blogsRouter.post('/blogs', ...blogValidators_1.blogValidators, blogsControllers_1.blogsControllers.createBlogController);
 exports.blogsRouter.get('/blogs/:id', blogValidators_1.findBlogValidator, blogsControllers_1.blogsControllers.findBlogConstroller);
-exports.blogsRouter.delete('/testing/all-data', ...blogValidators_1.blogValidators, blogsControllers_1.blogsControllers.deleteAllDataController);
-exports.blogsRouter.delete('/blogs/:id', admin_middleware_1.adminMiddleware, blogsControllers_1.blogsControllers.deleteBlogControler);
+exports.blogsRouter.delete('/blogs/:id', admin_middleware_1.adminMiddleware, blogValidators_1.findBlogValidator, blogsControllers_1.blogsControllers.deleteBlogController);
 exports.blogsRouter.put('/blogs/:id', blogValidators_1.findBlogValidator, ...blogValidators_1.blogValidators, blogsControllers_1.blogsControllers.updateBlogController);

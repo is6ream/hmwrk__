@@ -1,5 +1,6 @@
 import { PostInputModel } from "../../input-output-types/blogsAndPost-types";
 import { db } from "../../db/db";
+import { blogsRepository } from "../blogs/blogsRepository";
 
 
 
@@ -16,10 +17,9 @@ export const postRepository = {
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: post.blogId,
-            blogName: post.blogName
-            
+            blogName: blogsRepository.find(post.blogId)!.name
         }
-
+//осталось пройти один тест
          db.posts = [...db.posts, newPost]
         return newPost;
     },
