@@ -19,7 +19,7 @@ exports.blogsControllers = {
     }),
     findBlogConstroller: ((req, res) => {
         const findBlog = blogsRepository_1.blogsRepository.find(req.params.id);
-        res.json(findBlog).status(200);
+        res.send(findBlog);
     }),
     updateBlogController: ((req, res) => {
         const updatedBlog = blogsRepository_1.blogsRepository.updateBlog(req.params.id, req.body);

@@ -28,7 +28,8 @@ export const blogsRepository = {
     },
 
 
-    find(id: string) {
+    async find(id: string): Promise<BlogInputModel | undefined> {
+        await new Promise(resolve => setTimeout(resolve, 1000))
         return db.blogs.find(b => b.id === id)
     },
 
