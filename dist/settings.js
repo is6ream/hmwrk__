@@ -7,10 +7,11 @@ exports.SETTINGS = {
     // все хардкодные значения должны быть здесь, для удобства их изменения
     PORT: process.env.PORT || 6000,
     PATH: {
-        BLOGS: '/hometask_02/api/blogs',
-        POSTS: '/hometask_02/api/posts'
+        BLOGS: '/blogs',
+        POSTS: '/posts'
     },
-    ADMIN: process.env.ADMIN || 'admin:qwerty'
+    MONGO_URL: process.env.MONGO_URL || 'mongodb://0.0.0.0:27017',
+    DB_NAME: process.env.DB_NAME || 'test'
 };
 exports.STATUSES = {
     OK_200: 200,

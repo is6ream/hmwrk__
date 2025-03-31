@@ -1,11 +1,11 @@
-export type BlogType = {
+export type BlogDBType = {
     id: string
     name: string
     description: string
     websiteUrl: string
 }
 
-export type PostType = {
+export type PostDBType = {
     id: string
     title: string
     shortDescription: string
@@ -14,8 +14,8 @@ export type PostType = {
     blogName: string
 }
 export type DBType = {
-    posts: PostType[],
-    blogs: BlogType[]
+    posts: PostDBType[],
+    blogs: BlogDBType[]
 }
 
 export const db: DBType = {
