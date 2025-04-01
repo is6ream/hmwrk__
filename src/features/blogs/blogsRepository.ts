@@ -17,7 +17,7 @@ export const blogsRepository = {
     },
 
     create(blog: BlogInputModel) {
-        const newBlog: BlogType = {
+        const newBlog: BlogDBType = {
             id: new Date().toISOString() + Math.random(),
             name: blog.name,
             description: blog.description,
@@ -27,12 +27,13 @@ export const blogsRepository = {
         return newBlog
     },
 
-
-    async find(id: string): Promise<BlogInputModel | undefined> {
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        return db.blogs.find(b => b.id === id)
+    find(id: string): BlogInputModel | null {
+        const findBlog = db.blogs.find(b => b.id === id);
+        if (!findBlog) {
+            return null
+        }
+        return findBlog;
     },
-
     updateBlog(id: string, updatedBlog: BlogInputModel) {
         const findBlog = db.blogs.find(b => b.id === id)
         if (!findBlog) {

@@ -1,28 +1,27 @@
-import { MongoClient, Collection } from "mongodb";
-import { BlogDBType, PostDBType } from "./db";
+//... здесь imports как я понял
+import { Collection, Db, MongoClient } from "mongodb";
 import { SETTINGS } from "../settings";
-import * as dotenv from 'dotenv';
+import { BlogDBType, PostDBType } from "./db";
 
-dotenv.config();
+//получение доступа к бд
+const client: MongoClient = new MongoClient(SETTINGS.MONGO_URL);
+export const db: Db = client.db(SETTINGS.DB_NAME);
 
-export let blogsCollection: any;
-export let postsCollection: any;
+//Получение доступа к коллекциям
+export const blogCollection: Collection<BlogDBType> = db.collection<BlogDBType>(SETTINGS.BLOG_COLLECTION_NAME)
+export const postCollection: Collection<PostDBType> = db.collection<PostDBType>(SETTINGS.POST_COLLECTION_NAME)
 
-export async function runDB(url: string): Promise<boolean>{
-    let client = new MongoClient(url);
-    let db = client.db(SETTINGS.DB_NAME);
-
-    blogsCollection = db.collection<BlogDBType>(SETTINGS.PATH.BLOGS)
-    postsCollection = db.collection<PostDBType>(SETTINGS.PATH.POSTS)
-
-    try{
-        await client.connect();
-        await db.command({ping: 1});
-        console.log('OK')
+//проверка подключения к бд
+export const connectToDB = async () => {
+    try {
+        await client.connect()
+        console.log('connected to db')
         return true
-    } catch(error){
-        console.log(error)
-        await client.close()
-        return false
+    } catch (e) {
+        {
+            console.log(e)
+            await client.close()
+            return false
+        }
     }
 }

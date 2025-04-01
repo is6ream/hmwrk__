@@ -1,6 +1,7 @@
 import { PostInputModel } from "../../input-output-types/blogsAndPost-types";
 import { db } from "../../db/db";
 import { blogsRepository } from "../blogs/blogsRepository";
+import { BlogInputModel } from "../../input-output-types/blogsAndPost-types";
 
 
 

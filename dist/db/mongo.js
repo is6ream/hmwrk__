@@ -48,6 +48,7 @@ const mongodb_1 = require("mongodb");
 const settings_1 = require("../settings");
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
+//задача - подключиться к mongodb
 function runDB(url) {
     return __awaiter(this, void 0, void 0, function* () {
         let client = new mongodb_1.MongoClient(url);
@@ -67,3 +68,4 @@ function runDB(url) {
         }
     });
 }
+//нужно в этой функции прописать connection string
