@@ -18,11 +18,9 @@ const mongo_1 = require("./db/mongo");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const mongoURI = process.env.MONGO_URL || 'mongodb://0.0.0.0:27017';
-console.log(process.env.MONGO_URI, 'here');
 const startApp = () => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield (0, mongo_1.runDB)(mongoURI);
-    if (!res)
-        process.exit(1);
+    const res = yield (0, mongo_1.runDB)(settings_1.SETTINGS.MONGO_URL);
+    //остановился тут, 
     app_1.app.listen(settings_1.SETTINGS.PORT, () => {
         console.log('...server started in port ' + settings_1.SETTINGS.PORT);
     });

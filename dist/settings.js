@@ -1,8 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.STATUSES = exports.SETTINGS = void 0;
-const dotenv_1 = require("dotenv");
-(0, dotenv_1.config)(); // добавление переменных из файла .env в process.env
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config(); // добавление переменных из файла .env в process.env
 exports.SETTINGS = {
     // все хардкодные значения должны быть здесь, для удобства их изменения
     PORT: process.env.PORT || 6000,
@@ -11,6 +14,8 @@ exports.SETTINGS = {
         POSTS: '/posts'
     },
     MONGO_URL: process.env.MONGO_URL || "mongodb://localhost:27017",
+    BLOG_COLLECTION_NAME: 'blogs',
+    POST_COLLECTION_NAME: 'posts',
     DB_NAME: process.env.DB_NAME || 'test',
     ADMIN: process.env.ADMIN || 'admin:qwerty'
 };
