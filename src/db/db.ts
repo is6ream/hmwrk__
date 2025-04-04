@@ -30,7 +30,7 @@ export const db: DBType = {
     }],
 
     posts: [{
-        id: "0",
+        id: "0111",
         title: "utro",
         shortDescription: "the best day",
         content: "newVideo",

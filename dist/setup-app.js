@@ -21,6 +21,8 @@ const express_1 = __importDefault(require("express"));
 const setupApp = (app) => __awaiter(void 0, void 0, void 0, function* () {
     app.use(express_1.default.json());
     // подключение БД
+    if (!process.env.MONGO_URL) {
+    }
     yield (0, mongo_1.runDB)(settings_1.SETTINGS.MONGO_URL);
     app.use(settings_1.SETTINGS.PATH.BLOGS, blogsRoutes_1.blogsRouter);
     app.use(settings_1.SETTINGS.PATH.POSTS, postRoutes_1.postsRouter);

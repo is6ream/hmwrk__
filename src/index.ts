@@ -1,19 +1,21 @@
-import { app } from './app'
-import { SETTINGS } from './settings'
+import express from 'express';
+import { setupApp } from './setup-app';
+import { SETTINGS } from './settings';
 import { runDB } from './db/mongo';
-import dotenv from "dotenv";
-import mongoose from "mongoose"
+import { app } from './app';
 
-dotenv.config()
 
-const mongoURI = process.env.MONGO_URL || 'mongodb://0.0.0.0:27017';
+const bootstrap = async () => {
 
-const startApp = async () => {
-    const res = await runDB(SETTINGS.MONGO_URL);
-//остановился тут, 
-    app.listen(SETTINGS.PORT, () => {
-        console.log('...server started in port ' + SETTINGS.PORT)
+    setupApp(app);
+    const port = SETTINGS.PORT;
+    await runDB(SETTINGS.MONGO_URL)
+
+    app.listen(port, () => {
+        console.log(`Example app listening on port ${port}`)
     })
+    return app;
 }
 
-startApp()
+bootstrap();
+

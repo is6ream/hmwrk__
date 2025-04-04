@@ -2,16 +2,17 @@ import { PostInputModel } from "../../input-output-types/blogsAndPost-types";
 import { db } from "../../db/db";
 import { blogsRepository } from "../blogs/blogsRepository";
 import { BlogInputModel } from "../../input-output-types/blogsAndPost-types";
+import { postCollection } from "../../db/mongo";
 
 
 
 
 export const postRepository = {
-    getAll() {
-        return db.posts;
+    async getAll() {
+        return postCollection.find()
     },
 
-    createPost(post: PostInputModel) {
+async     createPost(post: PostInputModel) {
         const newPost = {
             id: new Date().toISOString() + Math.random(),
             title: post.title,
@@ -22,6 +23,7 @@ export const postRepository = {
         }
 //осталось пройти один тест
          db.posts = [...db.posts, newPost]
+         await postCollection.insertOne(newPost)
         return newPost;
     },
 

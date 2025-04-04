@@ -12,5 +12,6 @@ app.get('/',(req, res) => {
 })
 
 
-app.use('/hometask_02/api/', blogsRouter, postsRouter); 
+
+app.use('/hometask_02/api', blogsRouter, postsRouter); 
 

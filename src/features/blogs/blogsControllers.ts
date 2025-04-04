@@ -22,7 +22,7 @@ export const blogsControllers = {
 
     findBlogConstroller: ((req: Request, res: Response) => {
         const findBlog = blogsRepository.find(req.params.id)
-            res.send(findBlog)
+        res.send(findBlog)
     }),
 
     updateBlogController: ((req: Request, res: Response) => {

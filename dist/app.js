@@ -14,4 +14,4 @@ exports.app.use((0, cors_1.default)()); // разрешить любым фро�
 exports.app.get('/', (req, res) => {
     res.status(200).json({ version: 1.0 });
 });
-exports.app.use('/hometask_02/api/', blogsRoutes_1.blogsRouter, postRoutes_1.postsRouter);
+exports.app.use('/hometask_02/api', blogsRoutes_1.blogsRouter, postRoutes_1.postsRouter);

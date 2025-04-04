@@ -10,6 +10,9 @@ export const setupApp = async (app: Express) => {
     app.use(express.json());
 
     // подключение БД
+    if(!process.env.MONGO_URL){
+        
+    }
     await runDB(SETTINGS.MONGO_URL);
 
     app.use(SETTINGS.PATH.BLOGS, blogsRouter);

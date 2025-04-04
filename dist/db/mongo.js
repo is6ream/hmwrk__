@@ -9,27 +9,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postsCollection = exports.blogsCollection = exports.client = void 0;
+exports.blogCollection = exports.postCollection = exports.client = void 0;
 exports.runDB = runDB;
 const mongodb_1 = require("mongodb");
 const settings_1 = require("../settings");
-const DRIVER_COLLECTION_NAME = 'drivers';
-// Подключения к бд
+const POST_COLLECTION_NAME = 'posts';
+const BLOG_COLLECTION_NAME = 'blogs';
+//Подключение к бд
 function runDB(url) {
     return __awaiter(this, void 0, void 0, function* () {
         exports.client = new mongodb_1.MongoClient(url);
         const db = exports.client.db(settings_1.SETTINGS.DB_NAME);
-        //Инициализация коллекций
-        exports.postsCollection = db.collection(settings_1.SETTINGS.POST_COLLECTION_NAME);
-        exports.blogsCollection = db.collection(settings_1.SETTINGS.ADMIN);
+        //Инициализация коллекций 
+        exports.postCollection = db.collection(POST_COLLECTION_NAME);
+        exports.blogCollection = db.collection(BLOG_COLLECTION_NAME);
         try {
             yield exports.client.connect();
             yield db.command({ ping: 1 });
             console.log('✅ Connected to the database');
         }
-        catch (e) {
+        catch (error) {
             yield exports.client.close();
-            throw new Error(`❌ Database not connected: ${e}`);
+            throw new Error(`❌ Database not connected: ${error}`);
         }
     });
 }
