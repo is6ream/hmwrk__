@@ -4,7 +4,7 @@ dotenv.config() // добавление переменных из файла .en
 if (!process.env.MONGO_URL) {
     console.log(process.env)
     throw new Error("MONGO_URL is not defined")
-    
+
 }
 
 export const SETTINGS = {

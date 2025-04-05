@@ -1,8 +1,6 @@
-import { websiteUrlValidator } from './middlewares/blogValidators';
+import { blogCollection } from './../../db/mongo';
 import { BlogInputModel } from './../../input-output-types/blogsAndPost-types';
 import { BlogDBType } from '../../db/db';
-import { db } from '../../db/db';
-import { blogCollection } from '../../db/mongo';
 import { ObjectId } from 'mongodb';
 
 
@@ -18,7 +16,8 @@ export const blogsRepository = {
             id: blog._id.toString(),
             name: blog.name,
             description: blog.description,
-            websiteUrl: blog.websiteUrl
+            websiteUrl: blog.websiteUrl,
+            isMembership: true
         }))
     },
     async create(blog: BlogInputModel): Promise<BlogDBType> {
@@ -27,9 +26,11 @@ export const blogsRepository = {
             name: blog.name,
             description: blog.description,
             websiteUrl: blog.websiteUrl,
+            isMembership: true
         }
         const result = await blogCollection.insertOne(newBlog);
-        return newBlog
+
+        return newBlog;
     },
 
     async find(id: string): Promise<BlogDBType | null> {
@@ -37,39 +38,28 @@ export const blogsRepository = {
         if (!findBlog) {
             return null
         }
+
         return {
             id: findBlog._id.toString(),
             name: findBlog.name,
             description: findBlog.description,
             websiteUrl: findBlog.websiteUrl,
+            isMembership: true
         };
     },
-    
+
     async updateBlog(id: string, updatedBlog: BlogInputModel) {
-        const findBlog = db.blogs.find(b => b.id === id)
-        if (!findBlog) {
+        const result = await blogCollection.updateOne({ id: id }, { $set: { updateBlog: updatedBlog } })
+        if (!result) {
             return { error: "Not found" }
         }
-        findBlog.name = updatedBlog.name
-        findBlog.description = updatedBlog.description
-        findBlog.websiteUrl = updatedBlog.websiteUrl
-
-        return findBlog;
+        return result;
     },
+
     async delete(id: string) {
-        let filteredBlogs = db.blogs.filter(b => b.id !== id)
-        if (!filteredBlogs) {
-            return { error: "Not found" }
-        }
-        db.blogs = filteredBlogs
-        return filteredBlogs;
+        const result = await blogCollection.deleteOne({ id: id });
+        return result;
     },
-
-    async clear() {
-        db.blogs = []
-    }
-
-
 }
 
 
