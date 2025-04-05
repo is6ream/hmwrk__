@@ -3,6 +3,7 @@ import { BlogInputModel } from './../../input-output-types/blogsAndPost-types';
 import { BlogDBType } from '../../db/db';
 import { db } from '../../db/db';
 import { blogCollection } from '../../db/mongo';
+import { ObjectId } from 'mongodb';
 
 
 export const blogsRepository = {
@@ -31,13 +32,19 @@ export const blogsRepository = {
         return newBlog
     },
 
-    async find(id: string): BlogInputModel | null {
-        const findBlog = db.blogs.find(b => b.id === id);
+    async find(id: string): Promise<BlogDBType | null> {
+        const findBlog = await blogCollection.findOne({ _id: new ObjectId(id) })
         if (!findBlog) {
             return null
         }
-        return findBlog;
+        return {
+            id: findBlog._id.toString(),
+            name: findBlog.name,
+            description: findBlog.description,
+            websiteUrl: findBlog.websiteUrl,
+        };
     },
+    
     async updateBlog(id: string, updatedBlog: BlogInputModel) {
         const findBlog = db.blogs.find(b => b.id === id)
         if (!findBlog) {
