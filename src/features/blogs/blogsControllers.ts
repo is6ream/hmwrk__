@@ -9,30 +9,29 @@ export const blogsControllers = {
         res.status(204).send()
     }),
 
-    getBlogsController: ((req: Request, res: Response) => {
-        const getAllBlogs = blogsRepository.getAll()
+    getBlogsController: (async (req: Request, res: Response) => {
+        const getAllBlogs = await blogsRepository.getAll()
         res.status(200).json(getAllBlogs)
         console.log('getBlogs')
     }),
 
-    createBlogController: ((req: Request, res: Response) => {
-        const createBlogs = blogsRepository.create(req.body)
+    createBlogController: (async (req: Request, res: Response) => {
+        const createBlogs = await blogsRepository.create(req.body)
         res.status(201).json(createBlogs)
     }),
 
-    findBlogConstroller: ((req: Request, res: Response) => {
-        const findBlog = blogsRepository.find(req.params.id)
+    findBlogConstroller: (async (req: Request, res: Response) => {
+        const findBlog = await blogsRepository.find(req.params.id)
         res.send(findBlog)
     }),
 
-    updateBlogController: ((req: Request, res: Response) => {
-        const updatedBlog = blogsRepository.updateBlog(req.params.id, req.body)
+    updateBlogController: (async (req: Request, res: Response) => {
+        const updatedBlog = await blogsRepository.updateBlog(req.params.id, req.body)
         res.status(204).send()
     }),
 
-    deleteBlogController: ((req: Request, res: Response) => {
-        const deletedBlog = blogsRepository.delete(req.params.id)
+    deleteBlogController: (async (req: Request, res: Response) => {
+        const deletedBlog = await blogsRepository.delete(req.params.id)
         res.status(204).send()
     })
-
 }
