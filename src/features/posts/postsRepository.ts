@@ -1,9 +1,8 @@
 import { PostInputModel } from "../../input-output-types/blogsAndPost-types";
-import { db } from "../../db/db";
 import { blogsRepository } from "../blogs/blogsRepository";
-import { BlogInputModel } from "../../input-output-types/blogsAndPost-types";
-import { postCollection } from "../../db/mongo";
-
+import { PostDBType } from "../../db/db";
+import { ObjectId } from "mongodb";
+import { blogCollection, postCollection } from "../../db/mongo";
 
 
 
@@ -12,46 +11,37 @@ export const postRepository = {
         return postCollection.find()
     },
 
-async     createPost(post: PostInputModel) {
+    async createPost(post: PostInputModel): Promise<PostDBType> {
+        const blog = await blogsRepository.find(post.blogId)
         const newPost = {
             id: new Date().toISOString() + Math.random(),
             title: post.title,
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: post.blogId,
-            blogName: blogsRepository.find(post.blogId)!.name
+            blogName: blog?.name || "Unknown",
+            createdAt: new Date().toISOString()
         }
-//осталось пройти один тест
-         db.posts = [...db.posts, newPost]
-         await postCollection.insertOne(newPost)
+        const result = await postCollection.insertOne(newPost);
         return newPost;
     },
 
-    findPost(id: string){
-        return db.posts.find(p => p.id === id)
+    async findPost(id: string): Promise<PostDBType | null> {
+        const findPost = await postCollection.findOne({ _id: new ObjectId(id) })
+        console.log(findPost)
+        if (!findPost) {
+            return null
+        } return findPost;
+    },
+    async updatePost(id: string, updatedPost: PostInputModel): Promise<Boolean> {
+        const result = await postCollection.updateOne({ id: id }, { $set: { updatedPost: updatedPost } });
+        if (!result) {
+            return false;
+        } return true
     },
 
-    updatePost(id: string, updatedPost: PostInputModel){
-        const findPost = db.posts.find(p => p.id === id)
-        if(!findPost){
-            return {error: "Not found!"}
-        }
-
-        findPost.title = updatedPost.title
-        findPost.shortDescription = updatedPost.shortDescription
-        findPost.content = updatedPost.content
-        findPost.blogId = updatedPost.blogId
-
-        return findPost
-    },
-
-    delete(id: string){
-        let filteredPosts = db.posts.filter(p => p.id !== id)
-        db.posts = filteredPosts;
-        return filteredPosts
-    },
-
-    clear(){
-        db.posts = []
+    async delete(id: string) {
+        const result = await blogCollection.deleteOne({ id: id });
+        return result
     }
 }

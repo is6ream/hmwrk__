@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postRepository = void 0;
-const db_1 = require("../../db/db");
 const blogsRepository_1 = require("../blogs/blogsRepository");
 const mongo_1 = require("../../db/mongo");
 exports.postRepository = {
@@ -30,16 +29,16 @@ exports.postRepository = {
                 blogName: blogsRepository_1.blogsRepository.find(post.blogId).name
             };
             //осталось пройти один тест
-            db_1.db.posts = [...db_1.db.posts, newPost];
+            db.posts = [...db.posts, newPost];
             yield mongo_1.postCollection.insertOne(newPost);
             return newPost;
         });
     },
     findPost(id) {
-        return db_1.db.posts.find(p => p.id === id);
+        return db.posts.find(p => p.id === id);
     },
     updatePost(id, updatedPost) {
-        const findPost = db_1.db.posts.find(p => p.id === id);
+        const findPost = db.posts.find(p => p.id === id);
         if (!findPost) {
             return { error: "Not found!" };
         }
@@ -50,11 +49,11 @@ exports.postRepository = {
         return findPost;
     },
     delete(id) {
-        let filteredPosts = db_1.db.posts.filter(p => p.id !== id);
-        db_1.db.posts = filteredPosts;
+        let filteredPosts = db.posts.filter(p => p.id !== id);
+        db.posts = filteredPosts;
         return filteredPosts;
     },
     clear() {
-        db_1.db.posts = [];
+        db.posts = [];
     }
 };

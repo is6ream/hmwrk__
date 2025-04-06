@@ -17,7 +17,7 @@ export const blogsRepository = {
             name: blog.name,
             description: blog.description,
             websiteUrl: blog.websiteUrl,
-            isMembership: true
+            isMembership: false
         }))
     },
     async create(blog: BlogInputModel): Promise<BlogDBType> {
@@ -26,7 +26,7 @@ export const blogsRepository = {
             name: blog.name,
             description: blog.description,
             websiteUrl: blog.websiteUrl,
-            isMembership: true
+            isMembership: false
         }
         const result = await blogCollection.insertOne(newBlog);
 
@@ -44,16 +44,16 @@ export const blogsRepository = {
             name: findBlog.name,
             description: findBlog.description,
             websiteUrl: findBlog.websiteUrl,
-            isMembership: true
+            isMembership: false
         };
     },
 
-    async updateBlog(id: string, updatedBlog: BlogInputModel) {
+    async updateBlog(id: string, updatedBlog: BlogInputModel): Promise<Boolean> {
         const result = await blogCollection.updateOne({ id: id }, { $set: { updateBlog: updatedBlog } })
         if (!result) {
-            return { error: "Not found" }
+            return false
         }
-        return result;
+        return true;
     },
 
     async delete(id: string) {

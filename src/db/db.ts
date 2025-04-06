@@ -26,6 +26,7 @@ export const db: DBType = {
         name: 'gufran',
         description: 'the best mosque in city',
         websiteUrl: 'https://ru.wikipedia.org/wiki/%D0%93%D1%83%D1%84%D1%80%D0%B0%D0%BD',
+        isMembership: true
 
 
     }],
@@ -36,7 +37,7 @@ export const db: DBType = {
         shortDescription: "the best day",
         content: "newVideo",
         blogId: "0", //возможно будет косяк
-        blogName: 'sss'        
+        blogName: 'sss'
     }]
 }
 
