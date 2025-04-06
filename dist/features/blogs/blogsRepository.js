@@ -27,7 +27,8 @@ exports.blogsRepository = {
                 name: blog.name,
                 description: blog.description,
                 websiteUrl: blog.websiteUrl,
-                isMembership: true
+                createdAt: blog.createdAt,
+                isMembership: false
             }));
         });
     },
@@ -38,7 +39,8 @@ exports.blogsRepository = {
                 name: blog.name,
                 description: blog.description,
                 websiteUrl: blog.websiteUrl,
-                isMembership: true
+                createdAt: new Date().toISOString(),
+                isMembership: false
             };
             const result = yield mongo_1.blogCollection.insertOne(newBlog);
             return newBlog;
@@ -55,22 +57,21 @@ exports.blogsRepository = {
                 name: findBlog.name,
                 description: findBlog.description,
                 websiteUrl: findBlog.websiteUrl,
-                isMembership: true
+                createdAt: findBlog.createdAt,
+                isMembership: false
             };
         });
     },
     updateBlog(id, updatedBlog) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield mongo_1.blogCollection.updateOne({ id: id }, { $set: { updateBlog: updatedBlog } });
-            if (!result) {
-                return { error: "Not found" };
-            }
-            return result;
+            const result = yield mongo_1.blogCollection.
+                updateOne({ _id: new mongodb_1.ObjectId(id) }, { $set: updatedBlog });
+            return result.matchedCount === 1;
         });
     },
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield mongo_1.blogCollection.deleteOne({ id: id });
+            const result = yield mongo_1.blogCollection.deleteOne({ _id: new mongodb_1.ObjectId(id) });
             return result;
         });
     },

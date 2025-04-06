@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postRepository = void 0;
 const blogsRepository_1 = require("../blogs/blogsRepository");
+const mongodb_1 = require("mongodb");
 const mongo_1 = require("../../db/mongo");
 exports.postRepository = {
     getAll() {
@@ -20,40 +21,43 @@ exports.postRepository = {
     },
     createPost(post) {
         return __awaiter(this, void 0, void 0, function* () {
+            const blog = yield blogsRepository_1.blogsRepository.find(post.blogId);
             const newPost = {
                 id: new Date().toISOString() + Math.random(),
                 title: post.title,
                 shortDescription: post.shortDescription,
                 content: post.content,
                 blogId: post.blogId,
-                blogName: blogsRepository_1.blogsRepository.find(post.blogId).name
+                blogName: (blog === null || blog === void 0 ? void 0 : blog.name) || "Unknown",
+                createdAt: new Date().toISOString()
             };
-            //осталось пройти один тест
-            db.posts = [...db.posts, newPost];
-            yield mongo_1.postCollection.insertOne(newPost);
+            const result = yield mongo_1.postCollection.insertOne(newPost);
             return newPost;
         });
     },
     findPost(id) {
-        return db.posts.find(p => p.id === id);
+        return __awaiter(this, void 0, void 0, function* () {
+            const findPost = yield mongo_1.postCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
+            console.log(findPost);
+            if (!findPost) {
+                return null;
+            }
+            return findPost;
+        });
     },
     updatePost(id, updatedPost) {
-        const findPost = db.posts.find(p => p.id === id);
-        if (!findPost) {
-            return { error: "Not found!" };
-        }
-        findPost.title = updatedPost.title;
-        findPost.shortDescription = updatedPost.shortDescription;
-        findPost.content = updatedPost.content;
-        findPost.blogId = updatedPost.blogId;
-        return findPost;
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield mongo_1.postCollection.updateOne({ id: id }, { $set: { updatedPost: updatedPost } });
+            if (!result) {
+                return false;
+            }
+            return true;
+        });
     },
     delete(id) {
-        let filteredPosts = db.posts.filter(p => p.id !== id);
-        db.posts = filteredPosts;
-        return filteredPosts;
-    },
-    clear() {
-        db.posts = [];
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield mongo_1.blogCollection.deleteOne({ id: id });
+            return result;
+        });
     }
 };

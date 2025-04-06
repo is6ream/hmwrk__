@@ -1,12 +1,12 @@
-import { db } from './../../db/db';
+// import { db } from './../../db/db';
 import { Request, Response } from "express";
 import { postRepository } from './postsRepository';
 
 export const postsControllers = {
-    deleteAllDataController: ((req: Request, res: Response) => {
-        db.blogs = [];
-        res.status(204).send()
-    }),
+    // deleteAllDataController: ((req: Request, res: Response) => {
+    //     db.blogs = [];
+    //     res.status(204).send()
+    // }),
 
     getPostController: ((req: Request, res: Response) => {
         const getAllPosts = postRepository.getAll()

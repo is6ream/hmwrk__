@@ -17,6 +17,7 @@ export const blogsRepository = {
             name: blog.name,
             description: blog.description,
             websiteUrl: blog.websiteUrl,
+            createdAt: blog.createdAt,
             isMembership: false
         }))
     },
@@ -26,6 +27,7 @@ export const blogsRepository = {
             name: blog.name,
             description: blog.description,
             websiteUrl: blog.websiteUrl,
+            createdAt: new Date().toISOString(),
             isMembership: false
         }
         const result = await blogCollection.insertOne(newBlog);
@@ -44,20 +46,21 @@ export const blogsRepository = {
             name: findBlog.name,
             description: findBlog.description,
             websiteUrl: findBlog.websiteUrl,
+            createdAt: findBlog.createdAt,
             isMembership: false
         };
     },
 
     async updateBlog(id: string, updatedBlog: BlogInputModel): Promise<Boolean> {
-        const result = await blogCollection.updateOne({ id: id }, { $set: { updateBlog: updatedBlog } })
-        if (!result) {
-            return false
-        }
-        return true;
+        const result = await blogCollection.
+            updateOne({ _id: new ObjectId(id) },
+                { $set: updatedBlog })
+        return result.matchedCount === 1;
+
     },
 
     async delete(id: string) {
-        const result = await blogCollection.deleteOne({ id: id });
+        const result = await blogCollection.deleteOne({ _id: new ObjectId(id) });
         return result;
     },
 }

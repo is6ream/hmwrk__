@@ -3,6 +3,7 @@ export type BlogDBType = {
     name: string
     description: string
     websiteUrl: string
+    createdAt: string
     isMembership: boolean
 }
 
@@ -19,37 +20,37 @@ export type DBType = {
     blogs: BlogDBType[]
 }
 
-export const db: DBType = {
+// export const db: DBType = {
 
-    blogs: [{
-        id: '0',
-        name: 'gufran',
-        description: 'the best mosque in city',
-        websiteUrl: 'https://ru.wikipedia.org/wiki/%D0%93%D1%83%D1%84%D1%80%D0%B0%D0%BD',
-        isMembership: true
+//     blogs: [{
+//         id: '0',
+//         name: 'gufran',
+//         description: 'the best mosque in city',
+//         websiteUrl: 'https://ru.wikipedia.org/wiki/%D0%93%D1%83%D1%84%D1%80%D0%B0%D0%BD',
+//         isMembership: true
 
 
-    }],
+//     }],
 
-    posts: [{
-        id: "0111",
-        title: "utro",
-        shortDescription: "the best day",
-        content: "newVideo",
-        blogId: "0", //возможно будет косяк
-        blogName: 'sss'
-    }]
-}
+//     posts: [{
+//         id: "0111",
+//         title: "utro",
+//         shortDescription: "the best day",
+//         content: "newVideo",
+//         blogId: "0", //возможно будет косяк
+//         blogName: 'sss'
+//     }]
+// }
 
-export const setDB = (dataset?: Partial<DBType>) => {
-    if (!dataset) { //значит очищаем базу
-        db.blogs = []
-        db.posts = []
-        return
-    }
-    db.blogs = dataset.blogs || db.blogs //заменяем старые значения новыми
-    db.posts = dataset.posts || db.posts //заменяем старые значения новыми
-}
+// export const setDB = (dataset?: Partial<DBType>) => {
+//     if (!dataset) { //значит очищаем базу
+//         db.blogs = []
+//         db.posts = []
+//         return
+//     }
+//     db.blogs = dataset.blogs || db.blogs //заменяем старые значения новыми
+//     db.posts = dataset.posts || db.posts //заменяем старые значения новыми
+// }
 
 //---Generic
 export type A = {
