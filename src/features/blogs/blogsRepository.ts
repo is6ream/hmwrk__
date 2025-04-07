@@ -23,7 +23,6 @@ export const blogsRepository = {
     },
     async create(blog: BlogInputModel): Promise<BlogDBType> {
         const newBlog: BlogDBType = {
-            id: new Date().toISOString() + Math.random(),
             name: blog.name,
             description: blog.description,
             websiteUrl: blog.websiteUrl,
@@ -32,7 +31,10 @@ export const blogsRepository = {
         }
         const result = await blogCollection.insertOne(newBlog);
 
-        return newBlog;
+        return {
+            id: result.insertedId.toString(),
+            ...newBlog
+        };
     },
 
     async find(id: string): Promise<BlogDBType | null> {

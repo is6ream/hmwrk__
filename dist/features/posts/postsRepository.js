@@ -35,7 +35,6 @@ exports.postRepository = {
             };
             const result = yield mongo_1.postCollection.insertOne(newPost);
             return Object.assign({ id: result.insertedId.toString() }, newPost);
-            //из-за данного метода падает сервер
         });
     },
     findPost(id) {
@@ -68,26 +67,4 @@ exports.postRepository = {
             return result;
         });
     }
-};
-const posts = await mongo_1.postCollection.find().toArray();
-const posts = await mongo_1.postCollection.find({}, { projection: { title: 'jam' } }).toArray();
-const posts = await mongo_1.postCollection.find({}, { projection: { _id: 0 } }).toArray();
-const post = await mongo_1.postCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
-const insertResult = await mongo_1.postCollection.insertOne(newPost); //в ответе от insertOne приходит objectId 
-const updateResult = await mongo_1.postCollection.updateOne({ _id: new mongodb_1.ObjectId(id) });
-class User {
-    constructor(name) {
-        this.name = name;
-    }
-    sayHi() {
-        alert(this.name);
-    }
-}
-let user = new User('Slam');
-user.sayHi();
-function Admin(name) {
-    this.name = name;
-}
-Admin.prototype.sayHi = function () {
-    alert(this.name);
 };

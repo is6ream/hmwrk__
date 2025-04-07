@@ -1,5 +1,5 @@
 export type BlogDBType = {
-    id: string
+    id?: string
     name: string
     description: string
     websiteUrl: string

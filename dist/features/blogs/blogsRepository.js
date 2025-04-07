@@ -35,7 +35,6 @@ exports.blogsRepository = {
     create(blog) {
         return __awaiter(this, void 0, void 0, function* () {
             const newBlog = {
-                id: new Date().toISOString() + Math.random(),
                 name: blog.name,
                 description: blog.description,
                 websiteUrl: blog.websiteUrl,
@@ -43,7 +42,7 @@ exports.blogsRepository = {
                 isMembership: false
             };
             const result = yield mongo_1.blogCollection.insertOne(newBlog);
-            return newBlog;
+            return Object.assign({ id: result.insertedId.toString() }, newBlog);
         });
     },
     find(id) {
