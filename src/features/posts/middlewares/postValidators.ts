@@ -1,15 +1,22 @@
-import { body, validationResult } from "express-validator"
+import { body, validationResult, param } from "express-validator"
 import { NextFunction, Request, Response } from "express"
 import { inputCheckErrorsMiddleware } from "../../../global-middlewares/inputCheckErrorsMiddleware"
 import { adminMiddleware } from "../../../global-middlewares/admin-middleware"
 import { blogsRepository } from "../../blogs/blogsRepository"
 import { postRepository } from "../postsRepository"
-import { PostInputModel } from "../../../input-output-types/blogsAndPost-types"
 //// title: string // max 30
 // shortDescription: string // max 100
 // content: string // max 1000
 // blogId: string // valid
 
+
+export const idValidation = param('id')
+    .exists()
+    .withMessage('ID is required') //проверка на наличие
+    .isString()
+    .withMessage('ID must be a string') //проверка что это строка
+    .isMongoId()
+    .withMessage('Incorrect format of ObjectId')//проверка на формат ObjectId
 
 export const titleValidator = body('title').isString().withMessage('not string')
     .trim().isLength({ min: 1, max: 30 }).withMessage('more then 30 or 0')
@@ -43,5 +50,6 @@ export const postValidators = [
     shortDescriptionValidator,
     contentValidator,
     blogIdValidator,
-    inputCheckErrorsMiddleware
+    inputCheckErrorsMiddleware,
+    idValidation
 ]

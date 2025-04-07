@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postValidators = exports.findPostValidator = exports.blogIdValidator = exports.contentValidator = exports.shortDescriptionValidator = exports.titleValidator = void 0;
+exports.postValidators = exports.findPostValidator = exports.blogIdValidator = exports.contentValidator = exports.shortDescriptionValidator = exports.titleValidator = exports.idValidation = void 0;
 const express_validator_1 = require("express-validator");
 const inputCheckErrorsMiddleware_1 = require("../../../global-middlewares/inputCheckErrorsMiddleware");
 const admin_middleware_1 = require("../../../global-middlewares/admin-middleware");
@@ -10,6 +10,13 @@ const postsRepository_1 = require("../postsRepository");
 // shortDescription: string // max 100
 // content: string // max 1000
 // blogId: string // valid
+exports.idValidation = (0, express_validator_1.param)('id')
+    .exists()
+    .withMessage('ID is required') //проверка на наличие
+    .isString()
+    .withMessage('ID must be a string') //проверка что это строка
+    .isMongoId()
+    .withMessage('Incorrect format of ObjectId'); //проверка на формат ObjectId
 exports.titleValidator = (0, express_validator_1.body)('title').isString().withMessage('not string')
     .trim().isLength({ min: 1, max: 30 }).withMessage('more then 30 or 0');
 exports.shortDescriptionValidator = (0, express_validator_1.body)('shortDescription').isString().withMessage('not string')
@@ -39,5 +46,6 @@ exports.postValidators = [
     exports.shortDescriptionValidator,
     exports.contentValidator,
     exports.blogIdValidator,
-    inputCheckErrorsMiddleware_1.inputCheckErrorsMiddleware
+    inputCheckErrorsMiddleware_1.inputCheckErrorsMiddleware,
+    exports.idValidation
 ];

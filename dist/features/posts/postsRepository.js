@@ -22,21 +22,28 @@ exports.postRepository = {
     createPost(post) {
         return __awaiter(this, void 0, void 0, function* () {
             const blog = yield blogsRepository_1.blogsRepository.find(post.blogId);
+            if (!blog) {
+                throw new Error('Blog not found');
+            }
             const newPost = {
-                id: new Date().toISOString() + Math.random(),
                 title: post.title,
                 shortDescription: post.shortDescription,
                 content: post.content,
                 blogId: post.blogId,
                 blogName: (blog === null || blog === void 0 ? void 0 : blog.name) || "Unknown",
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
             };
             const result = yield mongo_1.postCollection.insertOne(newPost);
-            return newPost;
+            return Object.assign({ id: result.insertedId.toString() }, newPost);
+            //из-за данного метода падает сервер
         });
     },
     findPost(id) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (!mongodb_1.ObjectId.isValid(id)) {
+                console.log("Invalid objectId: ", id);
+                return null;
+            }
             const findPost = yield mongo_1.postCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
             console.log(findPost);
             if (!findPost) {
@@ -47,17 +54,40 @@ exports.postRepository = {
     },
     updatePost(id, updatedPost) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield mongo_1.postCollection.updateOne({ id: id }, { $set: { updatedPost: updatedPost } });
-            if (!result) {
-                return false;
+            if (!mongodb_1.ObjectId.isValid(id)) {
+                console.log("Invalid objectId: ", id);
+                return null;
             }
-            return true;
+            const result = yield mongo_1.postCollection.updateOne({ _id: new mongodb_1.ObjectId(id) }, { $set: { updatedPost: updatedPost } });
+            return result.matchedCount === 1;
         });
     },
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield mongo_1.blogCollection.deleteOne({ id: id });
+            const result = yield mongo_1.blogCollection.deleteOne({ _id: new mongodb_1.ObjectId(id) });
             return result;
         });
     }
+};
+const posts = await mongo_1.postCollection.find().toArray();
+const posts = await mongo_1.postCollection.find({}, { projection: { title: 'jam' } }).toArray();
+const posts = await mongo_1.postCollection.find({}, { projection: { _id: 0 } }).toArray();
+const post = await mongo_1.postCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
+const insertResult = await mongo_1.postCollection.insertOne(newPost); //в ответе от insertOne приходит objectId 
+const updateResult = await mongo_1.postCollection.updateOne({ _id: new mongodb_1.ObjectId(id) });
+class User {
+    constructor(name) {
+        this.name = name;
+    }
+    sayHi() {
+        alert(this.name);
+    }
+}
+let user = new User('Slam');
+user.sayHi();
+function Admin(name) {
+    this.name = name;
+}
+Admin.prototype.sayHi = function () {
+    alert(this.name);
 };
