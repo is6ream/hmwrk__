@@ -8,10 +8,12 @@ import { blogCollection, postCollection } from "../../db/mongo";
 
 export const postRepository = {
     async getAll() {
-        return postCollection.find()
+        return postCollection.find().toArray()
     },
 
     async createPost(post: PostInputModel): Promise<PostDBType> {
+        //достаем блог по id, переданному в боди поста
+        
         const blog = await blogsRepository.find(post.blogId);
         if (!blog) {
             throw new Error('Blog not found')
@@ -21,24 +23,20 @@ export const postRepository = {
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: post.blogId,
-            blogName: blog?.name || "Unknown",
+            blogName: blog?.name,
             createdAt: new Date().toISOString(),
         }
+        
         const result = await postCollection.insertOne(newPost);
-        return {
-            id: result.insertedId.toString(),
-            ...newPost
-        }
+        return newPost
     },
 
     async findPost(id: string): Promise<PostDBType | null> {
         if (!ObjectId.isValid(id)) {
-            console.log("Invalid objectId: ", id);
             return null
         }
 
         const findPost = await postCollection.findOne({ _id: new ObjectId(id) })
-        console.log(findPost)
         if (!findPost) {
             return null
         } return findPost;

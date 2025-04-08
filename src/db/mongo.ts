@@ -27,3 +27,9 @@ export async function runDB(url: string): Promise<void> {
         throw new Error(`❌ Database not connected: ${error}`)
     }
 }
+
+export async function clearDatabase() {
+    await blogCollection.deleteMany({})
+    await postCollection.deleteMany({})
+}
+

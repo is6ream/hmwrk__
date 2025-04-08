@@ -8,28 +8,28 @@ export const postsControllers = {
     //     res.status(204).send()
     // }),
 
-    getPostController: ((req: Request, res: Response) => {
-        const getAllPosts = postRepository.getAll()
+    getPostController: (async (req: Request, res: Response) => {
+        const getAllPosts = await postRepository.getAll()
         res.status(200).json(getAllPosts)
     }),
 
-    createPostController: ((req: Request, res: Response) => {
-        const createdPost = postRepository.createPost(req.body)
+    createPostController: (async (req: Request, res: Response) => {
+        const createdPost = await postRepository.createPost(req.body)
         res.status(201).json(createdPost)
     }),
 
-    findPostController: ((req: Request, res: Response) => {
-        const findedPost = postRepository.findPost(req.params.id)
+    findPostController: (async (req: Request, res: Response) => {
+        const findedPost = await postRepository.findPost(req.params.id)
         res.json(findedPost)
     }),
 
-    updatePostController: ((req: Request, res: Response) => {
-        const updatedPost = postRepository.updatePost(req.params.id, req.body)
+    updatePostController: (async (req: Request, res: Response) => {
+        const updatedPost = await postRepository.updatePost(req.params.id, req.body)
         res.status(204).send()
     }),
 
-    deletePostController: ((req: Request, res: Response) => {
-        const deletedPost = postRepository.delete(req.params.id)
+    deletePostController: (async (req: Request, res: Response) => {
+        const deletedPost = await postRepository.delete(req.params.id)
         res.status(204).send()
     })
 }

@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogCollection = exports.postCollection = exports.client = void 0;
 exports.runDB = runDB;
+exports.clearDatabase = clearDatabase;
 const mongodb_1 = require("mongodb");
 const settings_1 = require("../settings");
 const POST_COLLECTION_NAME = 'posts';
@@ -32,5 +33,11 @@ function runDB(url) {
             yield exports.client.close();
             throw new Error(`❌ Database not connected: ${error}`);
         }
+    });
+}
+function clearDatabase() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield exports.blogCollection.deleteMany({});
+        yield exports.postCollection.deleteMany({});
     });
 }
