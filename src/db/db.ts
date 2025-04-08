@@ -13,8 +13,8 @@ export type PostDBType = {
     shortDescription: string
     content: string
     blogId: string
-    blogName: string
-    createdAt: string
+    blogName?: string
+    createdAt?: string
 }
 export type DBType = {
     posts: PostDBType[],

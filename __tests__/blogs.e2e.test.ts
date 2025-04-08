@@ -1,10 +1,6 @@
-import { req } from './helpers/test-helpers'
-import { SETTINGS } from '../src/settings'
 import { BlogInputModel } from '../src/input-output-types/blogsAndPost-types'
-import { codedAuth, createString, dataset1 } from './helpers/datasets'
 import { blogCollection, clearDatabase, runDB } from '../src/db/mongo'
 import { blogsRepository } from '../src/features/blogs/blogsRepository'
-import { get } from 'http'
 
 
 describe('/blogs', () => {
@@ -48,12 +44,23 @@ describe('/blogs', () => {
             ])
         }),
 
-        it('should delete created blog', async () => {
-            const deletedBlog = await blogsRepository.delete(createdBlogId);
-            expect(deletedBlog.deletedCount).toBe(1)
-
-            const remainingBlogs = await blogCollection.find({}).toArray();
-            expect(remainingBlogs).toEqual([])
+        it('should update created blog', async () => {
+            const updatedBlog = await blogsRepository.updateBlog(createdBlogId, {
+                name: 'kkk',
+                description: 'sss',
+                websiteUrl: 'https://www.youtube.com/'
+            })
+            const findBlog = await blogsRepository.find(createdBlogId)
+            expect(updatedBlog).toEqual(true)
         })
+
+    it('should delete created blog', async () => {
+        const deletedBlog = await blogsRepository.delete(createdBlogId);
+        expect(deletedBlog.deletedCount).toBe(1)
+
+        const remainingBlogs = await blogCollection.find({}).toArray();
+        expect(remainingBlogs).toEqual([])
+    })
+
 })
 

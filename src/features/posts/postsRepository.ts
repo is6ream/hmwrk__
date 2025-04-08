@@ -18,7 +18,7 @@ export const postRepository = {
         if (!blog) {
             throw new Error('Blog not found')
         }
-        const newPost = {
+        const newPost: PostInputModel = {
             title: post.title,
             shortDescription: post.shortDescription,
             content: post.content,
@@ -31,7 +31,7 @@ export const postRepository = {
         return newPost
     },
 
-    async findPost(id: string): Promise<PostDBType | null> {
+    async findPost(id: string | undefined): Promise<PostDBType | null> {
         if (!ObjectId.isValid(id)) {
             return null
         }

@@ -37,7 +37,7 @@ export const blogsRepository = {
         };
     },
 
-    async find(id: string): Promise<BlogDBType | null> {
+    async find(id: string | undefined): Promise<BlogDBType | null> {
         const findBlog = await blogCollection.findOne({ _id: new ObjectId(id) })
         if (!findBlog) {
             return null
@@ -53,7 +53,7 @@ export const blogsRepository = {
         };
     },
 
-    async updateBlog(id: string, updatedBlog: BlogInputModel): Promise<Boolean> {
+    async updateBlog(id: string | undefined, updatedBlog: BlogInputModel): Promise<Boolean> {
         const result = await blogCollection.
             updateOne({ _id: new ObjectId(id) },
                 { $set: updatedBlog })

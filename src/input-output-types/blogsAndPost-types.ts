@@ -1,30 +1,31 @@
-export type BlogInputModel = {
-    name: string
-    description: string
-    websiteUrl: string
-}
-
-export type PostInputModel = {
-    title: string
-    shortDescription: string
-    content: string
-    blogId: string
-    blogName: string 
-    createdAt: string
-}
-
-export type BlogViewModel = {
-    id: string
-    name: string
-    description: string
+export type BlogBase = {
+    name: string,
+    description: string,
     webSiteUrl: string
 }
 
-export type PostViewModel = {
-    id: string
+export type PostBase = {
     title: string
     shortDescription: string
     content: string
     blogId: string
-    blogName: string
 }
+
+export type BlogDBType = BlogBase & {
+    id: string
+    createdAt: string
+    isMembership: boolean
+}
+
+export type PostDBType = PostBase & {
+    id: string
+    blogName: string
+    createdAt: string
+}
+
+
+export type BlogInputModel = BlogBase;
+export type PostInputModel = PostBase;
+
+
+
