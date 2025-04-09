@@ -1,6 +1,6 @@
 import { PostInputModel } from "../../input-output-types/blogsAndPost-types";
 import { blogsRepository } from "../blogs/blogsRepository";
-import { PostDBType } from "../../db/db";
+import { PostDBType } from "../../input-output-types/blogsAndPost-types";
 import { ObjectId } from "mongodb";
 import { blogCollection, postCollection } from "../../db/mongo";
 
@@ -13,12 +13,13 @@ export const postRepository = {
 
     async createPost(post: PostInputModel): Promise<PostDBType> {
         //достаем блог по id, переданному в боди поста
-        
+
         const blog = await blogsRepository.find(post.blogId);
         if (!blog) {
             throw new Error('Blog not found')
         }
         const newPost: PostInputModel = {
+            id: new ObjectId().toString(), //остановился тут
             title: post.title,
             shortDescription: post.shortDescription,
             content: post.content,
@@ -26,20 +27,22 @@ export const postRepository = {
             blogName: blog?.name,
             createdAt: new Date().toISOString(),
         }
-        
+
         const result = await postCollection.insertOne(newPost);
         return newPost
     },
 
     async findPost(id: string | undefined): Promise<PostDBType | null> {
-        if (!ObjectId.isValid(id)) {
+        if (!id || !ObjectId.isValid(id)) {
             return null
         }
-
-        const findPost = await postCollection.findOne({ _id: new ObjectId(id) })
-        if (!findPost) {
+        try {
+            const findPost = await postCollection.findOne({ _id: new ObjectId(id) })
+            return findPost || null
+        } catch (error) {
+            console.log('Error finding post:', error)
             return null
-        } return findPost;
+        }
     },
     async updatePost(id: string, updatedPost: PostInputModel): Promise<Boolean | null> {
         if (!ObjectId.isValid(id)) {

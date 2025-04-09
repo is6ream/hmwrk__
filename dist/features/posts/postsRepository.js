@@ -27,6 +27,7 @@ exports.postRepository = {
                 throw new Error('Blog not found');
             }
             const newPost = {
+                id: new mongodb_1.ObjectId().toString(), //остановился тут
                 title: post.title,
                 shortDescription: post.shortDescription,
                 content: post.content,
@@ -40,14 +41,17 @@ exports.postRepository = {
     },
     findPost(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!mongodb_1.ObjectId.isValid(id)) {
+            if (!id || !mongodb_1.ObjectId.isValid(id)) {
                 return null;
             }
-            const findPost = yield mongo_1.postCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
-            if (!findPost) {
+            try {
+                const findPost = yield mongo_1.postCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
+                return findPost || null;
+            }
+            catch (error) {
+                console.log('Error finding post:', error);
                 return null;
             }
-            return findPost;
         });
     },
     updatePost(id, updatedPost) {

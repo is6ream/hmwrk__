@@ -1,6 +1,6 @@
+import { Response } from 'express';
 import { blogCollection } from './../../db/mongo';
-import { BlogInputModel } from './../../input-output-types/blogsAndPost-types';
-import { BlogDBType } from '../../db/db';
+import { BlogInputModel, BlogDBType } from './../../input-output-types/blogsAndPost-types';
 import { ObjectId } from 'mongodb';
 
 
@@ -16,25 +16,24 @@ export const blogsRepository = {
             id: blog._id.toString(),
             name: blog.name,
             description: blog.description,
-            websiteUrl: blog.websiteUrl,
+            webSiteUrl: blog.webSiteUrl,
             createdAt: blog.createdAt,
             isMembership: false
         }))
     },
+
     async create(blog: BlogInputModel): Promise<BlogDBType> {
         const newBlog: BlogDBType = {
+            id: new Date().toISOString(),
             name: blog.name,
             description: blog.description,
-            websiteUrl: blog.websiteUrl,
+            webSiteUrl: blog.webSiteUrl,
             createdAt: new Date().toISOString(),
-            isMembership: false
+            isMembership: false,
         }
-        const result = await blogCollection.insertOne(newBlog);
 
-        return {
-            id: result.insertedId.toString(),
-            ...newBlog
-        };
+        const result = await blogCollection.insertOne(newBlog);
+        return newBlog
     },
 
     async find(id: string | undefined): Promise<BlogDBType | null> {
@@ -47,7 +46,7 @@ export const blogsRepository = {
             id: findBlog._id.toString(),
             name: findBlog.name,
             description: findBlog.description,
-            websiteUrl: findBlog.websiteUrl,
+            webSiteUrl: findBlog.webSiteUrl,
             createdAt: findBlog.createdAt,
             isMembership: false
         };

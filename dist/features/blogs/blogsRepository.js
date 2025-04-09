@@ -26,7 +26,7 @@ exports.blogsRepository = {
                 id: blog._id.toString(),
                 name: blog.name,
                 description: blog.description,
-                websiteUrl: blog.websiteUrl,
+                webSiteUrl: blog.webSiteUrl,
                 createdAt: blog.createdAt,
                 isMembership: false
             }));
@@ -35,14 +35,15 @@ exports.blogsRepository = {
     create(blog) {
         return __awaiter(this, void 0, void 0, function* () {
             const newBlog = {
+                id: new Date().toISOString(),
                 name: blog.name,
                 description: blog.description,
-                websiteUrl: blog.websiteUrl,
+                webSiteUrl: blog.webSiteUrl,
                 createdAt: new Date().toISOString(),
-                isMembership: false
+                isMembership: false,
             };
             const result = yield mongo_1.blogCollection.insertOne(newBlog);
-            return Object.assign({ id: result.insertedId.toString() }, newBlog);
+            return newBlog;
         });
     },
     find(id) {
@@ -55,7 +56,7 @@ exports.blogsRepository = {
                 id: findBlog._id.toString(),
                 name: findBlog.name,
                 description: findBlog.description,
-                websiteUrl: findBlog.websiteUrl,
+                webSiteUrl: findBlog.webSiteUrl,
                 createdAt: findBlog.createdAt,
                 isMembership: false
             };
