@@ -14,7 +14,7 @@ export const postRepository = {
     async createPost(post: PostInputModel): Promise<PostDBType> {
         //достаем блог по id, переданному в боди поста
 
-        const blog = await blogsRepository.find(post.blogId);
+        const blog = await blogsRepository.findById(post.blogId);
         if (!blog) {
             throw new Error('Blog not found')
         }

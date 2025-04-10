@@ -17,12 +17,13 @@ export const blogsControllers = {
     }),
 
     createBlogController: (async (req: Request, res: Response) => {
-        const createBlogs = await blogsRepository.create(req.body)
+        const createBlogs = await blogsRepository.createBlog(req.body)
         res.status(201).json(createBlogs)
     }),
 
     findBlogConstroller: (async (req: Request, res: Response) => {
-        const findBlog = await blogsRepository.find(req.params.id)
+        const findBlog = await blogsRepository.findById(req.params.id)
+        console.log(findBlog)
         res.send(findBlog)
     }),
 

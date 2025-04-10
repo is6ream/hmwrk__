@@ -23,7 +23,7 @@ exports.websiteUrlValidator = (0, express_validator_1.body)('websiteUrl').isStri
     .trim().isURL().withMessage('not url')
     .isLength({ min: 1, max: 100 }).withMessage('more then 100 or 0');
 const findBlogValidator = (req, res, next) => {
-    const blog = blogsRepository_1.blogsRepository.find(req.params.id);
+    const blog = blogsRepository_1.blogsRepository.findById(req.params.id);
     if (!blog) {
         res
             .status(404)

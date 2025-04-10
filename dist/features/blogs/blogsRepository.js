@@ -19,50 +19,28 @@ exports.blogsRepository = {
             return deletedBlogs;
         });
     },
-    // async getAll(): Promise<BlogDBType[]> {
-    //     const blogs = await blogCollection.find({}).toArray();
-    //     return blogs.map(blog => ({
-    //         id: blog._id.toString(),
-    //         name: blog.name,
-    //         description: blog.description,
-    //         webSiteUrl: blog.webSiteUrl,
-    //         createdAt: blog.createdAt,
-    //         isMembership: false
-    //     }))
-    // },
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
             return mongo_1.blogCollection.find().toArray();
         });
     },
-    create(blog) {
+    createBlog(newBlog) {
         return __awaiter(this, void 0, void 0, function* () {
-            const newBlog = {
+            const blog = {
                 id: new Date().toISOString(),
-                name: blog.name,
-                description: blog.description,
-                webSiteUrl: blog.webSiteUrl,
+                name: newBlog.name,
+                description: newBlog.description,
+                webSiteUrl: newBlog.webSiteUrl,
                 createdAt: new Date().toISOString(),
-                isMembership: false,
+                isMembership: true
             };
-            const result = yield mongo_1.blogCollection.insertOne(newBlog);
-            return newBlog;
+            const insertResult = yield mongo_1.blogCollection.insertOne(blog);
+            return Object.assign(Object.assign({}, blog), { _id: insertResult.insertedId });
         });
     },
-    find(id) {
+    findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const findBlog = yield mongo_1.blogCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
-            if (!findBlog) {
-                return null;
-            }
-            return {
-                id: findBlog._id.toString(),
-                name: findBlog.name,
-                description: findBlog.description,
-                webSiteUrl: findBlog.webSiteUrl,
-                createdAt: findBlog.createdAt,
-                isMembership: false
-            };
+            return mongo_1.blogCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
         });
     },
     updateBlog(id, updatedBlog) {

@@ -22,7 +22,7 @@ exports.postRepository = {
     createPost(post) {
         return __awaiter(this, void 0, void 0, function* () {
             //достаем блог по id, переданному в боди поста
-            const blog = yield blogsRepository_1.blogsRepository.find(post.blogId);
+            const blog = yield blogsRepository_1.blogsRepository.findById(post.blogId);
             if (!blog) {
                 throw new Error('Blog not found');
             }

@@ -9,51 +9,26 @@ export const blogsRepository = {
         const deletedBlogs = await blogCollection.deleteMany({});
         return deletedBlogs;
     },
-
-    // async getAll(): Promise<BlogDBType[]> {
-    //     const blogs = await blogCollection.find({}).toArray();
-    //     return blogs.map(blog => ({
-    //         id: blog._id.toString(),
-    //         name: blog.name,
-    //         description: blog.description,
-    //         webSiteUrl: blog.webSiteUrl,
-    //         createdAt: blog.createdAt,
-    //         isMembership: false
-    //     }))
-    // },
-async findAll():Promise<WithId<BlogDBType>[]>{
-    return blogCollection.find().toArray()
-}
-    ,
-
-    async create(blog: BlogInputModel): Promise<BlogDBType> {
-        const newBlog: BlogDBType = {
-            id: new Date().toISOString(),
-            name: blog.name,
-            description: blog.description,
-            webSiteUrl: blog.webSiteUrl,
-            createdAt: new Date().toISOString(),
-            isMembership: false,
-        }
-
-        const result = await blogCollection.insertOne(newBlog);
-        return newBlog
+    async findAll(): Promise<WithId<BlogDBType>[]> {
+        return blogCollection.find().toArray()
     },
 
-    async find(id: string | undefined): Promise<BlogDBType | null> {
-        const findBlog = await blogCollection.findOne({ _id: new ObjectId(id) })
-        if (!findBlog) {
-            return null
+    async createBlog(newBlog: BlogInputModel): Promise<WithId<BlogDBType>> {
+        const blog: BlogDBType = {
+            id: new Date().toISOString(),
+            name: newBlog.name,
+            description: newBlog.description,
+            webSiteUrl: newBlog.webSiteUrl,
+            createdAt: new Date().toISOString(),
+            isMembership: true
         }
+        const insertResult = await blogCollection.insertOne(blog);
+        return { ...blog, _id: insertResult.insertedId }
+    },
 
-        return {
-            id: findBlog._id.toString(),
-            name: findBlog.name,
-            description: findBlog.description,
-            webSiteUrl: findBlog.webSiteUrl,
-            createdAt: findBlog.createdAt,
-            isMembership: false
-        };
+
+    async findById(id: string | undefined): Promise<WithId<BlogDBType> | null> {
+        return blogCollection.findOne({ _id: new ObjectId(id) })
     },
 
     async updateBlog(id: string | undefined, updatedBlog: BlogInputModel): Promise<Boolean> {

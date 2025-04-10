@@ -28,7 +28,7 @@ export const contentValidator = body('content').isString().withMessage('not stri
 
 export const blogIdValidator = body('blogId').isString().withMessage('not string')
     .trim().custom(blogId => {
-        const blog = blogsRepository.find(blogId)
+        const blog = blogsRepository.findById(blogId)
         // console.log(blog)
         return !!blog
     }).withMessage('no blog')

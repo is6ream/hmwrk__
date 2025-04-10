@@ -24,11 +24,12 @@ exports.blogsControllers = {
         console.log('getBlogs');
     })),
     createBlogController: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const createBlogs = yield blogsRepository_1.blogsRepository.create(req.body);
+        const createBlogs = yield blogsRepository_1.blogsRepository.createBlog(req.body);
         res.status(201).json(createBlogs);
     })),
     findBlogConstroller: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const findBlog = yield blogsRepository_1.blogsRepository.find(req.params.id);
+        const findBlog = yield blogsRepository_1.blogsRepository.findById(req.params.id);
+        console.log(findBlog);
         res.send(findBlog);
     })),
     updateBlogController: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {

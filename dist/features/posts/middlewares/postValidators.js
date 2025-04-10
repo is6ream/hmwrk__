@@ -25,7 +25,7 @@ exports.contentValidator = (0, express_validator_1.body)('content').isString().w
     .trim().isLength({ min: 1, max: 1000 }).withMessage('more then 1000 or 0');
 exports.blogIdValidator = (0, express_validator_1.body)('blogId').isString().withMessage('not string')
     .trim().custom(blogId => {
-    const blog = blogsRepository_1.blogsRepository.find(blogId);
+    const blog = blogsRepository_1.blogsRepository.findById(blogId);
     // console.log(blog)
     return !!blog;
 }).withMessage('no blog');
