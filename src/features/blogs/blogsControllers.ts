@@ -10,7 +10,8 @@ export const blogsControllers = {
     }),
 
     getBlogsController: (async (req: Request, res: Response) => {
-        const getAllBlogs = await blogsRepository.getAll()
+        const getAllBlogs = await blogsRepository.findAll()
+        console.log(getAllBlogs)
         res.status(200).json(getAllBlogs)
         console.log('getBlogs')
     }),

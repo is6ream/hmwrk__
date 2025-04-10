@@ -18,7 +18,8 @@ exports.blogsControllers = {
         res.status(204).send();
     }),
     getBlogsController: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const getAllBlogs = yield blogsRepository_1.blogsRepository.getAll();
+        const getAllBlogs = yield blogsRepository_1.blogsRepository.findAll();
+        console.log(getAllBlogs);
         res.status(200).json(getAllBlogs);
         console.log('getBlogs');
     })),

@@ -1,3 +1,4 @@
+import { WithId } from 'mongodb';
 import express from 'express'
 import cors from 'cors'
 import { blogsRouter } from './features/blogs/blogsRoutes'
@@ -15,4 +16,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/hometask_03/api', blogsRouter, postsRouter)// postsRouter);
+
+
+
 

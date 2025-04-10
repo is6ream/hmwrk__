@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { blogCollection } from './../../db/mongo';
 import { BlogInputModel, BlogDBType } from './../../input-output-types/blogsAndPost-types';
-import { ObjectId } from 'mongodb';
+import { ObjectId, WithId } from 'mongodb';
 
 
 export const blogsRepository = {
@@ -10,17 +10,21 @@ export const blogsRepository = {
         return deletedBlogs;
     },
 
-    async getAll(): Promise<BlogDBType[]> {
-        const blogs = await blogCollection.find({}).toArray();
-        return blogs.map(blog => ({
-            id: blog._id.toString(),
-            name: blog.name,
-            description: blog.description,
-            webSiteUrl: blog.webSiteUrl,
-            createdAt: blog.createdAt,
-            isMembership: false
-        }))
-    },
+    // async getAll(): Promise<BlogDBType[]> {
+    //     const blogs = await blogCollection.find({}).toArray();
+    //     return blogs.map(blog => ({
+    //         id: blog._id.toString(),
+    //         name: blog.name,
+    //         description: blog.description,
+    //         webSiteUrl: blog.webSiteUrl,
+    //         createdAt: blog.createdAt,
+    //         isMembership: false
+    //     }))
+    // },
+async findAll():Promise<WithId<BlogDBType>[]>{
+    return blogCollection.find().toArray()
+}
+    ,
 
     async create(blog: BlogInputModel): Promise<BlogDBType> {
         const newBlog: BlogDBType = {

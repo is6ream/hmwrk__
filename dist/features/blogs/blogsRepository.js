@@ -19,17 +19,20 @@ exports.blogsRepository = {
             return deletedBlogs;
         });
     },
-    getAll() {
+    // async getAll(): Promise<BlogDBType[]> {
+    //     const blogs = await blogCollection.find({}).toArray();
+    //     return blogs.map(blog => ({
+    //         id: blog._id.toString(),
+    //         name: blog.name,
+    //         description: blog.description,
+    //         webSiteUrl: blog.webSiteUrl,
+    //         createdAt: blog.createdAt,
+    //         isMembership: false
+    //     }))
+    // },
+    findAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            const blogs = yield mongo_1.blogCollection.find({}).toArray();
-            return blogs.map(blog => ({
-                id: blog._id.toString(),
-                name: blog.name,
-                description: blog.description,
-                webSiteUrl: blog.webSiteUrl,
-                createdAt: blog.createdAt,
-                isMembership: false
-            }));
+            return mongo_1.blogCollection.find().toArray();
         });
     },
     create(blog) {
