@@ -22,7 +22,7 @@
 //         webSiteUrl: "http://slam.com"
 //     }
 
-//     const createdBlog = await blogsRepository.create(newBlog);
+//     const createdBlog = await blogsRepository.createBlog(newBlog);
 //     createdBlogId = createdBlog.id;
 
 //     it("should create one post", async () => {
@@ -33,9 +33,9 @@
 //             blogId: createdBlog.id
 //         }
 
-//         const createdPost = await postRepository.createPost(newPost);
+//         const createdPost = await postRepository.create(newPost);
 //         createdPostId = createdPost.id
-//         const findPost = await postRepository.findPost(createdPostId)
+//         const findPost = await postRepository.findById(createdPostId)
 //         expect(createdPost).toEqual(findPost)
 //     })
 // })

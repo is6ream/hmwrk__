@@ -35,9 +35,11 @@ function runDB(url) {
         }
     });
 }
+;
 function clearDatabase() {
     return __awaiter(this, void 0, void 0, function* () {
         yield exports.blogCollection.deleteMany({});
         yield exports.postCollection.deleteMany({});
     });
 }
+;

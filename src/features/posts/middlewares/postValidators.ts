@@ -34,7 +34,7 @@ export const blogIdValidator = body('blogId').isString().withMessage('not string
     }).withMessage('no blog')
 
 export const findPostValidator = (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
-    const post = postRepository.findPost(req.params.id)
+    const post = postRepository.findById(req.params.id)
     if (!post) {
         res
             .status(404)

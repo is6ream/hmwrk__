@@ -30,7 +30,7 @@ exports.blogIdValidator = (0, express_validator_1.body)('blogId').isString().wit
     return !!blog;
 }).withMessage('no blog');
 const findPostValidator = (req, res, next) => {
-    const post = postsRepository_1.postRepository.findPost(req.params.id);
+    const post = postsRepository_1.postRepository.findById(req.params.id);
     if (!post) {
         res
             .status(404)

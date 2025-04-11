@@ -11,21 +11,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsControllers = void 0;
 const postsRepository_1 = require("./postsRepository");
+const http_statuses_1 = require("../../core/http-statuses");
 exports.postsControllers = {
-    // deleteAllDataController: ((req: Request, res: Response) => {
-    //     db.blogs = [];
-    //     res.status(204).send()
-    // }),
+    deleteAllDataController: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const deletedAllData = yield postsRepository_1.postRepository.deleteAll();
+        res.sendStatus(http_statuses_1.HttpStatus.NoContent);
+    })),
     getPostController: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const getAllPosts = yield postsRepository_1.postRepository.getAll();
+        const getAllPosts = yield postsRepository_1.postRepository.findAll();
         res.status(200).json(getAllPosts);
     })),
     createPostController: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const createdPost = yield postsRepository_1.postRepository.createPost(req.body);
+        const createdPost = yield postsRepository_1.postRepository.create(req.body);
         res.status(201).json(createdPost);
     })),
     findPostController: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const findedPost = yield postsRepository_1.postRepository.findPost(req.params.id);
+        const findedPost = yield postsRepository_1.postRepository.findById(req.params.id);
         res.json(findedPost);
     })),
     updatePostController: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {

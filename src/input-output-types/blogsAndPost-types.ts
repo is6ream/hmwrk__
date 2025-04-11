@@ -25,11 +25,7 @@ export type PostDBType = PostBase & {
 
 
 export type BlogInputModel = BlogBase;
-export type PostInputModel = PostBase & {
-    id: string
-    blogName: string
-    createdAt: string
-};
+export type PostInputModel = PostBase;
 
 export type DBType = {
     posts: PostDBType[],

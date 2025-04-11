@@ -1,48 +1,26 @@
 import { PostInputModel } from "../../input-output-types/blogsAndPost-types";
 import { blogsRepository } from "../blogs/blogsRepository";
 import { PostDBType } from "../../input-output-types/blogsAndPost-types";
-import { ObjectId } from "mongodb";
+import { ObjectId, WithId } from "mongodb";
 import { blogCollection, postCollection } from "../../db/mongo";
 
 
 
 export const postRepository = {
-    async getAll() {
+    async deleteAll(): Promise<void> {
+        const deleteResult = await postCollection.deleteMany();
+        return;
+    },
+    async findAll(): Promise<WithId<PostDBType>[]> {
         return postCollection.find().toArray()
     },
 
-    async createPost(post: PostInputModel): Promise<PostDBType> {
-        //достаем блог по id, переданному в боди поста
-
-        const blog = await blogsRepository.findById(post.blogId);
-        if (!blog) {
-            throw new Error('Blog not found')
-        }
-        const newPost: PostInputModel = {
-            id: new ObjectId().toString(), //остановился тут
-            title: post.title,
-            shortDescription: post.shortDescription,
-            content: post.content,
-            blogId: post.blogId,
-            blogName: blog?.name,
-            createdAt: new Date().toISOString(),
-        }
-
-        const result = await postCollection.insertOne(newPost);
-        return newPost
+    async findById(id: string): Promise<WithId<PostDBType> | null> {
+        return postCollection.findOne({ _id: new ObjectId(id) })
     },
-
-    async findPost(id: string | undefined): Promise<PostDBType | null> {
-        if (!id || !ObjectId.isValid(id)) {
-            return null
-        }
-        try {
-            const findPost = await postCollection.findOne({ _id: new ObjectId(id) })
-            return findPost || null
-        } catch (error) {
-            console.log('Error finding post:', error)
-            return null
-        }
+    async create(newPost: PostDBType): Promise<WithId<PostDBType>> {
+        const insertResult = await postCollection.insertOne(newPost) //нужно разобраться с вопросом типизации
+        return { ...newPost, _id: insertResult.insertedId }
     },
     async updatePost(id: string, updatedPost: PostInputModel): Promise<Boolean | null> {
         if (!ObjectId.isValid(id)) {
@@ -53,8 +31,14 @@ export const postRepository = {
         return result.matchedCount === 1;
     },
 
-    async delete(id: string) {
-        const result = await blogCollection.deleteOne({ _id: new ObjectId(id) });
-        return result
+    async delete(id: string): Promise<void> {
+        const deleteResult = await postCollection.deleteOne({
+            _id: new ObjectId(id),
+        });
+
+        if (deleteResult.deletedCount < 1) {
+            throw new Error('Driver not exist');
+        }
+        return;
     }
 }
