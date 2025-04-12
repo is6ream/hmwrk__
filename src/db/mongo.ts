@@ -28,6 +28,12 @@ export async function runDB(url: string): Promise<void> {
     }
 };
 
+export function getDb(): Db {
+    const db: Db = client.db(SETTINGS.DB_NAME)
+    if (!db) throw new Error("Database is not initialized. Call runDb() first.");
+    return db;
+}
+
 export async function clearDatabase() {
     await blogCollection.deleteMany({})
     await postCollection.deleteMany({})

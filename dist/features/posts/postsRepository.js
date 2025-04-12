@@ -10,8 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postRepository = void 0;
+const blogsRepository_1 = require("../blogs/blogsRepository");
 const mongodb_1 = require("mongodb");
 const mongo_1 = require("../../db/mongo");
+const newBlog = {
+    name: 'n1',
+    description: 'd1',
+    webSiteUrl: 'w1'
+};
+const blogForUsing = blogsRepository_1.blogsRepository.createBlog(newBlog);
 exports.postRepository = {
     deleteAll() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -31,8 +38,17 @@ exports.postRepository = {
     },
     create(newPost) {
         return __awaiter(this, void 0, void 0, function* () {
-            const insertResult = yield mongo_1.postCollection.insertOne(newPost); //нужно разобраться с вопросом типизации
-            return Object.assign(Object.assign({}, newPost), { _id: insertResult.insertedId });
+            const post = {
+                id: new Date().toISOString(),
+                title: newPost.title,
+                shortDescription: newPost.shortDescription,
+                content: newPost.content,
+                blogId: newPost.blogId,
+                blogName: (yield blogForUsing).name,
+                createdAt: new Date().toISOString()
+            };
+            const insertResult = yield mongo_1.postCollection.insertOne(post);
+            return Object.assign(Object.assign({}, post), { _id: insertResult.insertedId });
         });
     },
     updatePost(id, updatedPost) {
