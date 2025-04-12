@@ -24,8 +24,7 @@ describe('/blogs', () => {
                 description: 'Test description',
                 webSiteUrl: 'https://habr.com/ru/articles'
             }
-            const createBlog = await blogsRepository.createBlog(newBlog);
-
+            const createBlog = await blogsRepository.createBlog(newBlog)
             const getAllBlogs = await blogsRepository.findAll();
 
             expect(getAllBlogs).toEqual([
@@ -63,7 +62,7 @@ describe('/blogs', () => {
                 }
             )
         }),
-        it('should update blog, after creating', async() => {
+        it('should update blog, after creating', async () => {
             const newBlog: BlogInputModel = {
                 name: 'New Blog',
                 description: 'New description',
@@ -76,7 +75,19 @@ describe('/blogs', () => {
                 webSiteUrl: 'http://slamick.com'
             })
             expect(updateBlog).toEqual(true)
-        }) //дописал тест на обнолвение данных в бд
+        }),
+        it('should delete blog after creating', async () => {
+            const newBlog: BlogInputModel = {
+                name: 'Blog for deleting',
+                description: 'Description',
+                webSiteUrl: 'http://ari.com'
+            }
+            const createBlog = await blogsRepository.createBlog(newBlog);
+            const deleteBlog = await blogsRepository.delete(createBlog._id.toString());
+            const findBlog = await blogsRepository.findById(createBlog._id.toString());
+            expect(findBlog).toEqual(null)
+        })
+    //дописал тест на обнолвение данных в бд
 
     // ,
 

@@ -1,10 +1,16 @@
-import { PostInputModel } from "../../input-output-types/blogsAndPost-types";
+import { client } from './../../db/mongo';
+import { BlogInputModel, PostInputModel } from "../../input-output-types/blogsAndPost-types";
 import { blogsRepository } from "../blogs/blogsRepository";
 import { PostDBType } from "../../input-output-types/blogsAndPost-types";
 import { ObjectId, WithId } from "mongodb";
 import { blogCollection, postCollection } from "../../db/mongo";
 
-
+const newBlog: BlogInputModel = {
+    name: 'n1',
+    description: 'd1',
+    webSiteUrl: 'w1'
+};
+const blogForUsing = blogsRepository.createBlog(newBlog);
 
 export const postRepository = {
     async deleteAll(): Promise<void> {
@@ -18,9 +24,18 @@ export const postRepository = {
     async findById(id: string): Promise<WithId<PostDBType> | null> {
         return postCollection.findOne({ _id: new ObjectId(id) })
     },
-    async create(newPost: PostDBType): Promise<WithId<PostDBType>> {
-        const insertResult = await postCollection.insertOne(newPost) //нужно разобраться с вопросом типизации
-        return { ...newPost, _id: insertResult.insertedId }
+    async create(newPost: PostInputModel): Promise<WithId<PostDBType>> {
+        const post: PostDBType = {
+            id: new Date().toISOString(),
+            title: newPost.title,
+            shortDescription: newPost.shortDescription,
+            content: newPost.content,
+            blogId: newPost.blogId,
+            blogName: (await blogForUsing).name,
+            createdAt: new Date().toISOString()
+        }
+        const insertResult = await postCollection.insertOne(post) 
+        return { ...post, _id: insertResult.insertedId }
     },
     async updatePost(id: string, updatedPost: PostInputModel): Promise<Boolean | null> {
         if (!ObjectId.isValid(id)) {

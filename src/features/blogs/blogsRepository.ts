@@ -23,6 +23,7 @@ export const blogsRepository = {
             isMembership: true
         }
         const insertResult = await blogCollection.insertOne(blog);
+        console.log(insertResult)
         return { ...blog, _id: insertResult.insertedId }
     },
 
