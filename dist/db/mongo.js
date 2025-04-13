@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogCollection = exports.postCollection = exports.client = void 0;
 exports.runDB = runDB;
-exports.getDb = getDb;
 exports.clearDatabase = clearDatabase;
 const mongodb_1 = require("mongodb");
 const settings_1 = require("../settings");
@@ -25,6 +24,7 @@ function runDB(url) {
         //Инициализация коллекций 
         exports.postCollection = db.collection(POST_COLLECTION_NAME);
         exports.blogCollection = db.collection(BLOG_COLLECTION_NAME);
+        // console.log(blogCollection, ' collection')
         try {
             yield exports.client.connect();
             yield db.command({ ping: 1 });
@@ -37,12 +37,6 @@ function runDB(url) {
     });
 }
 ;
-function getDb() {
-    const db = exports.client.db(settings_1.SETTINGS.DB_NAME);
-    if (!db)
-        throw new Error("Database is not initialized. Call runDb() first.");
-    return db;
-}
 function clearDatabase() {
     return __awaiter(this, void 0, void 0, function* () {
         yield exports.blogCollection.deleteMany({});

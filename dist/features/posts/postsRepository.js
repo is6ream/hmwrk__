@@ -13,12 +13,6 @@ exports.postRepository = void 0;
 const blogsRepository_1 = require("../blogs/blogsRepository");
 const mongodb_1 = require("mongodb");
 const mongo_1 = require("../../db/mongo");
-const newBlog = {
-    name: 'n1',
-    description: 'd1',
-    webSiteUrl: 'w1'
-};
-const blogForUsing = blogsRepository_1.blogsRepository.createBlog(newBlog);
 exports.postRepository = {
     deleteAll() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -38,13 +32,18 @@ exports.postRepository = {
     },
     create(newPost) {
         return __awaiter(this, void 0, void 0, function* () {
+            const blogForUsing = blogsRepository_1.blogsRepository.createBlog({
+                name: 'n1',
+                description: 'd1',
+                webSiteUrl: 'http://slam.com'
+            });
             const post = {
                 id: new Date().toISOString(),
                 title: newPost.title,
                 shortDescription: newPost.shortDescription,
                 content: newPost.content,
                 blogId: newPost.blogId,
-                blogName: (yield blogForUsing).name,
+                blogName: (yield blogForUsing).name, //нужно получить blogName
                 createdAt: new Date().toISOString()
             };
             const insertResult = yield mongo_1.postCollection.insertOne(post);
@@ -67,7 +66,7 @@ exports.postRepository = {
                 _id: new mongodb_1.ObjectId(id),
             });
             if (deleteResult.deletedCount < 1) {
-                throw new Error('Driver not exist');
+                throw new Error('Post not exist');
             }
             return;
         });

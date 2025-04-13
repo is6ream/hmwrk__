@@ -6,16 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.STATUSES = exports.SETTINGS = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config(); // добавление переменных из файла .env в process.env
-if (!process.env.MONGO_URL) {
-    console.log(process.env);
-    throw new Error("MONGO_URL is not defined");
-}
 exports.SETTINGS = {
     // все хардкодные значения должны быть здесь, для удобства их изменения
     PORT: process.env.PORT || 6000,
     PATH: {
         BLOGS: '/blogs',
-        POSTS: '/posts'
+        POSTS: '/posts',
+        USERS: '/users',
+        AUTH: '/auth'
     },
     MONGO_URL: "mongodb+srv://admin:admin@firstcluster.atxbolf.mongodb.net/?retryWrites=true&w=majority&appName=FirstCluster",
     BLOG_COLLECTION_NAME: 'blogs',

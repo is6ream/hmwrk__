@@ -16,14 +16,11 @@ exports.setupApp = void 0;
 const settings_1 = require("./settings");
 const blogsRoutes_1 = require("./features/blogs/blogsRoutes");
 const postRoutes_1 = require("./features/posts/postRoutes");
-const mongo_1 = require("./db/mongo");
 const express_1 = __importDefault(require("express"));
 const setupApp = (app) => __awaiter(void 0, void 0, void 0, function* () {
+    //мидлв для парсинга объектов
     app.use(express_1.default.json());
-    // подключение БД
-    if (!process.env.MONGO_URL) {
-    }
-    yield (0, mongo_1.runDB)(settings_1.SETTINGS.MONGO_URL);
+    //регистрация роутов
     app.use(settings_1.SETTINGS.PATH.BLOGS, blogsRoutes_1.blogsRouter);
     app.use(settings_1.SETTINGS.PATH.POSTS, postRoutes_1.postsRouter);
     return app;

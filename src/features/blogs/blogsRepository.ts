@@ -1,23 +1,20 @@
 import { BlogInputModel, BlogDBType } from './../../input-output-types/blogsAndPost-types';
 import { ObjectId, WithId } from 'mongodb';
-import { getDb } from './../../db/mongo';
+import { blogCollection } from '../../db/mongo';
 
 export const blogsRepository = {
     async deleteAll() {
-        const db = getDb();
-        const blogCollection = db.collection<BlogDBType>('blogs')
         const deletedBlogs = await blogCollection.deleteMany({});
         return deletedBlogs;
     },
     async findAll(): Promise<WithId<BlogDBType>[]> {
-        const db = getDb();
-        const blogCollection = db.collection<BlogDBType>('blogs')
         return blogCollection.find().toArray()
     },
 
     async createBlog(newBlog: BlogInputModel): Promise<WithId<BlogDBType>> {
-        const db = getDb();
-        const blogCollection = db.collection<BlogDBType>('blogs')
+        if (!blogCollection) {
+            throw new Error('Database22 not initialized') 
+        }
         const blog: BlogDBType = {
             id: new Date().toISOString(),
             name: newBlog.name,
@@ -32,14 +29,10 @@ export const blogsRepository = {
 
 
     async findById(id: string | undefined): Promise<WithId<BlogDBType> | null> {
-        const db = getDb();
-        const blogCollection = db.collection<BlogDBType>('blogs')
         return blogCollection.findOne({ _id: new ObjectId(id) })
     },
 
     async updateBlog(id: string | undefined, updatedBlog: BlogInputModel): Promise<Boolean> {
-        const db = getDb();
-        const blogCollection = db.collection<BlogDBType>('blogs')
         const result = await blogCollection.
             updateOne({ _id: new ObjectId(id) },
                 { $set: updatedBlog })
@@ -48,8 +41,6 @@ export const blogsRepository = {
     },
 
     async delete(id: string | undefined) {
-        const db = getDb();
-        const blogCollection = db.collection<BlogDBType>('blogs')
         const result = await blogCollection.deleteOne({ _id: new ObjectId(id) });
         return result;
     },

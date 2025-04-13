@@ -5,12 +5,7 @@ import { PostDBType } from "../../input-output-types/blogsAndPost-types";
 import { ObjectId, WithId } from "mongodb";
 import { blogCollection, postCollection } from "../../db/mongo";
 
-const newBlog: BlogInputModel = {
-    name: 'n1',
-    description: 'd1',
-    webSiteUrl: 'w1'
-};
-const blogForUsing = blogsRepository.createBlog(newBlog);
+
 
 export const postRepository = {
     async deleteAll(): Promise<void> {
@@ -25,16 +20,25 @@ export const postRepository = {
         return postCollection.findOne({ _id: new ObjectId(id) })
     },
     async create(newPost: PostInputModel): Promise<WithId<PostDBType>> {
+        const blogForUsing = blogsRepository.createBlog({
+            name: 'n1',
+            description: 'd1',
+            webSiteUrl: 'http://slam.com'
+        });
+
+        
+
+        
         const post: PostDBType = {
             id: new Date().toISOString(),
             title: newPost.title,
             shortDescription: newPost.shortDescription,
             content: newPost.content,
             blogId: newPost.blogId,
-            blogName: (await blogForUsing).name,
+            blogName: (await blogForUsing).name, //нужно получить blogName
             createdAt: new Date().toISOString()
         }
-        const insertResult = await postCollection.insertOne(post) 
+        const insertResult = await postCollection.insertOne(post)
         return { ...post, _id: insertResult.insertedId }
     },
     async updatePost(id: string, updatedPost: PostInputModel): Promise<Boolean | null> {
@@ -52,7 +56,7 @@ export const postRepository = {
         });
 
         if (deleteResult.deletedCount < 1) {
-            throw new Error('Driver not exist');
+            throw new Error('Post not exist');
         }
         return;
     }
