@@ -12,13 +12,11 @@ export type PostBase = {
 }
 
 export type BlogDBType = BlogBase & {
-    id: string
     createdAt: string
     isMembership: boolean
 }
 
 export type PostDBType = PostBase & {
-    id: string
     blogName: string
     createdAt: string
 }

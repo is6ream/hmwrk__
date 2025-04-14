@@ -38,7 +38,6 @@ exports.postRepository = {
                 webSiteUrl: 'http://slam.com'
             });
             const post = {
-                id: new Date().toISOString(),
                 title: newPost.title,
                 shortDescription: newPost.shortDescription,
                 content: newPost.content,

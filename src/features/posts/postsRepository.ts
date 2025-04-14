@@ -26,11 +26,7 @@ export const postRepository = {
             webSiteUrl: 'http://slam.com'
         });
 
-        
-
-        
         const post: PostDBType = {
-            id: new Date().toISOString(),
             title: newPost.title,
             shortDescription: newPost.shortDescription,
             content: newPost.content,

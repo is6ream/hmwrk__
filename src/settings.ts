@@ -5,8 +5,8 @@ export const SETTINGS = {
     // все хардкодные значения должны быть здесь, для удобства их изменения
     PORT: process.env.PORT || 6000,
     PATH: {
-        BLOGS: '/blogs',
-        POSTS: '/posts',
+        BLOGS: '/hometask_03/api/',
+        POSTS: '/hometask_03/api/',
         USERS: '/users',
         AUTH: '/auth'
     },
