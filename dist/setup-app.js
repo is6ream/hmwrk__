@@ -17,12 +17,14 @@ const settings_1 = require("./settings");
 const blogsRoutes_1 = require("./features/blogs/blogsRoutes");
 const postRoutes_1 = require("./features/posts/postRoutes");
 const express_1 = __importDefault(require("express"));
+const testing_route_1 = require("./testing/routes/testing.route");
 const setupApp = (app) => __awaiter(void 0, void 0, void 0, function* () {
     //мидлв для парсинга объектов
     app.use(express_1.default.json());
     //регистрация роутов
     app.use(settings_1.SETTINGS.PATH.BLOGS, blogsRoutes_1.blogsRouter);
     app.use(settings_1.SETTINGS.PATH.POSTS, postRoutes_1.postsRouter);
+    app.use(settings_1.SETTINGS.PATH.TEST, testing_route_1.testingRouter);
     return app;
 });
 exports.setupApp = setupApp;

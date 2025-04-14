@@ -13,7 +13,8 @@ exports.SETTINGS = {
         BLOGS: '/hometask_03/api/',
         POSTS: '/hometask_03/api/',
         USERS: '/users',
-        AUTH: '/auth'
+        AUTH: '/auth',
+        TEST: '/hometask_03/api/testing'
     },
     MONGO_URL: "mongodb+srv://admin:admin@firstcluster.atxbolf.mongodb.net/?retryWrites=true&w=majority&appName=FirstCluster",
     BLOG_COLLECTION_NAME: 'blogs',
