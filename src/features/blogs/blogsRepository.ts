@@ -35,10 +35,10 @@ export const blogsRepository = {
 
 
     async findById(id: string | undefined): Promise<WithId<BlogDBType> | null> {
-        if (!id || !ObjectId.isValid(id)) { //Вопрос, какой id передают в этот обработчик тесты
+        if (!id)
             return null;
-        } //пока также ошибка с BSON падает, добавил проверку, не помогло
-        return blogCollection.findOne({ _id: new ObjectId(id) })
+        const result = await blogCollection.findOne({ id }, { projection: { _id: 0 } });
+        return result; //Как вернуть сущность из бд без _id? 
     },
 
     async updateBlog(id: string | undefined, updatedBlog: BlogInputModel): Promise<Boolean> {

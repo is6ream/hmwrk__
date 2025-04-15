@@ -54,10 +54,10 @@ exports.blogsRepository = {
     },
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!id || !mongodb_1.ObjectId.isValid(id)) { //Вопрос, какой id передают в этот обработчик тесты
+            if (!id)
                 return null;
-            } //пока также ошибка с BSON падает, добавил проверку, не помогло
-            return mongo_1.blogCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
+            const result = yield mongo_1.blogCollection.findOne({ id }, { projection: { _id: 0 } });
+            return result; //Как вернуть сущность из бд без _id? 
         });
     },
     updateBlog(id, updatedBlog) {
