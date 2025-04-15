@@ -16,7 +16,7 @@ const mongo_1 = require("../../db/mongo");
 exports.postRepository = {
     deleteAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            const deleteResult = yield mongo_1.postCollection.deleteMany();
+            const deleteResult = yield mongo_1.postCollection.deleteMany({});
             return;
         });
     },
@@ -33,9 +33,10 @@ exports.postRepository = {
     create(newPost) {
         return __awaiter(this, void 0, void 0, function* () {
             const blogForUsing = blogsRepository_1.blogsRepository.createBlog({
+                id: new Date().toISOString(),
                 name: 'n1',
                 description: 'd1',
-                webSiteUrl: 'http://slam.com'
+                websiteUrl: 'http://slam.com'
             });
             const post = {
                 title: newPost.title,

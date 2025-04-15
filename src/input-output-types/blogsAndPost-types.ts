@@ -1,7 +1,8 @@
 export type BlogBase = {
+    id: string,
     name: string,
     description: string,
-    webSiteUrl: string
+    websiteUrl: string
 }
 
 export type PostBase = {

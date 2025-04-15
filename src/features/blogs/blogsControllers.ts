@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { blogsRepository } from './blogsRepository'
 import { HttpStatus } from "../../core/http-statuses";
-
 export const blogsControllers = {
     deleteAllDataController: ((req: Request, res: Response) => {
         console.log(`Received request: ${req.method} ${req.url}`);

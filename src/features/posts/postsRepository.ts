@@ -9,7 +9,7 @@ import { blogCollection, postCollection } from "../../db/mongo";
 
 export const postRepository = {
     async deleteAll(): Promise<void> {
-        const deleteResult = await postCollection.deleteMany();
+        const deleteResult = await postCollection.deleteMany({});
         return;
     },
     async findAll(): Promise<WithId<PostDBType>[]> {
@@ -21,9 +21,10 @@ export const postRepository = {
     },
     async create(newPost: PostInputModel): Promise<WithId<PostDBType>> {
         const blogForUsing = blogsRepository.createBlog({
+            id: new Date().toISOString(),
             name: 'n1',
             description: 'd1',
-            webSiteUrl: 'http://slam.com'
+            websiteUrl: 'http://slam.com'
         });
 
         const post: PostDBType = {

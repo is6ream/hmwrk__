@@ -1,12 +1,8 @@
-export enum HttpStatus {
-    Ok = 200,
-    Created = 201,
-    NoContent = 204,
-
-    BadRequest = 400,
-    Unauthorized = 401,
-    Forbidden = 403,
-    NotFound = 404,
-
-    InternalServerError = 500
+export const HttpStatus = {
+    Ok: 200,
+    Created: 201,
+    NoContent: 204,
+    BadRequest: 400,
+    Anuthorized: 401,
+    NotFound: 404
 }
