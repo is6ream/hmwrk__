@@ -17,7 +17,7 @@ exports.testingRouter = (0, express_1.Router)();
 exports.testingRouter.delete('/all-data', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Здесь не работает');
     yield Promise.all([
-        blogsRepository_1.blogsRepository.deleteAll,
+        blogsRepository_1.blogsRepository.deleteAll(),
         postsRepository_1.postRepository.deleteAll()
     ]);
     res.sendStatus(204);

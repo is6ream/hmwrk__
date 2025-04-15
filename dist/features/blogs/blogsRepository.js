@@ -54,7 +54,7 @@ exports.blogsRepository = {
     },
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!id || !mongodb_1.ObjectId.isValid(id)) {
+            if (!id || !mongodb_1.ObjectId.isValid(id)) { //Вопрос, какой id передают в этот обработчик тесты
                 return null;
             } //пока также ошибка с BSON падает, добавил проверку, не помогло
             return mongo_1.blogCollection.findOne({ _id: new mongodb_1.ObjectId(id) });

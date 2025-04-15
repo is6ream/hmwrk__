@@ -35,7 +35,7 @@ export const blogsRepository = {
 
 
     async findById(id: string | undefined): Promise<WithId<BlogDBType> | null> {
-        if (!id || !ObjectId.isValid(id)) {
+        if (!id || !ObjectId.isValid(id)) { //Вопрос, какой id передают в этот обработчик тесты
             return null;
         } //пока также ошибка с BSON падает, добавил проверку, не помогло
         return blogCollection.findOne({ _id: new ObjectId(id) })
@@ -54,9 +54,3 @@ export const blogsRepository = {
         return result;
     },
 }
-
-
-
-
-
-

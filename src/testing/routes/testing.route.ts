@@ -9,7 +9,7 @@ export const testingRouter = Router();
 testingRouter.delete('/all-data', async (req: Request, res: Response) => {
     console.log('Здесь не работает')
     await Promise.all([
-        blogsRepository.deleteAll,
+        blogsRepository.deleteAll(),
         postRepository.deleteAll()
     ]);
     res.sendStatus(204)
