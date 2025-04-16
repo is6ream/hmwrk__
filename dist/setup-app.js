@@ -25,6 +25,9 @@ const setupApp = (app) => __awaiter(void 0, void 0, void 0, function* () {
     app.use(settings_1.SETTINGS.PATH.BLOGS, blogsRoutes_1.blogsRouter);
     app.use(settings_1.SETTINGS.PATH.POSTS, postRoutes_1.postsRouter);
     app.use(settings_1.SETTINGS.PATH.TEST, testing_route_1.testingRouter);
+    app.get("/", (req, res) => {
+        res.status(200).send("Hello world!");
+    });
     return app;
 });
 exports.setupApp = setupApp;
