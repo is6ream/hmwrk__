@@ -71,14 +71,14 @@ exports.postRepository = {
                 console.log("Invalid objectId: ", id);
                 return null;
             }
-            const result = yield mongo_1.postCollection.updateOne({ _id: new mongodb_1.ObjectId(id) }, { $set: { updatedPost: updatedPost } });
+            const result = yield mongo_1.postCollection.updateOne({ id }, { $set: { updatedPost: updatedPost } });
             return result.matchedCount === 1;
         });
     },
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const deleteResult = yield mongo_1.postCollection.deleteOne({
-                _id: new mongodb_1.ObjectId(id),
+                id,
             });
             if (deleteResult.deletedCount < 1) {
                 throw new Error('Post not exist');

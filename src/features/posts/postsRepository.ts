@@ -49,13 +49,13 @@ export const postRepository = {
             console.log("Invalid objectId: ", id);
             return null
         }
-        const result = await postCollection.updateOne({ _id: new ObjectId(id) }, { $set: { updatedPost: updatedPost } });
+        const result = await postCollection.updateOne({ id }, { $set: { updatedPost: updatedPost } });
         return result.matchedCount === 1;
     },
 
     async delete(id: string): Promise<void> {
         const deleteResult = await postCollection.deleteOne({
-            _id: new ObjectId(id),
+            id,
         });
 
         if (deleteResult.deletedCount < 1) {
