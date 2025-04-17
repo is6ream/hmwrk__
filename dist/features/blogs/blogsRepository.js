@@ -21,7 +21,6 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
-const mongodb_1 = require("mongodb");
 const mongo_1 = require("../../db/mongo");
 const mongoose_1 = require("mongoose");
 exports.blogsRepository = {
@@ -33,7 +32,8 @@ exports.blogsRepository = {
     },
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            return mongo_1.blogCollection.find({ projection: { _id: 0 } }).toArray();
+            const result = mongo_1.blogCollection.find({ projection: { _id: 0 } }).toArray();
+            return result;
         });
     },
     createBlog(newBlog) {
@@ -80,8 +80,11 @@ exports.blogsRepository = {
     },
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield mongo_1.blogCollection.deleteOne({ _id: new mongodb_1.ObjectId(id) });
-            return result;
+            if (!id) {
+                return null;
+            }
+            const result = yield mongo_1.blogCollection.deleteOne({ id });
+            return;
         });
     },
 };

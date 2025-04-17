@@ -13,7 +13,8 @@ export const blogsRepository = {
         return deletedBlogs;
     },
     async findAll(): Promise<WithId<BlogDBType>[]> {
-        return blogCollection.find({ projection: { _id: 0 } }).toArray()
+        const result = blogCollection.find({ projection: { _id: 0 } }).toArray()
+        return result;
     },
 
     async createBlog(newBlog: BlogInputModel): Promise<BlogDBType> {
@@ -59,8 +60,11 @@ export const blogsRepository = {
         return
     },
 
-    async delete(id: string | undefined) {
-        const result = await blogCollection.deleteOne({ _id: new ObjectId(id) });
-        return result;
+    async delete(id: string | undefined): Promise<void | null> { //здесь аналогично с id поработать
+        if (!id) {
+            return null
+        }
+        const result = await blogCollection.deleteOne({ id });
+        return;
     },
 }
