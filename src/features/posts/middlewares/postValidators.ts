@@ -33,8 +33,8 @@ export const blogIdValidator = body('blogId').isString().withMessage('not string
         return !!blog
     }).withMessage('no blog')
 
-export const findPostValidator = (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
-    const post = postRepository.findById(req.params.id)
+export const findPostValidator = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+    const post = await postRepository.findById(req.params.id)
     if (!post) {
         res
             .status(404)

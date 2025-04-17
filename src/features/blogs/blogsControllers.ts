@@ -24,18 +24,18 @@ export const blogsControllers = {
         if (!findBlog) {
             res.status(HttpStatus.NotFound).json({
                 message: "Blog not found"
-            })
+            });
         }
-        res.status(HttpStatus.Ok).json(findBlog)
+        res.status(HttpStatus.Ok).json(findBlog);
     }),
 
     updateBlogController: (async (req: Request, res: Response) => {
-        const updatedBlog = await blogsRepository.updateBlog(req.params.id, req.body)
-        res.sendStatus(HttpStatus.NoContent)
+        const updatedBlog = await blogsRepository.updateBlog(req.params.id, req.body);
+        res.sendStatus(HttpStatus.NoContent);
     }),
 
     deleteBlogController: (async (req: Request, res: Response) => {
-        const deletedBlog = await blogsRepository.delete(req.params.id)
-        res.sendStatus(HttpStatus.NoContent)
+        const deletedBlog = await blogsRepository.delete(req.params.id);
+        res.sendStatus(HttpStatus.NoContent);
     })
 }

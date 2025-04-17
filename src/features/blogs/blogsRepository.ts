@@ -33,8 +33,6 @@ export const blogsRepository = {
 
 
     async findById(id: string | undefined): Promise<WithId<BlogDBType> | null> {
-        if (!id)
-            return null;
         const result = await blogCollection.findOne({ id }, { projection: { _id: 0 } });
         return result;
     },
@@ -60,9 +58,6 @@ export const blogsRepository = {
     },
 
     async delete(id: string | undefined): Promise<void | null> { //здесь аналогично с id поработать
-        if (!id) {
-            return null
-        }
         const result = await blogCollection.deleteOne({ id });
         return;
     },

@@ -53,8 +53,6 @@ exports.blogsRepository = {
     },
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!id)
-                return null;
             const result = yield mongo_1.blogCollection.findOne({ id }, { projection: { _id: 0 } });
             return result;
         });
@@ -79,9 +77,6 @@ exports.blogsRepository = {
     },
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!id) {
-                return null;
-            }
             const result = yield mongo_1.blogCollection.deleteOne({ id });
             return;
         });
