@@ -1,8 +1,6 @@
 import { BlogInputModel, BlogDBType } from './../../input-output-types/blogsAndPost-types';
 import { ObjectId, WithId } from 'mongodb';
 import { blogCollection } from '../../db/mongo';
-import { blogIdValidator } from '../posts/middlewares/postValidators';
-import { Result } from 'express-validator';
 import { Types } from 'mongoose';
 
 interface BlogDocument extends BlogDBType {
@@ -15,7 +13,7 @@ export const blogsRepository = {
         return deletedBlogs;
     },
     async findAll(): Promise<WithId<BlogDBType>[]> {
-        return blogCollection.find().toArray()
+        return blogCollection.find({ projection: { _id: 0 } }).toArray() 
     },
 
     async createBlog(newBlog: BlogInputModel): Promise<BlogDBType> {

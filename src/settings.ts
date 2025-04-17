@@ -11,7 +11,7 @@ export const SETTINGS = {
         AUTH: '/auth',
         TEST: '/hometask_03/api/testing'
     },
-    
+
     MONGO_URL: "mongodb+srv://admin:admin@firstcluster.atxbolf.mongodb.net/?retryWrites=true&w=majority&appName=FirstCluster",
     BLOG_COLLECTION_NAME: 'blogs',
     POST_COLLECTION_NAME: 'posts',
@@ -27,3 +27,4 @@ export const STATUSES = {
     BAD_REQUEST_400: 400,
     NOT_FOUND_404: 404
 }
+
