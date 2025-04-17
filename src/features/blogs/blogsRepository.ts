@@ -13,8 +13,7 @@ export const blogsRepository = {
         return deletedBlogs;
     },
     async findAll(): Promise<WithId<BlogDBType>[]> {
-        const result = blogCollection.find({ projection: { _id: 0 } }).toArray()
-        return result;
+        return blogCollection.find({ projection: { _id: 0 } }).toArray()
     },
 
     async createBlog(newBlog: BlogInputModel): Promise<BlogDBType> {

@@ -10,7 +10,6 @@ export const blogsControllers = {
 
     getBlogsController: (async (req: Request, res: Response) => {
         const getAllBlogs = await blogsRepository.findAll()
-        console.log(getAllBlogs)
         res.status(HttpStatus.Ok).json(getAllBlogs)
     }),
 
@@ -20,7 +19,13 @@ export const blogsControllers = {
     }),
 
     findBlogConstroller: (async (req: Request, res: Response) => {
-        const findBlog = await blogsRepository.findById(req.params.id)
+        const findBlog = await blogsRepository.findById(req.params.id);
+
+        if (!findBlog) {
+            res.status(HttpStatus.NotFound).json({
+                message: "Blog not found"
+            })
+        }
         res.status(HttpStatus.Ok).json(findBlog)
     }),
 

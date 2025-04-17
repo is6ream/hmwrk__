@@ -20,7 +20,6 @@ exports.blogsControllers = {
     }),
     getBlogsController: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const getAllBlogs = yield blogsRepository_1.blogsRepository.findAll();
-        console.log(getAllBlogs);
         res.status(http_statuses_1.HttpStatus.Ok).json(getAllBlogs);
     })),
     createBlogController: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -29,6 +28,11 @@ exports.blogsControllers = {
     })),
     findBlogConstroller: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const findBlog = yield blogsRepository_1.blogsRepository.findById(req.params.id);
+        if (!findBlog) {
+            res.status(http_statuses_1.HttpStatus.NotFound).json({
+                message: "Blog not found"
+            });
+        }
         res.status(http_statuses_1.HttpStatus.Ok).json(findBlog);
     })),
     updateBlogController: ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
