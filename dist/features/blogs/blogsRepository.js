@@ -57,14 +57,24 @@ exports.blogsRepository = {
             if (!id)
                 return null;
             const result = yield mongo_1.blogCollection.findOne({ id }, { projection: { _id: 0 } });
-            return result; //Как вернуть сущность из бд без _id? 
+            return result;
         });
     },
     updateBlog(id, updatedBlog) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield mongo_1.blogCollection.
-                updateOne({ _id: new mongodb_1.ObjectId(id) }, { $set: updatedBlog });
-            return result.matchedCount === 1;
+            const updateResult = yield mongo_1.blogCollection.updateOne({
+                _id: new mongodb_1.ObjectId(id)
+            }, {
+                $set: {
+                    name: updatedBlog.name,
+                    description: updatedBlog.description,
+                    websiteUrl: updatedBlog.websiteUrl
+                },
+            });
+            if (updateResult.matchedCount < 1) {
+                throw new Error('Blog not exist');
+            }
+            return;
         });
     },
     delete(id) {

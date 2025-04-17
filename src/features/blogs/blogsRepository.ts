@@ -13,7 +13,7 @@ export const blogsRepository = {
         return deletedBlogs;
     },
     async findAll(): Promise<WithId<BlogDBType>[]> {
-        return blogCollection.find({ projection: { _id: 0 } }).toArray() 
+        return blogCollection.find({ projection: { _id: 0 } }).toArray()
     },
 
     async createBlog(newBlog: BlogInputModel): Promise<BlogDBType> {
@@ -36,15 +36,26 @@ export const blogsRepository = {
         if (!id)
             return null;
         const result = await blogCollection.findOne({ id }, { projection: { _id: 0 } });
-        return result; //Как вернуть сущность из бд без _id? 
+        return result;
     },
 
-    async updateBlog(id: string | undefined, updatedBlog: BlogInputModel): Promise<Boolean> {
-        const result = await blogCollection.
-            updateOne({ _id: new ObjectId(id) },
-                { $set: updatedBlog })
-        return result.matchedCount === 1;
-
+    async updateBlog(id: string | undefined, updatedBlog: BlogInputModel): Promise<void> {
+        const updateResult = await blogCollection.updateOne(
+            {
+                _id: new ObjectId(id)
+            },
+            {
+                $set: {
+                    name: updatedBlog.name,
+                    description: updatedBlog.description,
+                    websiteUrl: updatedBlog.websiteUrl
+                },
+            },
+        );
+        if (updateResult.matchedCount < 1) {
+            throw new Error('Blog not exist');
+        }
+        return
     },
 
     async delete(id: string | undefined) {
