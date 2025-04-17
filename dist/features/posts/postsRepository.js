@@ -22,12 +22,12 @@ exports.postRepository = {
     },
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            return mongo_1.postCollection.find().toArray();
+            return mongo_1.postCollection.find({ projection: { _id: 0 } }).toArray();
         });
     },
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return mongo_1.postCollection.findOne({ _id: new mongodb_1.ObjectId(id) });
+            return mongo_1.postCollection.findOne({ id }, { projection: { _id: 0 } });
         });
     },
     create(newPost) {

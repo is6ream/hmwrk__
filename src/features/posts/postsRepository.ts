@@ -13,11 +13,11 @@ export const postRepository = {
         return;
     },
     async findAll(): Promise<WithId<PostDBType>[]> {
-        return postCollection.find().toArray()
+        return postCollection.find({ projection: { _id: 0 } }).toArray()
     },
 
     async findById(id: string): Promise<WithId<PostDBType> | null> {
-        return postCollection.findOne({ _id: new ObjectId(id) })
+        return postCollection.findOne({id}, { projection: { _id: 0 } })
     },
     async create(newPost: PostInputModel): Promise<WithId<PostDBType>> {
         const blogForUsing = blogsRepository.createBlog({
