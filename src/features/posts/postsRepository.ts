@@ -1,11 +1,13 @@
-import { client } from './../../db/mongo';
+import { Types } from "mongoose";
 import { BlogInputModel, PostInputModel } from "../../input-output-types/blogsAndPost-types";
 import { blogsRepository } from "../blogs/blogsRepository";
 import { PostDBType } from "../../input-output-types/blogsAndPost-types";
 import { ObjectId, WithId } from "mongodb";
 import { blogCollection, postCollection } from "../../db/mongo";
 
-
+interface PostDocument extends PostDBType {
+    _id: Types.ObjectId
+}
 
 export const postRepository = {
     async deleteAll(): Promise<void> {
@@ -17,9 +19,9 @@ export const postRepository = {
     },
 
     async findById(id: string): Promise<WithId<PostDBType> | null> {
-        return postCollection.findOne({id}, { projection: { _id: 0 } })
+        return postCollection.findOne({ id }, { projection: { _id: 0 } })
     },
-    async create(newPost: PostInputModel): Promise<WithId<PostDBType>> {
+    async create(newPost: PostInputModel): Promise<PostDBType> {
         const blogForUsing = blogsRepository.createBlog({
             id: new Date().toISOString(),
             name: 'n1',
@@ -27,7 +29,9 @@ export const postRepository = {
             websiteUrl: 'http://slam.com'
         });
 
-        const post: PostDBType = {
+        const post: PostDocument = {
+            _id: new Types.ObjectId(),
+            id: new Date().toISOString(),
             title: newPost.title,
             shortDescription: newPost.shortDescription,
             content: newPost.content,
@@ -36,7 +40,9 @@ export const postRepository = {
             createdAt: new Date().toISOString()
         }
         const insertResult = await postCollection.insertOne(post)
-        return { ...post, _id: insertResult.insertedId }
+        const { _id, ...result } = post
+
+        return result;
     },
     async updatePost(id: string, updatedPost: PostInputModel): Promise<Boolean | null> {
         if (!ObjectId.isValid(id)) {
