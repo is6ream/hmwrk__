@@ -62,9 +62,10 @@ exports.blogsRepository = {
     },
     updateBlog(id, updatedBlog) {
         return __awaiter(this, void 0, void 0, function* () {
-            const updateResult = yield mongo_1.blogCollection.updateOne({
-                _id: new mongodb_1.ObjectId(id)
-            }, {
+            if (!id) {
+                return null;
+            }
+            const updateResult = yield mongo_1.blogCollection.updateOne({ id }, {
                 $set: {
                     name: updatedBlog.name,
                     description: updatedBlog.description,

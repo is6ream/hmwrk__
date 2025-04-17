@@ -39,11 +39,12 @@ export const blogsRepository = {
         return result;
     },
 
-    async updateBlog(id: string | undefined, updatedBlog: BlogInputModel): Promise<void> {
+    async updateBlog(id: string | undefined, updatedBlog: BlogInputModel): Promise<void | null> {
+        if (!id) {
+            return null
+        }
         const updateResult = await blogCollection.updateOne(
-            {
-                _id: new ObjectId(id)
-            },
+            { id },
             {
                 $set: {
                     name: updatedBlog.name,
