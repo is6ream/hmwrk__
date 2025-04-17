@@ -23,7 +23,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postRepository = void 0;
 const mongoose_1 = require("mongoose");
 const blogsRepository_1 = require("../blogs/blogsRepository");
-const mongodb_1 = require("mongodb");
 const mongo_1 = require("../../db/mongo");
 exports.postRepository = {
     deleteAll() {
@@ -67,11 +66,14 @@ exports.postRepository = {
     },
     updatePost(id, updatedPost) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!mongodb_1.ObjectId.isValid(id)) {
-                console.log("Invalid objectId: ", id);
-                return null;
-            }
-            const result = yield mongo_1.postCollection.updateOne({ id }, { $set: { updatedPost: updatedPost } });
+            const result = yield mongo_1.postCollection.updateOne({ id }, {
+                $set: {
+                    title: updatedPost.title,
+                    shortDescription: updatedPost.shortDescription,
+                    content: updatedPost.content,
+                    blogId: updatedPost.blogId
+                }
+            });
             return result.matchedCount === 1;
         });
     },

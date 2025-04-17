@@ -6,6 +6,7 @@ import { ObjectId, WithId } from "mongodb";
 import { blogCollection, postCollection } from "../../db/mongo";
 
 interface PostDocument extends PostDBType {
+    id: string,
     _id: Types.ObjectId
 }
 
@@ -45,11 +46,15 @@ export const postRepository = {
         return result;
     },
     async updatePost(id: string, updatedPost: PostInputModel): Promise<Boolean | null> {
-        if (!ObjectId.isValid(id)) {
-            console.log("Invalid objectId: ", id);
-            return null
-        }
-        const result = await postCollection.updateOne({ id }, { $set: { updatedPost: updatedPost } });
+        const result = await postCollection.updateOne({ id },
+            {
+                $set: {
+                    title: updatedPost.title,
+                    shortDescription: updatedPost.shortDescription,
+                    content: updatedPost.content,
+                    blogId: updatedPost.blogId
+                }
+            });
         return result.matchedCount === 1;
     },
 

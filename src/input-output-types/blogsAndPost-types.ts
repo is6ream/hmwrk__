@@ -6,7 +6,6 @@ export type BlogBase = {
 }
 
 export type PostBase = {
-    id: string
     title: string
     shortDescription: string
     content: string
