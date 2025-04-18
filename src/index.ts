@@ -8,6 +8,9 @@ import { runDB } from './db/mongo';
 const bootstrap = async () => {
     await runDB(SETTINGS.MONGO_URL)
     const app = express();
+    app.get('/', (req, res) => {
+        res.status(200).send('Hello world!')
+    })
 
     // console.log('1. Starting application...')
     setupApp(app);
