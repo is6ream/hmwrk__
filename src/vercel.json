@@ -9,8 +9,16 @@
     ],
     "routes": [
         {
-            "src": "/(.*)",
+            "src": "/api/(.*)",
             "dest": "src/index.ts"
+        },
+        {
+            "src": "/(.*)",
+            "status": 404,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "continue": true
         }
     ]
 }
