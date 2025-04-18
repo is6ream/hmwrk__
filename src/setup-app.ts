@@ -9,7 +9,10 @@ export const setupApp = async (app: Express) => {
 
     //мидлв для парсинга объектов
     app.use(express.json());
-
+    
+    app.get('/', (req, res) => {
+        res.status(200).send('Hello world!')
+    })
     //регистрация роутов
     app.use(SETTINGS.PATH.BLOGS, blogsRouter);
     app.use(SETTINGS.PATH.POSTS, postsRouter);
