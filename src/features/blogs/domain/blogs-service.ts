@@ -2,6 +2,7 @@ import { BlogInputModel, BlogDBType } from '../../../input-output-types/blogsAnd
 import { ObjectId, WithId } from 'mongodb';
 import { Types } from 'mongoose';
 import { blogCollection } from '../../../db/mongo';
+import { blogsRepository } from '../blogsRepository';
 
 interface BlogDocument extends BlogDBType {
     _id: Types.ObjectId;
@@ -12,8 +13,8 @@ export const blogsService = {
         const deletedBlogs = await blogCollection.deleteMany({});
         return deletedBlogs;
     },
-    async findAll(): Promise<WithId<BlogDBType>[]> {
-        return blogCollection.find({ projection: { _id: 0 } }).toArray()
+    async findAll(id: string) {
+        return blogsRepository.findAll()
     },
 
     async createBlog(newBlog: BlogInputModel): Promise<BlogDBType> {
