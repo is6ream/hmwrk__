@@ -1,7 +1,9 @@
-import { blogsService } from './domain/blogs-service';
 import { Request, Response } from "express";
+import { blogsService } from "./application/blogs-service";
 import { HttpStatus } from "../../core/http-statuses";
 export const blogsControllers = {
+
+    
     deleteAllDataController: ((req: Request, res: Response) => {
         console.log(`Received request: ${req.method} ${req.url}`);
         const deleteAll = blogsService.deleteAll()
