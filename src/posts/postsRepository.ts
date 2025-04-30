@@ -1,9 +1,9 @@
 import { Types } from "mongoose";
-import { BlogInputModel, PostInputModel } from "../../input-output-types/blogsAndPost-types";
-import { blogsRepository } from "../blogs/blogsRepository";
-import { PostDBType } from "../../input-output-types/blogsAndPost-types";
+import { BlogInputModel, PostInputModel } from "../input-output-types/blogsAndPost-types";
+import { blogsRepository } from "../blogs/repositories/blogsRepository";
+import { PostDBType } from "../input-output-types/blogsAndPost-types";
 import { ObjectId, WithId } from "mongodb";
-import { blogCollection, postCollection } from "../../db/mongo";
+import { blogCollection, postCollection } from "../db/mongo";
 
 interface PostDocument extends PostDBType {
     id: string,

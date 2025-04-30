@@ -1,9 +1,16 @@
+import { ObjectId } from "mongoose"
+
 export type BlogBase = {
     id: string,
     name: string,
     description: string,
-    websiteUrl: string
+    websiteUrl: string,
+    createdAt: string,
+    isMembership: boolean
 }
+
+export type BlogViewModel = BlogBase 
+
 
 export type PostBase = {
     title: string

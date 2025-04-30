@@ -1,8 +1,8 @@
 import { Request, Response, Router } from "express";
 import { postCollection, blogCollection } from "../../db/mongo";
-import { blogsControllers } from "../../features/blogs/blogsControllers";
-import { blogsRepository } from "../../features/blogs/blogsRepository";
-import { postRepository } from "../../features/posts/postsRepository";
+import { blogsControllers } from "../../blogs/blogsControllers";
+import { blogsRepository } from "../../blogs/repositories/blogsRepository";
+import { postRepository } from "../../posts/postsRepository";
 
 export const testingRouter = Router();
 

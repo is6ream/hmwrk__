@@ -1,4 +1,4 @@
-import { BlogInputModel, BlogDBType } from './../../input-output-types/blogsAndPost-types';
+import { BlogInputModel, BlogDBType } from '../../input-output-types/blogsAndPost-types';
 import { ObjectId, WithId } from 'mongodb';
 import { blogCollection } from '../../db/mongo';
 import { Types } from 'mongoose';
@@ -16,7 +16,7 @@ export const blogsRepository = {
         return blogCollection.find({ projection: { _id: 0 } }).toArray()
     },
 
-    async createBlog(newBlog: BlogInputModel): Promise<BlogDBType> {
+    async createBlog(newBlog: BlogInputModel): Promise<WithId<BlogDBType>> {
         const blog: BlogDocument = {
             _id: new Types.ObjectId(),
             id: new Date().toISOString(),
@@ -27,8 +27,7 @@ export const blogsRepository = {
             isMembership: false,
         }
         const insertResult = await blogCollection.insertOne(blog);
-        const { _id, ...result } = blog
-        return result;
+        return insertResult;
     },
 
 

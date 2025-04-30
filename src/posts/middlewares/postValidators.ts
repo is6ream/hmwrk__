@@ -1,8 +1,8 @@
 import { body, validationResult, param } from "express-validator"
 import { NextFunction, Request, Response } from "express"
-import { inputCheckErrorsMiddleware } from "../../../global-middlewares/inputCheckErrorsMiddleware"
-import { adminMiddleware } from "../../../global-middlewares/admin-middleware"
-import { blogsRepository } from "../../blogs/blogsRepository"
+import { inputCheckErrorsMiddleware } from "../../global-middlewares/inputCheckErrorsMiddleware"
+import { adminMiddleware } from "../../global-middlewares/admin-middleware"
+import { blogsRepository } from "../../blogs/repositories/blogsRepository"
 import { postRepository } from "../postsRepository"
 //// title: string // max 30
 // shortDescription: string // max 100

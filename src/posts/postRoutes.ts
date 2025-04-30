@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { postsControllers } from "../posts/postsController";
+import { postsControllers } from "./postsController";
 import { findPostValidator, postValidators } from "./middlewares/postValidators";
-import { adminMiddleware } from "../../global-middlewares/admin-middleware";
+import { adminMiddleware } from "../global-middlewares/admin-middleware";
 
 
 export const postsRouter = Router()
