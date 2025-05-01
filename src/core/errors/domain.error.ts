@@ -7,3 +7,6 @@ export class DomainError extends Error {
       super(detail);
     }
   }
+
+  //нужно прописать папку core
+  
