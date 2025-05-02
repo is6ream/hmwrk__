@@ -12,10 +12,8 @@ export const blogsRepository = {
         const deletedBlogs = await blogCollection.deleteMany({});
         return deletedBlogs;
     },
-    async findAll(): Promise<WithId<BlogDBType>[]> {
-        return blogCollection.find({ projection: { _id: 0 } }).toArray()
-    },
 
+    
     async createBlog(newBlog: BlogInputModel): Promise<WithId<BlogDBType>> {
         const blog: BlogDocument = {
             _id: new Types.ObjectId(),

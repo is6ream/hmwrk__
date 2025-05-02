@@ -5,19 +5,14 @@ import { postRepository } from "../../../../posts/postsRepository";
 import { DomainError } from "../../../../core/errors/domain.error";
 import { BlogsAttributes } from "./blogs-attributes";
 import { Blog } from "../../../domain/blog";
+import { BlogQueryInput } from "../../../routes/input/blog-query.input";
 
 
 
 export const blogsService = {
     async findMany(
-        queryDto: DriverQueryInput,
-    ): Promise<{ items: WithId<Blog>[]; totaCount: number }> {
+        queryDto: BlogQueryInput,
+    ): Promise<{ items: WithId<Blog>[]; totalCount: number }> {
         return blogsRepository.findAll(queryDto)
-    },
-
-    async findByIdOrFail(id: string): Promise<WithId<Blog>> {
-        return blogsRepository.findById(id)
-    },
-
-    async createBlog(dto: BlogsAttributes)
+    }
 }
