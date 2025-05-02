@@ -13,5 +13,11 @@ export const blogsService = {
         queryDto: DriverQueryInput,
     ): Promise<{ items: WithId<Blog>[]; totaCount: number }> {
         return blogsRepository.findAll(queryDto)
-    }
+    },
+
+    async findByIdOrFail(id: string): Promise<WithId<Blog>> {
+        return blogsRepository.findById(id)
+    },
+
+    async createBlog(dto: BlogsAttributes)
 }
