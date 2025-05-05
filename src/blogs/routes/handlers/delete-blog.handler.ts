@@ -9,7 +9,7 @@ export async function deleteBlogHandler(
 ) {
     try {
         const id = req.params.id
-        await blogsService.delete(id) //нужно прописать сервис
+        await .delete(id) //нужно прописать сервис
     }
     
 }

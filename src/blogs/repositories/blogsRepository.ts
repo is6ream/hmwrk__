@@ -1,7 +1,10 @@
+import { SortDirection } from 'mongodb';
+import { Blog } from './../domain/blog';
 import { BlogInputModel, BlogDBType } from '../../input-output-types/blogsAndPost-types';
 import { ObjectId, WithId } from 'mongodb';
 import { blogCollection } from '../../db/mongo';
 import { Types } from 'mongoose';
+import { BlogQueryInput } from '../routes/input/blog-query.input';
 
 interface BlogDocument extends BlogDBType {
     _id: Types.ObjectId;
@@ -13,7 +16,28 @@ export const blogsRepository = {
         return deletedBlogs;
     },
 
-    
+    async findMany(
+        queryDto: BlogQueryInput,
+    ): Promise<{ items: WithId<Blog>[]; totalCount: number }> {
+        const {
+            pageNumber,
+            pageSize,
+            sortBy,
+            sortDirection,
+            searchBlogNameTerm,
+        } = queryDto;
+
+        const skip = (pageNumber - 1) * pageSize;
+        const filter: any = {};
+
+        if (searchBlogNameTerm) {
+            filter.name = ($regex: searchBlogNameTerm, $options: 'i')
+        }
+
+
+    },
+
+
     async createBlog(newBlog: BlogInputModel): Promise<WithId<BlogDBType>> {
         const blog: BlogDocument = {
             _id: new Types.ObjectId(),

@@ -1,7 +1,9 @@
+import { SortDirection } from 'mongodb';
 import { PaginationAndSorting } from "../../../core/types/pagination-and-sorting";
 import { BlogSortField } from "./blog-sort.filed";
 
-export type BlogQueryInput = PaginationAndSorting<BlogSortField> & 
-Partial<{
-    searchBlogNameTerm: string,
-}>
+export type BlogQueryInput = PaginationAndSorting<BlogSortField> &
+    Partial<{
+        searchBlogNameTerm: string,
+        sortDirection: string
+    }>

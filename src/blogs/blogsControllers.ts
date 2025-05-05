@@ -1,12 +1,14 @@
+import { body } from 'express-validator';
 import { Request, Response } from "express";
-import { blogsService } from "./application/blogs-service";
-import { HttpStatus } from "../../core/http-statuses";
+import { HttpStatus } from '../core/types/http-statuses';
+import { blogsService } from './application/dtos/dtos/blogs.service';
+
 export const blogsControllers = {
 
-    
-    deleteAllDataController: ((req: Request, res: Response) => {
+
+    deleteAllDataController: (async (req: Request, res: Response) => {
         console.log(`Received request: ${req.method} ${req.url}`);
-        const deleteAll = blogsService.deleteAll()
+        const deleteAll = await blogsService.deleteAll()
         res.sendStatus(HttpStatus.NoContent)
     }),
 
