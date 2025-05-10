@@ -10,8 +10,7 @@ interface BlogDocument extends BlogDBType {
 
 export const blogsService = {
     async deleteAll() {
-        const deletedBlogs = await blogCollection.deleteMany({});
-        return deletedBlogs;
+        return blogCollection.deleteMany({});
     },
     async findMany(queryDto: any) {
         return blogsRepository.findMany(queryDto)
@@ -28,32 +27,14 @@ export const blogsService = {
         return blogsRepository.createBlog(blog)
     },
     async findById(id: string | undefined): Promise<WithId<BlogDBType> | null> {
-        const result = await blogCollection.findOne({ id }, { projection: { _id: 0 } });
-        return result;
+        return blogsRepository.findById(id);
     },
 
     async updateBlog(id: string | undefined, updatedBlog: BlogInputModel): Promise<void | null> {
-        if (!id) {
-            return null
-        }
-        const updateResult = await blogCollection.updateOne(
-            { id },
-            {
-                $set: {
-                    name: updatedBlog.name,
-                    description: updatedBlog.description,
-                    websiteUrl: updatedBlog.websiteUrl
-                },
-            },
-        );
-        if (updateResult.matchedCount < 1) {
-            throw new Error('Blog not exist');
-        }
-        return
+        return blogsRepository.updateBlog(id, updatedBlog)
     },
 
     async delete(id: string | undefined): Promise<void | null> { //здесь аналогично с id поработать
-        const result = await blogCollection.deleteOne({ id });
-        return;
+        return blogsRepository.delete(id)
     },
 }
