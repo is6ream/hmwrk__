@@ -1,13 +1,9 @@
-import { SortDirection } from 'mongodb';
-import { Blog } from './../domain/blog';
-import { BlogInputModel, BlogDBType } from '../../input-output-types/blogsAndPost-types';
-import { ObjectId, WithId } from 'mongodb';
-import { blogCollection } from '../../db/mongo';
 import { Types } from 'mongoose';
-import { BlogQueryInput } from '../routes/input/blog-query.input';
 import { blogsRepository } from '../../../repositories/blogsRepository';
-
-
+import { WithId } from 'mongodb';
+import { BlogInputModel } from '../../../../input-output-types/blogsAndPost-types';
+import { BlogDBType } from '../../../../input-output-types/blogsAndPost-types';
+import { blogCollection } from './../../../../db/mongo';
 interface BlogDocument extends BlogDBType {
     _id: Types.ObjectId;
 }
@@ -17,26 +13,20 @@ export const blogsService = {
         const deletedBlogs = await blogCollection.deleteMany({});
         return deletedBlogs;
     },
-    async findAll(): Promise<BlogDBType[]>{
-        return blogsRepository.findMany()
-
-    }
-    ,
-    async createBlog(newBlog: BlogInputModel): Promise<WithId<BlogDBType>> {
-        const blog: BlogDocument = {
-            _id: new Types.ObjectId(),
+    async findMany(queryDto: any) {
+        return blogsRepository.findMany(queryDto)
+    },
+    async createBlog(newBlog: BlogInputModel): Promise<BlogDBType> {
+        const blog = {
             id: new Date().toISOString(),
             name: newBlog.name,
             description: newBlog.description,
             websiteUrl: newBlog.websiteUrl,
             createdAt: new Date().toISOString(),
-            isMembership: false,
+            isMembership: true
         }
-        const insertResult = await blogCollection.insertOne(blog);
-        return insertResult;
+        return blogsRepository.createBlog(blog)
     },
-
-
     async findById(id: string | undefined): Promise<WithId<BlogDBType> | null> {
         const result = await blogCollection.findOne({ id }, { projection: { _id: 0 } });
         return result;

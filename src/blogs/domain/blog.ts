@@ -15,3 +15,4 @@ export interface BlogPagination {
     totalCount: number,
     items: Blog[];
 }
+

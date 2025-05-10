@@ -1,6 +1,4 @@
-import { ObjectId } from "mongoose"
-
-export type BlogBase = {
+export type BlogDBType = {
     id: string,
     name: string,
     description: string,
@@ -9,8 +7,14 @@ export type BlogBase = {
     isMembership: boolean
 }
 
-export type BlogViewModel = BlogBase 
+export type BlogViewModel = BlogDBType 
 
+
+export interface BlogInputModel {
+    name: string,
+    description: string,
+    websiteUrl: string
+}
 
 export type PostBase = {
     title: string
@@ -19,18 +23,12 @@ export type PostBase = {
     blogId: string
 }
 
-export type BlogDBType = BlogBase & {
-    createdAt: string
-    isMembership: boolean
-}
+
 
 export type PostDBType = PostBase & {
     blogName: string
     createdAt: string
 }
-
-
-export type BlogInputModel = BlogBase;
 export type PostInputModel = PostBase;
 
 export type DBType = {
