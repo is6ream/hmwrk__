@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { HttpStatus } from "../../../core/types/http-statuses";
 import { blogsService } from "../../application/dtos/dtos/blogs.service";
 
-const deleteBlogHandler = (async (req: Request, res: Response) => {
+export const deleteBlogHandler = (async (req: Request, res: Response) => {
     try {
         const deleteBlog = await blogsService.delete(req.params.id)
         res.sendStatus(HttpStatus.Created)

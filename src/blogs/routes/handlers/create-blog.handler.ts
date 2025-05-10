@@ -1,13 +1,16 @@
 import { Request, Response } from 'express';
 import { HttpStatus } from '../../../core/types/http-statuses';
-import { mapToBlogViewModel } from '../mappers/map-to-blog-view-model.util';
 import { blogsService } from '../../application/dtos/dtos/blogs.service';
-import { errorsHandler } from '../../../core/errors/errors.handler';
-import { BlogCreateInput } from '../input/blog-create.input';
+import { Blog } from '../../domain/blog';
 
+export const createBlogHandler = (async (req: Request, res: Response) => {
 
-
-const createBlogHandler = (async (req: Request, res: Response) => {
-    const createBlog = await blogsService.createBlog(req.body)
-    res.status(HttpStatus.Created).json(createBlog)
+    try {
+        const createBlog: Blog = await blogsService.createBlog(req.body)
+        res.status(HttpStatus.Created).json(createBlog)
+    } catch (err) {
+        console.error("Error creating blog: ", err)
+        res.send(HttpStatus.InternalServerError).json({error: "An iternal server error occured for creating blog"})
+    }
 })
+
