@@ -7,6 +7,7 @@ import { BlogCreateInput } from '../input/blog-create.input';
 
 
 
-const createBlogHandler = () => {
-
-}
+const createBlogHandler = (async (req: Request, res: Response) => {
+    const createBlog = await blogsService.createBlog(req.body)
+    res.status(HttpStatus.Created).json(createBlog)
+})
