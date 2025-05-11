@@ -6,6 +6,11 @@ import { blogCollection } from '../../db/mongo';
 import { Types } from 'mongoose';
 import { BlogQueryInput } from '../routes/input/blog-query.input';
 
+
+
+//Остановился на разборе пагинации и сортинга, нужно реализовать репозиторий блогов
+
+//
 interface BlogDocument extends BlogDBType {
     _id: Types.ObjectId;
 }

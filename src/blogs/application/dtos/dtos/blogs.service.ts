@@ -4,6 +4,48 @@ import { WithId } from 'mongodb';
 import { BlogInputModel } from '../../../../input-output-types/blogsAndPost-types';
 import { BlogDBType } from '../../../../input-output-types/blogsAndPost-types';
 import { blogCollection } from './../../../../db/mongo';
+import { query } from 'express-validator';
+import { SortDirection } from '../../../types';
+
+
+
+const DEFAULT_PAGE = 1;
+const DEFAULT_PAGE_SIZE = 10;
+const DEFAULT_SORT_DIRECTION = SortDirection.Desc
+
+export function paginationAndSortingValidation<T extends string>(sortFieldsEnum: Record<string, T>) {
+    return [
+        query('pageNumber')
+            .optional()
+            .default(DEFAULT_PAGE)
+            .isInt()
+            .withMessage('Page must be a positive integer')
+            .toInt(),
+
+        query('pageSize')
+            .optional()
+            .default(DEFAULT_PAGE_SIZE)
+            .isInt({ min: 1, max: 100 })
+            .withMessage('Page size must be between 1 and 100')
+            .toInt(),
+
+        query('sortBy')
+            .optional()
+            .default(Object.values(sortFieldsEnum)[0])
+            .isIn(Object.values(sortFieldsEnum))
+            .withMessage(`Allowed sort fields: ${Object.values(sortFieldsEnum).join(', ')}`),
+
+
+        query('sortDirection')
+            .optional()
+            .default(DEFAULT_SORT_DIRECTION)
+            .isIn(Object.values(SortDirection))
+            .withMessage(`Sort direction must be one of: ${Object.values(SortDirection).join(', ')}`)
+    ]
+}
+
+
+
 interface BlogDocument extends BlogDBType {
     _id: Types.ObjectId;
 }
@@ -34,7 +76,7 @@ export const blogsService = {
         return blogsRepository.updateBlog(id, updatedBlog)
     },
 
-    async delete(id: string | undefined): Promise<void | null> { //здесь аналогично с id поработать
+    async delete(id: string | undefined): Promise<void | null> {
         return blogsRepository.delete(id)
-    },
+    }
 }

@@ -19,4 +19,7 @@ export type OutputErrorsType = {
 
 }
 
-
+export enum SortDirection {
+    Asc = 'asc',
+    Desc = 'desc'
+};
