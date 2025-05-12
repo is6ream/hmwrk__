@@ -2,10 +2,13 @@ import { HttpStatus } from "../../../core/types/http-statuses";
 import { blogsService } from "../../application/dtos/dtos/blogs.service"
 import { Request, Response } from "express";
 import { Blog } from "../../domain/blog";
+import { BlogQueryInput } from "../input/blog-query.input";
 
 
 
-export const getAllBlogsHandler = (async (req: Request, res: Response) => {
+export const getAllBlogsHandler = (async (
+    req: Request<{},{},{},BlogQueryInput>, 
+    res: Response) => {
     try {
         const getAllBlogs: Blog[] = await blogsService.findAll();
         res.status(HttpStatus.Ok).send(getAllBlogs);
