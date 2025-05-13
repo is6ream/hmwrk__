@@ -54,9 +54,13 @@ export const blogsService = {
     async deleteAll() {
         return blogCollection.deleteMany({});
     },
+
+    
     async findMany(queryDto: any) {
         return blogsRepository.findMany(queryDto)
     },
+
+
     async createBlog(newBlog: BlogInputModel): Promise<BlogDBType> {
         const blog = {
             id: new Date().toISOString(),
