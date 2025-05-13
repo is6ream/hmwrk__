@@ -1,4 +1,3 @@
-import { BlogDataOutput } from './map-to-blog-list-paginated-otput';
 import { WithId } from "mongodb";
 import { Blog } from "../../domain/blog";
 
@@ -27,7 +26,7 @@ export interface BlogDataOutput {
     description: string,
     websiteUrl: string,
     createdAt: string,
-    isMembership: true
+    isMembership: boolean
 }
 
 export function mapToBlogsListPaginatedOutput(

@@ -3,7 +3,10 @@ import { HttpStatus } from '../../../core/types/http-statuses';
 import { blogsService } from '../../application/dtos/dtos/blogs.service';
 import { Blog } from '../../domain/blog';
 
-export const createBlogHandler = (async (req: Request, res: Response) => {
+export const createBlogHandler = (async (
+    req: Request<{}, {}, {}>,
+     res: Response
+    ) => {
 
     try {
         const createBlog: Blog = await blogsService.createBlog(req.body)

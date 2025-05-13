@@ -1,4 +1,6 @@
-import { SortDirection } from 'mongodb';
+import { BlogDBType } from './../../input-output-types/blogsAndPost-types';
+import { WithId } from 'mongodb';
+import { SortDirection, W } from 'mongodb';
 import { Blog } from './../domain/blog';
 import { BlogInputModel, BlogDBType } from '../../input-output-types/blogsAndPost-types';
 import { ObjectId, WithId } from 'mongodb';
@@ -11,9 +13,7 @@ import { BlogQueryInput } from '../routes/input/blog-query.input';
 //Остановился на разборе пагинации и сортинга, нужно реализовать репозиторий блогов
 
 //
-interface BlogDocument extends BlogDBType {
-    _id: Types.ObjectId;
-}
+
 
 export const blogsRepository = {
     async deleteAll() {
@@ -43,18 +43,9 @@ export const blogsRepository = {
     },
 
 
-    async createBlog(newBlog: BlogInputModel): Promise<WithId<BlogDBType>> {
-        const blog: BlogDocument = {
-            _id: new Types.ObjectId(),
-            id: new Date().toISOString(),
-            name: newBlog.name,
-            description: newBlog.description,
-            websiteUrl: newBlog.websiteUrl,
-            createdAt: new Date().toISOString(),
-            isMembership: false,
-        }
-        const insertResult = await blogCollection.insertOne(blog);
-        return insertResult;
+    async createBlog(newBlog: BlogDBType): Promise<string> {
+        const insertResult = await blogCollection.insertOne(newBlog);
+        return insertResult.insertedId.toString()
     },
 
 
