@@ -1,3 +1,4 @@
+import { BlogQueryInput } from './../../../routes/input/blog-query.input';
 import { Types } from 'mongoose';
 import { blogsRepository } from '../../../repositories/blogsRepository';
 import { WithId } from 'mongodb';
@@ -6,6 +7,7 @@ import { BlogDBType } from '../../../../input-output-types/blogsAndPost-types';
 import { blogCollection } from './../../../../db/mongo';
 import { query } from 'express-validator';
 import { SortDirection } from '../../../types';
+import { Blog } from '../../../domain/blog';
 
 
 
@@ -42,6 +44,17 @@ export function paginationAndSortingValidation<T extends string>(sortFieldsEnum:
             .isIn(Object.values(SortDirection))
             .withMessage(`Sort direction must be one of: ${Object.values(SortDirection).join(', ')}`)
     ]
+} //закинуть в отдельный файл
+
+
+
+interface BlogAttributes {
+    id: string,
+    name: string,
+    description: string,
+    websiteUrl: string,
+    createdAt: string,
+    isMembership: boolean
 }
 
 
@@ -49,30 +62,35 @@ export function paginationAndSortingValidation<T extends string>(sortFieldsEnum:
 interface BlogDocument extends BlogDBType {
     _id: Types.ObjectId;
 }
+//и типы тоже
+
+
 
 export const blogsService = {
     async deleteAll() {
         return blogCollection.deleteMany({});
     },
 
-    
-    async findMany(queryDto: any) {
+
+    async findMany(queryDto: BlogQueryInput): 
+    Promise <{items: WithId<Blog>[]; totalCount: number}>{
         return blogsRepository.findMany(queryDto)
     },
 
-
-    async createBlog(newBlog: BlogInputModel): Promise<BlogDBType> {
-        const blog = {
-            id: new Date().toISOString(),
-            name: newBlog.name,
-            description: newBlog.description,
-            websiteUrl: newBlog.websiteUrl,
-            createdAt: new Date().toISOString(),
-            isMembership: true
+    async createBlog(dto: BlogAttributes): Promise<string> {
+        const newBlog: Blog = {
+            id: dto.id,
+            name: dto.name,
+            description: dto.description,
+            websiteUrl: dto.websiteUrl,
+            createdAt: dto.createdAt,
+            isMembership: dto.isMembership
         }
-        return blogsRepository.createBlog(blog)
-    },
-    async findById(id: string | undefined): Promise<WithId<BlogDBType> | null> {
+
+        return blogsRepository.createBlog(newBlog)
+    }
+    ,
+    async findById(id: string ): Promise<WithId<BlogDBType> | null> {
         return blogsRepository.findById(id);
     },
 
