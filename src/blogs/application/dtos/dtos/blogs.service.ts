@@ -47,7 +47,7 @@ export function paginationAndSortingValidation<T extends string>(sortFieldsEnum:
 } //закинуть в отдельный файл
 
 
-
+//НАЧАТЬ РАБОТУ НАД ПАГИНАЦИЕЙ И СОРТИНГОМ
 interface BlogAttributes {
     id: string,
     name: string,
@@ -70,7 +70,6 @@ export const blogsService = {
     async deleteAll() {
         return blogCollection.deleteMany({});
     },
-
 
     async findMany(queryDto: BlogQueryInput): 
     Promise <{items: WithId<Blog>[]; totalCount: number}>{

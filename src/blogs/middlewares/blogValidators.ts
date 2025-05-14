@@ -18,6 +18,17 @@ export const idValidation = param('id')
     .withMessage('Incorrect format of ObjectId')//проверка на формат ObjectId
 
 
+
+// export const dataIdMatchValidation = body('data.id')
+//     .exists()
+//     .withMessage('ID is required')
+//     .custom((value, { req }) => {
+//         if (value !== req?.params?.id) {
+//             throw new Error('ID in URL and body must match')
+//         }
+//         return true
+//     })
+
 export const nameValidator = body('name').isString().withMessage('not string')
     .trim().isLength({ min: 1, max: 15 }).withMessage('more then 15 or 0')
 

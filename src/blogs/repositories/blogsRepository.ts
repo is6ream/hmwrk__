@@ -21,25 +21,9 @@ export const blogsRepository = {
     },
 
     async findMany(
-        queryDto: BlogQueryInput,
-    ): Promise<{ items: WithId<Blog>[]; totalCount: number }> {
-        const {
-            pageNumber,
-            pageSize,
-            sortBy,
-            sortDirection,
-            searchBlogNameTerm,
-        } = queryDto;
+        queryDto: BlogQueryInput): Promise<WithId<{total}>>{
 
-        const skip = (pageNumber - 1) * pageSize;
-        const filter: any = {};
-
-        if (searchBlogNameTerm) {
-            filter.name = ($regex: searchBlogNameTerm, $options: 'i')
-        }
-
-
-    },
+        },
 
     //реализовал метод create Blog
     async createBlog(newBlog: BlogDBType): Promise<string> {
